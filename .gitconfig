@@ -1,0 +1,11 @@
+[user]
+	email = jabrouwer82@gmail.com
+	name = Jacob Brouwer
+[push]
+	default = simple
+[filter "media"]
+	clean = git-media-clean %f
+	smudge = git-media-smudge %f
+[core]
+	autocrlf = input
+	excludesfile = ~/.gitignore
