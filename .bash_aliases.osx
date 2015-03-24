@@ -1,0 +1,15 @@
+alias bi="vi"
+alias bi="vi"
+alias ci="vi"
+alias ci='vi'
+alias co="cp"
+alias co="cp"
+alias fi="vi"
+alias gi="vi"
+alias l="ls"
+alias la="ls"
+alias ls='ls -ahGl'
+alias mc="mv"
+alias nkdir="mkdir"
+alias s="ls"
+alias sl="ls"
