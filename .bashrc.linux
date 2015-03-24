@@ -1,0 +1,23 @@
+#PS1="\[\033[0;35m\]\T - \W \$\[\033[0m\] "
+PS1="\[\e[1;90m\]┌[\[\e[1;91m\]\w\[\e[1;90m\]]\[\e[0m\]:\n\[\e[1;90m\]└[\[\e[1;31m\]\A\[\e[1;90m\]]\[\e[0m\]\$ "
+
+#alias cd='cd ${1} ; ls '
+alias run='~/run.bash'
+alias ci='vi'
+alias ls='ls -ahl --color=always'
+alias remote='~/remote.bash'
+alias finder='nautilus&'
+alias files='nautilus&'
+alias bi="vi"
+alias term="gnome-terminal&"
+alias firefox="firefox&"
+alias eclipse="eclipse&"
+alias grade="./grade.bash"
+alias co="cp"
+alias hw="./hw.bash"
+#alias turnin="./turnin.bash"
+alias unlockeclipse="rm ~/workspace/.metadata/.lock; eclipse"
+alias git_cache='git config --global credential.helper "cache --timeout=10000000000000"'
+
+export ORACLE_HOME=/media/JACOB/instantclient_11_2/
+export PYTHONPATH=/usr/lib/python3/
