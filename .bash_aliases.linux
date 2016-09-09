@@ -1,15 +1,30 @@
-alias bi="vi"
-alias bi="vi"
-alias ci="vi"
+alias bi='vi'
+alias bo='vi'
 alias ci='vi'
 alias co="cp"
-alias co="cp"
+alias dir='dir --color=auto'
+alias egrep='egrep --color=auto'
+alias fgrep='fgrep --color=auto'
 alias fi="vi"
 alias gi="vi"
-alias l="ls"
-alias la="ls"
-alias ls='ls -ahl --color=always'
+alias grep='grep --color=auto'
+alias jobs='jobs -l'
+alias ks='ls'
+alias l='ls -CF'
+alias la='ls -A'
+alias ll='ls -alF'
+alias ls='ls -AlF --color=always'
 alias mc="mv"
+alias me='mv'
 alias nkdir="mkdir"
 alias s="ls"
 alias sl="ls"
+alias vdir='vdir --color=auto'
+alias viu='vi'
+alias finder='nautilus&'
+alias files='nautilus&'
+alias term="gnome-terminal&"
+alias firefox="firefox&"
+alias eclipse="eclipse&"
+alias unlockeclipse="rm ~/workspace/.metadata/.lock; eclipse"
+alias vu='vi'
