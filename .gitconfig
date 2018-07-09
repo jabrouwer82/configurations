@@ -1,11 +1,17 @@
 [user]
 	email = jabrouwer82@gmail.com
 	name = Jacob Brouwer
+[color]
+ 	ui = auto
+[alias]
+	repo = ! basename -s .git `git config --get remote.origin.url`
+	default = ! git checkout `git defaultname` && git pull
+	defaultname = ! git symbolic-ref refs/remotes/origin/HEAD | sed 's@^refs/remotes/origin/@@'
+	current = symbolic-ref --short HEAD
+	done = ! ~/.gitall.sh
+	catchup = ! git pull --no-edit origin `git defaultname`
+	undolastuncommited = reset --hard HEAD^
+#[branch]
+#	autoSetupMerge = always
 [push]
-	default = simple
-[filter "media"]
-	clean = git-media-clean %f
-	smudge = git-media-smudge %f
-[core]
-	autocrlf = input
-	excludesfile = ~/.gitignore
+	default = upstream
