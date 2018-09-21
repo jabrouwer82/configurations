@@ -1,0 +1,5 @@
+[Unit]
+Description=Update Vim Pathogen Plugins
+
+[Service]
+ExecStart=/home/jabrouwer/pathogen-update.sh

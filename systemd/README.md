@@ -1,1 +1,1 @@
-# Belongs in /usr/lib/systemd/system
+# Belongs in /etc/systemd/system/

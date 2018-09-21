@@ -1,0 +1,10 @@
+[Unit]
+Description=Updates vim pathogen bundles monthly.
+
+[Timer]
+# Run at 9am on the first day of every month.
+OnCalendar=*-*-01 9:00:00
+Persistent=true
+
+[Install]
+WantedBy=timers.target

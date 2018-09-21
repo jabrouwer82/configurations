@@ -1,12 +1,10 @@
 [Unit]
-Description=Runs empty-trash every week or so.
+Description=Runs trash-empty to remove month old trash evrey morning.
 
 [Timer]
-# Time to wait after booting before we run first time
-OnBootSec=15min
-# Time between running each consecutive time
-OnUnitActiveSec=7d
-Unit=trash-empty.service
+# Runs daily at 9am.
+OnCalendar=*-*-* 09:00:00
+Persistent=true
 
 [Install]
-WantedBy=multi-user.target
+WantedBy=timers.target

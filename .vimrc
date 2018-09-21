@@ -2,20 +2,22 @@ set nocompatible
 
 execute pathogen#infect()
 
+" Commands
+":command JDeleteEmptyLines g/^\s*$/d
+":command JFixOpenBraces %s/\n *{/ {/
+":command JFixIfs %s/if ( \(.*\) )/if (\1)/
+":command JRemoveTrailingSpaces %s/\s*$//
+
 syntax on
-set t_Co=256
-colorscheme elflord
+let &t_8b="\<Esc>[48;2;%lu;%lu;%lum"
+set termguicolors
+colorscheme jacob
 set list listchars=tab:\ \ ,trail:\ 
-highlight SpecialKey ctermbg=Yellow guibg=Yellow
 
 set relativenumber
 set nu
 set cursorline
 set cursorcolumn
-hi LineNR ctermbg=none ctermfg=gray
-hi CursorLine cterm=bold ctermbg=235
-hi CursorLineNR cterm=bold ctermbg=none ctermfg=lightblue
-hi CursorColumn cterm=bold ctermbg=235
 
 " Allow saving of files as sudo when I forgot to start vim using sudo.
 cmap w!! w !sudo tee > /dev/null %
@@ -42,12 +44,10 @@ set hlsearch
 "set foldmethod=indent
 
 set colorcolumn=121
-hi ColorColumn ctermbg=darkgrey
 
 set noruler
 set laststatus=2
 set statusline=%#error#%a\ %*\ %<%.99f\ %h%w%#error#%m%*%#error#%r%*%y%=%-16(\ %l/%L,%c%V\ %)%P
-hi StatusLine ctermfg=6 ctermbg=0 cterm=NONE
 
 set scrolloff=5
 set undofile
@@ -59,25 +59,6 @@ set list
 set listchars=tab:▸\
 
 set clipboard=unnamedplus
-" Set y to use system buffer by default
-":nnoremap <expr> y (v:register ==# '"' ? '"+' : '') . 'y'
-":nnoremap <expr> yy (v:register ==# '"' ? '"+' : '') . 'yy'
-":nnoremap <expr> Y (v:register ==# '"' ? '"+' : '') . 'Y'
-":xnoremap <expr> y (v:register ==# '"' ? '"+' : '') . 'y'
-":xnoremap <expr> Y (v:register ==# '"' ? '"+' : '') . 'Y'
-
-" Set p to use system buffer by default
-":nnoremap <expr> p (v:register ==# '"' ? '"+' : '') . 'p'
-":nnoremap <expr> P (v:register ==# '"' ? '"+' : '') . 'P'
-":xnoremap <expr> p (v:register ==# '"' ? '"+' : '') . 'p'
-":xnoremap <expr> P (v:register ==# '"' ? '"+' : '') . 'P'
-
-" Set d to use blackhole buffer by deafult
-":nnoremap <expr> d (v:register ==# '"' ? '"_' : '') . 'd'
-":nnoremap <expr> dd (v:register ==# '"' ? '"_' : '') . 'dd'
-":nnoremap <expr> D (v:register ==# '"' ? '"_' : '') . 'D'
-":xnoremap <expr> d (v:register ==# '"' ? '"_' : '') . 'd'
-":xnoremap <expr> D (v:register ==# '"' ? '"_' : '') . 'D'
 
 " Tab shit
 nnoremap <C-J> <C-W><C-J>
@@ -86,8 +67,6 @@ nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
 set splitbelow
 set splitright
-
-highlight StatusLine ctermfg=cyan guiFg=cyan
 
 " Bizaro fix for tmux mouse scrolling
 set mouse=a
@@ -101,14 +80,7 @@ set undodir=~/.local/tmp,/var/tmp,/tmp
 
 set nomodeline
 
-" Space display and highlighting
-"set list
-"set listchars=space:·
-"highlight SpecialKey ctermfg=darkgrey ctermbg=none
-highlight DoubleSpaces ctermbg=red
-highlight TrailingSpaces ctermbg=red
-call matchadd('DoubleSpaces', '\S\zs\s\s\s*', 100)
-call matchadd('TrailingSpaces', '\s\+$', 100)
+source ~/.vim/Dec2hex.vim
 
 " GitGutter
 highlight GitGutterAdd ctermbg=none ctermfg=028 cterm=bold

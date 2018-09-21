@@ -1,5 +1,5 @@
 [Unit]
-Description=Empty Old Trash
+Description=Empty Month Old Trash
 
 [Service]
-ExecStart=/home/jabrouwer/empty-trash.sh
+ExecStart=/home/jabrouwer/trash-empty.sh

@@ -7,6 +7,16 @@ if [[ -f /usr/share/fzf/completion.bash ]]; then . /usr/share/fzf/completion.bas
 if [[ -f /usr/share/fzf/key-bindings.bash ]]; then . /usr/share/fzf/key-bindings.bash; fi
 
 if [[ -r /usr/share/bash-completion/bash_completion ]]; then . /usr/share/bash-completion/bash_completion; fi
+if [[ -r ~/.docker-push-completion.bash ]]; then . ~/.docker-push-completion.bash; fi
+
+bind '"\e[A": history-search-backward'
+bind '"\e[B": history-search-forward'
+export HISTCONTROL=ignoredups
+
+complete -W "k2247 k5034 k800004 k800009 k800011 k800016" ./docker-push.sh
+complete -W "k2 testk2 portal wiki 2247 k10442 k5034 k800004 k800009 k800011 k800016" ssh
+complete -W "k2 testk2 portal wiki 2247 k10442 k5034 k800004 k800009 k800011 k800016" scp
+. <(gr completion)
 
 export TERM=xterm-256color
 
@@ -51,6 +61,7 @@ recover_text() {
 }
 
 PS1='\[\e[1;90m\]┌[\[\e[1;34m\]$(abbrev_pwd)\[\e[1;90m\]:\[\e[1;33m\]$(parse_git_branch)\[\e[1;90m\]]:\n\[\e[1;90m\]└[\[\e[1;35m\]\A\[\e[1;90m\]]\[\e[0m\]\$ '
+export PYTHONPATH="${PYTHONPATH}:/home/jabrouwer/work/work/python"
 
 alias sudo='sudo '
 
@@ -67,7 +78,8 @@ export RECOVER="sudo grep -a -C 200 -F 'thing to search for' /dev/nvme0n1p4 > te
 
 alias scala="amm"
 alias python="ipython"
-alias ls="ls -AlF --color=always"
+alias ipyinstall="cd ~/work/test/ipython && pip install -e"
+alias ls="ls -AlFh --color=always"
 alias rg="rg --colors line:fg:yellow --colors line:style:bold --colors path:fg:green --colors path:style:bold --colors match:fg:black --colors match:bg:yellow --colors match:style:nobold -S"
 alias reboot="echo nah"
 alias nord="sudo openvpn --config `\ls /etc/openvpn/ovpn_udp/us* | shuf -n 1` --auth-user-pass /etc/openvpn/nordvpn.txt"
@@ -83,12 +95,11 @@ alias pacu="sudo pacman -Syu --noconfirm"
 alias auru="yaourt -Syua --noconfirm"
 alias systemctl="sudo systemctl"
 alias se="ls /usr/bin | grep"
-alias branchpurge="git fetch --all -p; git branch -vv | grep \": gone]\" | awk '{ print $1 }' | xargs -n 1 git branch -d"
 
 export EDITOR=vim
 export QT_STYLE_OVERRIDE=gtk
 export QT_SELECT=qt5
-export http_proxy="http://localhost:8118"
+#export http_proxy="http://localhost:8118"
 
 if [[ $LANG = "" ]]; then
   export LANG=en_US.UTF-8
