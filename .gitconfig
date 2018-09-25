@@ -1,19 +1,17 @@
 [user]
-	email = jabrouwer82@gmail.com
-	name = Jacob Brouwer
+  email = jabrouwer82@gmail.com
+  name = Jacob Brouwer
 [color]
- 	ui = auto
+   ui = auto
 [alias]
-	repo = ! basename -s .git `git config --get remote.origin.url`
-	default = ! git checkout `git defaultname` && git pull
-	defaultname = ! git symbolic-ref refs/remotes/origin/HEAD | sed 's@^refs/remotes/origin/@@'
-	current = symbolic-ref --short HEAD
-	done = ! ~/.gitall.sh
-	catchup = ! git pull --no-edit origin `git defaultname`
+  repo = ! basename -s .git `git config --get remote.origin.url`
+  default = ! git checkout `git defaultname` && git pull
+  defaultname = ! git symbolic-ref refs/remotes/origin/HEAD | sed 's@^refs/remotes/origin/@@'
+  done = ! ~/.gitall.sh
+  catchup = ! git pull --no-edit origin `git defaultname`
   undolastuncommited = reset --hard HEAD^
   branchpurge = ! git fetch --all -p && git branch -vv | grep \": gone]\" | awk '{ print $1 }' | xargs -n 1 git branch -D && git branch
   forcecatchup = ! git checkout -f && git clean -fd && git catchup
-#[branch]
-#	autoSetupMerge = always
+  current = ! git rev-parse --abbrev-ref HEAD 2> /dev/null
 [push]
-	default = upstream
+  default = upstream

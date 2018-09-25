@@ -22,7 +22,10 @@ export TERM=xterm-256color
 
 eval $(thefuck --alias)
 
-vagrant() {
+export KILI="/home/jabrouwer/work/work/kilimanjaro"
+
+function vagrant {
+  cd $KILI
   if [[ $@ == "restart" ]]; then
     command vagrant destroy -f && vagrant up
   else
@@ -30,15 +33,23 @@ vagrant() {
   fi
 }
 
-parse_git_branch() {
-  git branch 2> /dev/null | sed -e "/^[^*]/d" -e "s/* \\(.*\\)/\\1/"
+function runkili {
+  if [[ -z "$(docker ps -f "status=running" | grep kili)" ]]; then
+    cd $KILI
+    vagrant up
+  elif [[ $@ ]]; then
+    cd $KILI
+    vagrant restart
+  fi
+
+  docker exec -it -u vagrant -w /home/vagrant/kilimanjaro kili /bin/bash /home/vagrant/bin/sbt run
 }
 
-abbrev_pwd() {
+function abbrev_pwd {
   echo "${PWD#~/work/}"
 }
 
-recover_text() {
+function recover_text {
   # This probably doesn't quite work.
   local OPTIND o a
   file="recovered.txt"
@@ -57,15 +68,19 @@ recover_text() {
     return 1
   fi
 
-  sudo grep -a -C 200 -F $search `df -P . | tail -1 | cut -d' ' -f 1` > $file
+  sudo grep -a -C 200 -F $search $(df -P . | tail -1 | cut -d' ' -f 1) > $file
 }
 
-PS1='\[\e[1;90m\]┌[\[\e[1;34m\]$(abbrev_pwd)\[\e[1;90m\]:\[\e[1;33m\]$(parse_git_branch)\[\e[1;90m\]]:\n\[\e[1;90m\]└[\[\e[1;35m\]\A\[\e[1;90m\]]\[\e[0m\]\$ '
+function nord {
+  sudo openvpn --config $(\ls /etc/openvpn/ovpn_udp/us* | shuf -n 1) --auth-user-pass /etc/openvpn/nordvpn.txt
+}
+
+PS1='\[\e[1;90m\]┌[\[\e[1;34m\]$(abbrev_pwd)\[\e[1;90m\]:\[\e[1;33m\]$(git current)\[\e[1;90m\]]:\n\[\e[1;90m\]└[\[\e[1;35m\]\A\[\e[1;90m\]]\[\e[0m\]\$ '
 export PYTHONPATH="${PYTHONPATH}:/home/jabrouwer/work/work/python"
 
 alias sudo='sudo '
 
-alias kili="cd ~/work/work/kilimanjaro"
+alias kili="cd $KILI"
 
 alias vi="vim"
 alias k2="ssh k2"
@@ -82,7 +97,6 @@ alias ipyinstall="cd ~/work/test/ipython && pip install -e"
 alias ls="ls -AlFh --color=always"
 alias rg="rg --colors line:fg:yellow --colors line:style:bold --colors path:fg:green --colors path:style:bold --colors match:fg:black --colors match:bg:yellow --colors match:style:nobold -S"
 alias reboot="echo nah"
-alias nord="sudo openvpn --config `\ls /etc/openvpn/ovpn_udp/us* | shuf -n 1` --auth-user-pass /etc/openvpn/nordvpn.txt"
 alias rm="trash-put"
 
 alias gpasswd="sudo gpasswd"
