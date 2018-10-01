@@ -16,6 +16,27 @@ export HISTCONTROL=ignoredups
 complete -W "k2247 k5034 k800004 k800009 k800011 k800016" ./docker-push.sh
 complete -W "k2 testk2 portal wiki 2247 k10442 k5034 k800004 k800009 k800011 k800016" ssh
 complete -W "k2 testk2 portal wiki 2247 k10442 k5034 k800004 k800009 k800011 k800016" scp
+_kili_complete() {
+  local cur prev
+
+  COMPREPLY=()
+  cur=${COMP_WORDS[COMP_CWORD]}
+  prev=${COMP_WORDS[COMP_CWORD-1]}
+
+  if [ $COMP_CWORD -eq 1 ]; then
+    COMPREPLY=( $(compgen -W "clean push restart run" -- $cur) )
+  elif [ $COMP_CWORD -eq 2 ]; then
+    case "$prev" in
+      "push")
+        COMPREPLY=( $(compgen -W "k2247 k5034 k800004 k800009 k800011 k800016" -- $cur) )
+        ;;
+      *)
+        ;;
+    esac
+  fi
+
+  return 0
+} && complete -F _kili_complete kili
 . <(gr completion)
 
 export TERM=xterm-256color
@@ -28,21 +49,34 @@ function vagrant {
   cd $KILI
   if [[ $@ == "restart" ]]; then
     command vagrant destroy -f && vagrant up
+  elif [[ $@ == "ssh" ]]; then
+    # Something is rotten in the state of my vagrant setup.
+    docker exec -it -u vagrant -w /home/vagrant/kilimanjaro kili /bin/bash
   else
     command vagrant "$@"
   fi
 }
 
-function runkili {
-  if [[ -z "$(docker ps -f "status=running" | grep kili)" ]]; then
+function kili {
+  if [[ -z $@ ]]; then
     cd $KILI
-    vagrant up
-  elif [[ $@ ]]; then
-    cd $KILI
-    vagrant restart
+    return 0
+  elif [[ $1 = "push" ]]; then
+    cd $KILI/scripts
+    ./docker-push.sh $2
+    return 0
   fi
 
-  docker exec -it -u vagrant -w /home/vagrant/kilimanjaro kili /bin/bash /home/vagrant/bin/sbt run
+  if [[ -z "$(docker ps -f "status=running" | grep kili)" ]]; then
+    vagrant restart
+    cmd=$1
+  elif [[ $@ = "restart" ]]; then
+    vagrant restart
+    cmd="run"
+  else
+    cmd=$1
+  fi
+  docker exec -it -u vagrant -w /home/vagrant/kilimanjaro kili /bin/bash /home/vagrant/bin/sbt $cmd
 }
 
 function abbrev_pwd {
@@ -79,8 +113,6 @@ PS1='\[\e[1;90m\]┌[\[\e[1;34m\]$(abbrev_pwd)\[\e[1;90m\]:\[\e[1;33m\]$(git cur
 export PYTHONPATH="${PYTHONPATH}:/home/jabrouwer/work/work/python"
 
 alias sudo='sudo '
-
-alias kili="cd $KILI"
 
 alias vi="vim"
 alias k2="ssh k2"
