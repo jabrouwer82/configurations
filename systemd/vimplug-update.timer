@@ -1,5 +1,5 @@
 [Unit]
-Description=Updates vim pathogen bundles monthly.
+Description=Updates and upgrades vim plug / plugins monthly.
 
 [Timer]
 # Run at 9am on the first day of every month.

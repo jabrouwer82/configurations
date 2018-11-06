@@ -2,4 +2,5 @@
 Description=Empty Month Old Trash
 
 [Service]
+Type=oneshot
 ExecStart=/home/jabrouwer/trash-empty.sh

@@ -29,7 +29,7 @@ echo -e "\033[1;36mMerge from $(git defaultname)?\033[0m"
 select yn in "Yes" "No"; do
     case $yn in
       Yes ) echo -e "\033[1;36mMerging $(git defaultname)...\033[0m"; git catchup; break;;
-        No ) break;;
+      No ) break;;
     esac
 done
 

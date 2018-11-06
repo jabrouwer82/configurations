@@ -1,0 +1,6 @@
+[Unit]
+Description=Update and Upgrade Vim Plug / Plugins
+
+[Service]
+Type=oneshot
+ExecStart=/home/jabrouwer/vimplug-update.sh

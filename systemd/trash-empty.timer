@@ -1,5 +1,5 @@
 [Unit]
-Description=Runs trash-empty to remove month old trash evrey morning.
+Description=Runs trash-empty to remove month old trash every morning.
 
 [Timer]
 # Runs daily at 9am.
