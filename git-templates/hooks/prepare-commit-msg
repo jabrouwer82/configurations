@@ -1,0 +1,19 @@
+#! /bin/bash
+
+original=$(cat "$1")
+jira=$(git currentname | sed -r 's/^(MIN-[0-9]{4})?.*$/\1/')
+
+if [[ $2 == "merge" ]]; then
+  # Simplify merge commit messages
+  replace="s/Merge branch '([a-zA-Z]*)' of github.com:minutekey\/([a-zA-Z]*) into (.*)/Merge \2\/\1 into \3/"
+  mergeline=$(sed -r "$replace" <<< "$original")
+  echo "$mergeline" > "$1"
+  echo "$original" >> "$1"
+elif [[ "$original" != $jira* ]]; then
+  # Ensure message starts with jira number
+  echo "$jira" > "$1"
+  echo "$original" >> "$1"
+else
+  echo "Not modifying commit message"
+fi
+

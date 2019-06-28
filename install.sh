@@ -22,8 +22,7 @@ ln -sf "$(pwd)"/.tmux.vim.conf ~/.tmux.vim.conf
 ln -sf "$(pwd)"/.gitconfig ~/.gitconfig
 ln -sf "$(pwd)"/recover.sh ~/recover.sh
 ln -sf "$(pwd)"/.gitall.sh ~/.gitall.sh
-ln -sf "$(pwd)"/.pylintrc ~/.pylintrc
-ln -sf "$(pwd)"/scalastyle.xml ~/scalastyle.xml
+find "$(pwd)/linters" -type f -exec ln -s {} ~/ \;
 
 echo -e '\033[1;36mInstalling more vim stuff...\033[0m'
 mkdir -p ~/.vim/colors

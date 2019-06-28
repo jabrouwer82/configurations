@@ -1,0 +1,59 @@
+{
+  "extends": [
+    "airbnb-base"
+  ],
+  "rules": {
+    "radix": ["error", "as-needed"],
+    "vars-on-top": "off",
+    "default-case": "off",
+    "no-dupe-class-members": "off",
+    "no-inner-declarations": "off",
+    "no-confusing-arrow": [ "warn", { "allowParens": true } ],
+    "strict": "off",
+    "import/no-unresolved": "off",
+    "import/extensions": ["error", "ignorePackages", { "js": "always" }],
+    "max-len": [ "error", 120, 2 ],
+    "no-use-before-define": "off",
+    "no-console": "off",
+    "quotes": [ "error", "single", { "allowTemplateLiterals": true } ],
+    "lines-between-class-members": "off",
+    "no-param-reassign": [ "error",
+      {
+        "props": false
+      }
+    ],
+    "object-shorthand": [ "error", "never" ],
+    "object-curly-newline": ["error", { "multiline": true, "minProperties": 6 }],
+    "import/export": "off",
+    "prefer-destructuring": [ "warn",
+      {
+        "VariableDeclarator": {
+          "array": false,
+          "object": true
+        },
+        "AssignmentExpression": {
+          "array": true,
+          "object": true
+        }
+      }, { "enforceForRenamedProperties": false }
+    ]
+  },
+  "parser": "typescript-eslint-parser",
+  "globals": {
+    "document": true,
+    "window": false,
+    "HTMLElement": true,
+    "customElements": true,
+    "CustomEvent": true,
+    "browser": true,
+    "location": true
+  },
+  "overrides": [
+    {
+      "files": ["**/*.ts", "**/*.tsx"],
+      "rules": {
+        "no-undef": ["off"]
+      }
+    }
+  ]
+}

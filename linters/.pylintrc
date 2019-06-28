@@ -137,7 +137,8 @@ disable=print-statement,
         missing-docstring,
         docstring-min-length,
         too-many-lines,
-        no-else-return
+        no-else-return,
+        too-few-public-methods,
 
 # Enable the message, report, category or checker with the given id(s). You can
 # either give multiple identifier separated by comma (,) or put this option
@@ -292,7 +293,7 @@ good-names=i,
            _
 
 # Include a hint for the correct naming format with invalid-name
-include-naming-hint=no
+include-naming-hint=yes
 
 # Naming style matching correct inline iteration names
 inlinevar-naming-style=any

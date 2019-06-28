@@ -67,11 +67,6 @@
       <parameter default="TODO|FIXME" name="words" type="string" />
     </parameters>
   </check>
-  <check class="org.scalastyle.file.RegexChecker" enabled="true" level="warning">
-    <parameters>
-      <parameter name="regex">println</parameter>
-    </parameters>
-  </check>
   <check class="org.scalastyle.scalariform.NumberOfTypesChecker" enabled="true" level="warning">
     <parameters>
       <parameter name="maxTypes">30</parameter>
@@ -121,15 +116,15 @@
       <parameter name="regex">^[A-Z_]$</parameter>
     </parameters>
   </check>
-  <check class="org.scalastyle.scalariform.NamedArgumentChecker" enabled="true" level="warning">
+  <check class="org.scalastyle.scalariform.NamedArgumentChecker" enabled="false" level="warning">
     <parameters>
       <parameter name="checkString">false</parameter>
       <parameter name="ignoreMethod">^set.+$</parameter>
     </parameters>
   </check>
   <check class="org.scalastyle.scalariform.ProcedureDeclarationChecker" enabled="true" level="warning" />
-  <check class="org.scalastyle.scalariform.LowercasePatternMatchChecker" enabled="true" level="warning" />
-  <check class="org.scalastyle.scalariform.PatternMatchAlignChecker" enabled="true" level="warning" />
+  <check class="org.scalastyle.scalariform.LowercasePatternMatchChecker" enabled="false" level="warning" />
+  <check class="org.scalastyle.scalariform.PatternMatchAlignChecker" enabled="false" level="warning" />
   <check class="org.scalastyle.scalariform.MultipleStringLiteralsChecker" enabled="true" level="warning">
     <parameters>
       <parameter name="allowed">2</parameter>

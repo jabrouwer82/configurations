@@ -13,6 +13,7 @@ bind '"\e[A": history-search-backward'
 bind '"\e[B": history-search-forward'
 export HISTCONTROL=ignoredups
 
+#complete -C "ls \"$DEMO\"/" demo
 complete -W "k2247 k5034 k800004 k800009 k800011 k800016" ./docker-push.sh
 complete -W "k2 testk2 portal wiki 2247 k10442 k5034 k800004 k800009 k800011 k800016" ssh
 complete -W "k2 testk2 portal wiki 2247 k10442 k5034 k800004 k800009 k800011 k800016" scp
@@ -24,7 +25,7 @@ _kili_complete() {
   prev=${COMP_WORDS[COMP_CWORD-1]}
 
   if [ $COMP_CWORD -eq 1 ]; then
-    COMPREPLY=( $(compgen -W "clean push restart run" -- "$cur") )
+    COMPREPLY=( $(compgen -W "cheyenne/run robot/run clean push reset-error restart run test:compile update" -- "$cur") )
   elif [ $COMP_CWORD -eq 2 ]; then
     case "$prev" in
       "push")
@@ -37,16 +38,19 @@ _kili_complete() {
 
   return 0
 } && complete -F _kili_complete kili
-. <(gr completion)
+
+# # Git multirepo
+# source <(gr completion)
 
 export TERM=xterm-256color
 
 eval "$(thefuck --alias)"
 
-export KILI="/home/jabrouwer/work/work/kilimanjaro"
-export COMMON="/home/jabrouwer/work/work/kilimanjaro/common"
-export K2="/home/jabrouwer/work/work/k2"
+export KILI="/home/jabrouwer/work/work/mammoth/kilimanjaro"
+export COMMON="/home/jabrouwer/work/work/mammoth/common"
+export K2="/home/jabrouwer/work/work/mammoth/k2"
 export DEMO="/home/jabrouwer/work/demo"
+export THIRDPARTY="/home/jabrouwer/work/thirdparty"
 
 vagrant() {
   cd $KILI || return
@@ -66,15 +70,20 @@ kili() {
     cd $KILI || return
     return 0
   elif [[ $1 = "push" ]]; then
+    # echo "Cleaning sbt"
+    # sbt clean
     cd $KILI/scripts || return
-    ssh "$2" "sudo reset-error" && ./docker-push.sh "$2"
+    kili reset-error $2
+    cd $KILI/scripts || return
+    echo "Pushing to $2"
+    ./docker-push.sh "$2"
     cd - || return
     return 0
   fi
 
   if [[ $1 = "restart" ]]; then
     vagrant restart
-    elif docker ps -f "status=running" | grep kili; then
+  elif ! docker ps -a -f "status=running" | grep -q kili ; then
     vagrant restart
   fi
 
@@ -84,8 +93,22 @@ kili() {
     cmd=$1
   fi
 
+  if [[ $1 = "clean" ]]; then
+    sbt clean
+  fi
+
   if [[ $cmd = "ssh" ]]; then
     docker exec -it -u vagrant -w /home/vagrant/kilimanjaro kili /bin/bash
+  elif [[ $cmd = "reset-error" ]]; then
+    if [[ $# -gt 1 ]]; then
+      echo "Reseting error on $2"
+      ssh "$2" "sudo reset-error"
+    else
+      echo "Reseting error on local kiosk"
+      docker exec -it -u vagrant -w /home/vagrant/kilimanjaro kili sudo reset-error
+    fi
+  elif [[ $cmd = "update" ]]; then
+    docker exec -it -u vagrant -w /home/vagrant/kilimanjaro kili sudo zypper in -y kili-resources
   else
     docker exec -it -u vagrant -w /home/vagrant/kilimanjaro kili /bin/bash /home/vagrant/bin/sbt "$cmd"
   fi
@@ -183,15 +206,23 @@ vim() {
   fi
 }
 
-PS1='\[\e[1;90m\]┌[\[\e[1;34m\]$(abbrev_pwd)\[\e[1;90m\]:\[\e[1;33m\]$(git current)\[\e[1;90m\]]:\n\[\e[1;90m\]└[\[\e[1;35m\]\A\[\e[1;90m\]]\[\e[0m\]\$ '
+PS1='\[\e[1;90m\]┌[\[\e[1;34m\]$(abbrev_pwd)\[\e[1;90m\]:\[\e[1;33m\]$(git currentname)\[\e[1;90m\]]\n\[\e[1;90m\]└[\[\e[1;35m\]\A\[\e[1;90m\]]\[\e[0m\]\$ '
 export PYTHONPATH="${PYTHONPATH}:/home/jabrouwer/work/work/python"
 
 # Use ripgrep for fzf to respect gitignores
 export FZF_DEFAULT_COMMAND='rg --files --hidden'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 
+# GTK3 highdpi scaling
+# Scales UI components
+export GDK_SCALE=2
+# Unscales text
+export GDK_DPI_SCALE=0.5
+
 alias sudo='sudo '
 
+alias msr605='~/work/thirdparty/msrtool/msrtool.py /dev/msr605'
+alias thirdparty="cd \$THIRDPARTY"
 alias testk2="ssh testk2"
 alias portal="ssh portal"
 alias wiki="ssh wiki"
@@ -203,20 +234,22 @@ alias scala="amm"
 alias python="ipython"
 alias ipyinstall="cd ~/work/test/ipython && pip install -e"
 alias ls="ls -AlFh --color=always"
-alias rg="rg --colors line:fg:yellow --colors line:style:bold --colors path:fg:green --colors path:style:bold --colors match:fg:black --colors match:bg:yellow --colors match:style:nobold -S --type-add 'conf:*.{conf}'"
+alias rg="rg --colors line:fg:yellow --colors line:style:bold --colors path:fg:green --colors path:style:bold --colors match:fg:black --colors match:bg:yellow --colors match:style:nobold --sortr accessed --stats --smart-case --heading --line-number --type-add 'conf:*.{conf}' --type-add 'gs:*/greenstone/*' --type-add 'dts:*.d.ts'"
 alias reboot="echo nap"
 alias rm="trash-put"
 alias vi="vim"
 alias server="python3 -m http.server"
+alias extserver="sudo python3 -m http.server 80"
 
 alias gpasswd="sudo gpasswd"
 alias pacrepo="sudo reflector -l 20 -f 10 --save /etc/pacman.d/mirrorlist"
 alias pacman="sudo pacman"
 alias pip3="sudo pip3"
-alias yaourt="yaourt --noconfirm"
+# alias yaourt="yaourt --noconfirm"
 alias journalctl="sudo journalctl"
 alias pacu="sudo pacman -Syu --noconfirm"
-alias auru="yaourt -Syua --noconfirm"
+alias auru="yay -Syu"
+alias updateall="auru && npm update -g"
 alias systemctl="sudo systemctl"
 alias se="ls /usr/bin | grep"
 
