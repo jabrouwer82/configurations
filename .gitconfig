@@ -7,7 +7,7 @@
   branchpurge = ! git fetch --all --prune && git branch -vv | grep \": gone]\" | awk '{ print $1 }' | xargs -n 1 git branch -D && git branch
   catchuppull = ! git fetch --prune && git pull --no-edit origin $(git defaultname)
   catchup = ! git fetch --prune && git pull --rebase=preserve --no-edit origin $(git defaultname)
-  currentname = ! git rev-parse --abbrev-ref HEAD 2> /dev/null
+  currentname = ! git rev-parse --abbrev-ref HEAD 2> /dev/null | grep -v HEAD | sed 's/^/b\\//' || git describe --exact-match --all 2> /dev/null | sed 's/tags/t/' || git rev-parse HEAD
   default = ! git checkout $(git defaultname) && git pull
   defaultname = ! git symbolic-ref refs/remotes/origin/HEAD | sed 's@^refs/remotes/origin/@@'
   delete = ! "f() { git branch -d \"$1\" && git push --delete origin \"$1\"; }; f"

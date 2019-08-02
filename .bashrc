@@ -13,6 +13,8 @@ bind '"\e[A": history-search-backward'
 bind '"\e[B": history-search-forward'
 export HISTCONTROL=ignoredups
 
+export HISTTIMEFORMAT="%F %T: "
+
 #complete -C "ls \"$DEMO\"/" demo
 complete -W "k2247 k5034 k800004 k800009 k800011 k800016" ./docker-push.sh
 complete -W "k2 testk2 portal wiki 2247 k10442 k5034 k800004 k800009 k800011 k800016" ssh
@@ -51,6 +53,8 @@ export COMMON="/home/jabrouwer/work/work/mammoth/common"
 export K2="/home/jabrouwer/work/work/mammoth/k2"
 export DEMO="/home/jabrouwer/work/demo"
 export THIRDPARTY="/home/jabrouwer/work/thirdparty"
+export SCALA_HOME="/usr/share/scala"
+export JAVA_HOME="/usr/lib/jvm/java-8-openjdk/jre"
 
 vagrant() {
   cd $KILI || return
@@ -206,7 +210,7 @@ vim() {
   fi
 }
 
-PS1='\[\e[1;90m\]┌[\[\e[1;34m\]$(abbrev_pwd)\[\e[1;90m\]:\[\e[1;33m\]$(git currentname)\[\e[1;90m\]]\n\[\e[1;90m\]└[\[\e[1;35m\]\A\[\e[1;90m\]]\[\e[0m\]\$ '
+PS1='\[\e[1;90m\]┌[\[\e[1;34m\]$(abbrev_pwd)\[\e[1;90m\]:\[\e[1;33m\]$(git currentname)\[\e[1;90m\]]\n\[\e[1;90m\]└[\[\e[1;35m\]\t\[\e[1;90m\]]\[\e[0m\]\$ '
 export PYTHONPATH="${PYTHONPATH}:/home/jabrouwer/work/work/python"
 
 # Use ripgrep for fzf to respect gitignores
