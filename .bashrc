@@ -45,6 +45,7 @@ _kili_complete() {
 # source <(gr completion)
 
 export TERM=xterm-256color
+export HOMEBREW_NO_AUTO_UPDATE=1
 
 eval "$(thefuck --alias)"
 
@@ -53,8 +54,9 @@ export COMMON="/home/jabrouwer/work/work/mammoth/common"
 export K2="/home/jabrouwer/work/work/mammoth/k2"
 export DEMO="/home/jabrouwer/work/demo"
 export THIRDPARTY="/home/jabrouwer/work/thirdparty"
-export SCALA_HOME="/usr/share/scala"
-export JAVA_HOME="/usr/lib/jvm/java-8-openjdk/jre"
+#export SCALA_HOME="/usr/share/scala"
+#export JAVA_HOME="/usr/lib/jvm/java-8-openjdk/jre"
+export JAVA_HOME="/Library/Java/JavaVirtualMachines/adoptopenjdk-8.jdk/Contents/Home"
 
 vagrant() {
   cd $KILI || return
@@ -223,6 +225,8 @@ export GDK_SCALE=2
 # Unscales text
 export GDK_DPI_SCALE=0.5
 
+export RIPGREP_CONFIG_PATH="/Users/jbrouwer/.ripgreprc"
+
 alias sudo='sudo '
 
 alias msr605='~/work/thirdparty/msrtool/msrtool.py /dev/msr605'
@@ -237,13 +241,18 @@ export RECOVER="sudo grep -a -C 200 -F 'thing to search for' /dev/nvme0n1p4 > te
 alias scala="amm"
 alias python="ipython"
 alias ipyinstall="cd ~/work/test/ipython && pip install -e"
-alias ls="ls -AlFh --color=always"
-alias rg="rg --colors line:fg:yellow --colors line:style:bold --colors path:fg:green --colors path:style:bold --colors match:fg:black --colors match:bg:yellow --colors match:style:nobold --sortr accessed --stats --smart-case --heading --line-number --type-add 'conf:*.{conf}' --type-add 'gs:*/greenstone/*' --type-add 'dts:*.d.ts'"
+alias ls="ls -AlFhG"
+alias rgsc="rg -tscala"
+alias rgpy="rg -tpy"
+alias rgts="rg -tts"
+alias rgjs="rg -tjs"
 alias reboot="echo nap"
 alias rm="trash-put"
 alias vi="vim"
 alias server="python3 -m http.server"
 alias extserver="sudo python3 -m http.server 80"
+
+alias scalawatch="fswatch -o ./scalastyle.xml | xargs -n1 -I{} scalastyle -c scalastyle.xml . -x \$(cat duds.txt)"
 
 alias gpasswd="sudo gpasswd"
 alias pacrepo="sudo reflector -l 20 -f 10 --save /etc/pacman.d/mirrorlist"
@@ -274,3 +283,5 @@ fi
 if [[ "$SSH_AGENT_PID" == "" ]]; then
     eval "$(<~/.ssh-agent-thing)"
 fi
+
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash

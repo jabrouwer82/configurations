@@ -1,2 +1,7 @@
 # VIM:
 .*.swp
+
+.DS_Store
+
+Kinesis/do_not_edit.txt
+Kinesis/version.txt

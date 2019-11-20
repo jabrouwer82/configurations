@@ -1,0 +1,6 @@
+#!/bin/sh
+
+if [ "$(git currentname)" = "$(git defaultname)" ]; then
+  echo "You can't commit directly to the default branch."
+  exit 1
+fi

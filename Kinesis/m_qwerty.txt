@@ -1,0 +1,13 @@
+[scroll]>[vol-]
+[prtscr]>[mute]
+[kp=]>[kp=mac]
+[pause]>[vol+]
+[lctrl]>[lwin]
+[pup]>[kptoggle]
+[kp-pup]>[kptoggle]
+[pdown]>[escape]
+{lshift}{home}>{speed9}{pup}
+{lshift}{end}>{speed9}{pdown}
+{rshift}{home}>{speed9}{pup}
+{rshift}{end}>{speed9}{pdown}
+[caps]>[escape][t&h998][caps]

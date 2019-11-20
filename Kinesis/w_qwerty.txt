@@ -1,0 +1,12 @@
+* Windows
+[caps]>[tab]
+[pdown]>[escape]
+[pup]>[kptoggle]
+[kp-pup]>[kptoggle]
+[scroll]>[vol-]
+[prtscr]>[mute]
+[pause]>[vol+]
+{lshift}{home}>{speed9}{pup}
+{lshift}{end}>{speed9}{pdown}
+{rshift}{home}>{speed9}{pup}
+{rshift}{end}>{speed9}{pdown}

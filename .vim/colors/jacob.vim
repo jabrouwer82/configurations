@@ -4,65 +4,91 @@ if exists('syntax_on')
  syntax reset
 endif
 let g:colors_name = 'jacob'
+
+" Text:
 hi Boolean guifg=#7D5FB8
 hi Character guifg=#BD5F78
 hi Comment guifg=#06989A
-hi Conditional guifg=#FF9925
+hi Conditional guifg=#D78700
 hi Constant guifg=#AD7FA8
 hi Debug guifg=#75507B
 hi Define guifg=#5FD7FF
-hi Delimiter guifg=#FFFFFF cterm=bold
+hi Delimiter guifg=#FFFFFF gui=bold
 hi Error guibg=#EF2929 guifg=#FFFFFF
-hi Exception guifg=#FCE94F
+hi Exception guifg=#FCD54F
 hi Float guifg=#7D7FB8
-hi Function guifg=#FFFFFF cterm=bold
 hi Folded guibg=#003B3B guifg=#FFFFFF
-hi Identifier guifg=#34E2E2 cterm=bold
+hi Function guifg=#FFFFFF gui=bold
+hi Identifier guifg=#34E2E2 gui=bold
 hi Ignore guifg=#000000
 hi Include guifg=#5FD7FF
-hi Keyword guifg=#FCE94F
-hi Label guifg=#FCE94F
+hi Keyword guifg=#FCD54F
+hi Label guifg=#FCD54F
 hi Macro guifg=#5FD7FF
-hi Normal guifg=#D3D3D3
+hi NonText guifg=#3D1F78
+hi Normal guifg=#D3D3D3 guibg=#030303
 hi Number guifg=#7D5FB8
-hi Operator guifg=#EF2929
+hi Operator guifg=#D78700
 hi PreCondit guifg=#5FD7FF
 hi PreProc guifg=#5FD7FF
 hi Repeat guifg=#FFFFFF
+hi Search guifg=#000000 guibg=#FCD54F
 hi Special guifg=#75507B
 hi SpecialChar guifg=#75507B
 hi SpecialComment guifg=#75507B
-hi SpellBad guibg=#680000 guifg=#FFFFFF
-hi Statement guifg=#FCE94F
+hi SpellBad guisp=#FF0000
+hi Statement guifg=#FCD54F
 hi StorageClass guifg=#87FFAF
 hi String guifg=#AD7FA8
 hi Structure guifg=#87FFAF
 hi Tag guifg=#75507B
-hi Todo guibg=#FCE94F guifg=#000000
+hi Todo guibg=#FCD54F guifg=#000000
 hi Type guifg=#87FFAF
 hi Typedef guifg=#87FFAF
 
-hi GitAddSign guifg=#4CB24C cterm=bold
-hi GitChangeSign guifg=#5FD7FF cterm=bold
-hi GitDeleteSign guifg=#C85050 cterm=bold
-hi GitChangeDeleteSign guifg=#75507B cterm=bold
-hi LintErrorSign guifg=#EF2929 cterm=bold
-hi SpecialKey guibg=#FCE94F
-hi LineNR guifg=#A8A8A8 guibg=NONE
-hi CursorLine cterm=bold guibg=#262626
-hi CursorLineNR cterm=bold guifg=#5FD7FF guibg=NONE
-hi CursorColumn cterm=bold guibg=#262626
-hi StatusLine cterm=NONE guifg=#06989A guibg=#2E3436
+" Spell:
+hi clear SpellLocal
+hi clear SpellRare
+hi clear SpellCap
+
+" GUI:
 hi ColorColumn guibg=#280400
+hi CursorColumn guibg=#1E1E1E
+hi CursorLine gui=bold guibg=#1E1E1E
+hi CursorLineNR gui=bold guifg=#5FD7FF guibg=NONE
+hi LineNR guifg=#A8A8A8 guibg=NONE
+hi SpecialKey guibg=#FCD54F
+hi StatusLine gui=NONE guifg=#7D5FB8 guibg=#1E1E1E
+hi StatusLineTerm gui=NONE guifg=#7D5FB8 guibg=#1E1E1E
+hi StatusLineTermNC guibg=NONE
+" This should keep the vertical split highlight synced with airline, but it doesn't work for insert mode.
+" hi! link VertSplit airline_a
+hi VertSplit guibg=#000000 guifg=#0087AF
+hi WildMenu gui=bold guifg=#FCD54F guibg=#1E1E1E
+
+" Git Column:
+hi GitAddSign guifg=#4CB24C gui=bold
+hi GitChangeSign guifg=#5FD7FF gui=bold
+hi GitDeleteSign guifg=#C85050 gui=bold
+hi GitChangeDeleteSign guifg=#75507B gui=bold
 
 " ALE Colors:
-hi ALEWarningSign guifg=#FCE94F guibg=NONE
+hi ALEWarningSign guifg=#FCD54F guibg=NONE
 hi ALEWarning guifg=NONE guibg=NONE
+hi LintErrorSign guifg=#EF2929 gui=bold
 
-" Space display and hilighting
+" Coc Colors:
+hi Pmenu guibg=#555555
+hi PmenuSel guifg=#555555
+hi CocHighlightText gui=underline
+
+" Space Display And Highlighting:
 hi TrailingSpaces guibg=#C85050
 hi DoubleSpaces guibg=#C85050
-au BufReadPost,BufNewFile * hi DoubleSpaces guibg=#C85050
-au BufReadPost,BufNewFile routes hi DoubleSpaces guibg=NONE
+augroup spaces
+  au!
+  au BufReadPost,BufNewFile * hi DoubleSpaces guibg=#C85050
+  au BufReadPost,BufNewFile routes hi DoubleSpaces guibg=NONE
+augroup end
 call matchadd('TrailingSpaces', '\s\+$', 100)
 call matchadd('DoubleSpaces', '\S\zs\s\{2,}', 100)
