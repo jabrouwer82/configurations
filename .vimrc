@@ -177,7 +177,7 @@ set fillchars+=vert:\
 set spell
 
 
-" Environmentystem('sh -c ' . $VIM_TMP_DIR . '/test.sh > ' . $VIM_TMP_DIR . '/log 2>&1')
+" Environment:
 " This makes it easy to do :term man <cmd>, less gets weird.
 let $MANPAGER='cat'
 
@@ -290,8 +290,12 @@ source ~/.vim/Dec2hex.vim
 
 " FUNCTIONS:
 " Calls the script that backs up my backup/undo/swp.
+let g:backup_time_delta=60*15
 function! Backup_tmp_files()
-  call system('sh -c ' . $VIM_TMP_DIR . '/test.sh > ' . $VIM_TMP_DIR . '/log.txt 2>&1')
+  if !exists('g:last_backup_ts') || reltimefloat(reltime(g:last_backup_ts)) > g:backup_time_delta
+    call system('sh -c ' . $VIM_TMP_DIR . '/backup.sh > ' . $VIM_TMP_DIR . '/log.txt 2>&1')
+    let g:last_backup_ts=reltime()
+  endif
 endfunction
 
 " Allow saving of files as sudo when I forgot to start vim using sudo.
