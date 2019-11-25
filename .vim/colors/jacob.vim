@@ -25,7 +25,7 @@ hi Include guifg=#5FD7FF
 hi Keyword guifg=#FCD54F
 hi Label guifg=#FCD54F
 hi Macro guifg=#5FD7FF
-hi NonText guifg=#3D1F78
+hi NonText guifg=#5D3F98
 hi Normal guifg=#D3D3D3 guibg=#030303
 hi Number guifg=#7D5FB8
 hi Operator guifg=#D78700

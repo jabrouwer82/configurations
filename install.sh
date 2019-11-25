@@ -1,5 +1,7 @@
 #! /bin/bash
 
+# TODO: Switch all this crap to gnu stow and add separation for unix and macos things
+
 echo -e '\033[1;36mThis is only kind of tested, use at your own risk!\033[0m'
 
 #echo -e '\033[1;36mInstalling systemd units...\033[0m'
@@ -40,9 +42,13 @@ find "$(pwd)/linters" -type f -exec ln -sf {} ~/ \;
 echo -e '\033[1;36mInstalling ripgrep configs...\033[0m'
 ln -sf "$(pwd)"/.ripgreprc ~/.ripgreprc
 
-echo -e '\033[1;36mInstalling ripgrep configs...\033[0m'
+echo -e '\033[1;36mInstalling ammonite configs...\033[0m'
 mkdir -p ~/.ammonite
 ln -sf "$(pwd)"/.ammonite/predef.sc ~/.ammonite/predef.sc
+
+echo -e '\033[1;36mInstalling bat configs...\033[0m'
+mkdir -p ~/.config/bat
+ln -sf "$(pwd)"/bat.conf ~/.config/bat/config
 
 # echo -e '\033[1;36mInstalling xorg configs...\033[0m'
 # sudo ln -sf "$(pwd)"/xorg/50-marblemouse.conf /etc/X11/xorg.conf.d/50-marblemouse.conf

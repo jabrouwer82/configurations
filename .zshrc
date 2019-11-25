@@ -21,6 +21,7 @@ CASE_SENSITIVE="true"
 # HYPHEN_INSENSITIVE="true"
 
 plugins=(
+  fd
   git
   fzf
   scala
@@ -43,6 +44,8 @@ setopt autopushd
 setopt pushdignoredups
 
 # Exports
+# Less doesn't do anything if there's less than one page.
+export LESS="-F -X $LESS"
 export MANPATH="/usr/local/man:$MANPATH"
 export LANG=en_US.UTF-8
 export EDITOR='vim'
@@ -61,7 +64,6 @@ export HOST_IP=$(ifconfig en0 | awk '$1 == "inet" {print $2}')
 # Use ripgrep for fzf to respect gitignore files.
 export FZF_DEFAULT_COMMAND='rg --files --hidden'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
-export MANPAGER=cat
 
 
 # Aliases
@@ -87,6 +89,7 @@ alias vi="vim"
 alias server="python3 -m http.server"
 alias extserver="sudo python3 -m http.server 80"
 alias pip3="sudo pip3"
+alias man="~/thirdparty/bat-extras/src/batman.sh"
 
 # Functions
 

@@ -106,10 +106,13 @@ set clipboard=unnamed
 " Enforces 5 lines of space between the cursor and the top/bottom of a window.
 set scrolloff=5
 
+" Set a root location for undo/back/swp files.
+let $VIM_TMP_DIR=$HOME . '/.tmp/vim'
+
 " Persist undo changes to disk
 set undofile
 " Location of undo files.
-set undodir=$HOME/.tmp/vim/undo//
+set undodir=$VIM_TMP_DIR/undo//
 
 " Number of undos to save.
 set undolevels=10000
@@ -117,13 +120,13 @@ set undolevels=10000
 set undoreload=10000
 
 " Location of swap files.
-set directory=$HOME/.tmp/vim/dir//
+set directory=$VIM_TMP_DIR/dir//
 
 " Write a duplicate file out when overwriting a file.
 " Makes saving stupidly slow in some cases.
 set backup
 " Location of said backups.
-set backupdir=$HOME/.tmp/vim/back//
+set backupdir=$VIM_TMP_DIR/back//
 
 " Allow backspacing over everything.
 set backspace=indent,eol,start
@@ -174,13 +177,19 @@ set fillchars+=vert:\
 set spell
 
 
-" Environment:
+" Environmentystem('sh -c ' . $VIM_TMP_DIR . '/test.sh > ' . $VIM_TMP_DIR . '/log 2>&1')
 " This makes it easy to do :term man <cmd>, less gets weird.
 let $MANPAGER='cat'
 
 
 " AUTOCMDS:
 " A lot of these are FileType autocommands, which should really be located in ~/.vim/after/ftplugin/[ft].vim.
+
+" My backup/undo/swp files are in a git repo that gets a new commit every write.
+augroup tmpbackup
+  au!
+  au BufWritePost,FileWritePost,VimLeave * call Backup_tmp_files()
+augroup end
 
 augroup listspell
   au!
@@ -280,6 +289,11 @@ source ~/.vim/Dec2hex.vim
 
 
 " FUNCTIONS:
+" Calls the script that backs up my backup/undo/swp.
+function! Backup_tmp_files()
+  call system('sh -c ' . $VIM_TMP_DIR . '/test.sh > ' . $VIM_TMP_DIR . '/log.txt 2>&1')
+endfunction
+
 " Allow saving of files as sudo when I forgot to start vim using sudo.
 fun SuWrite()
   echo 'Sudo writing file' | silent write '!sudo tee "%" > /dev/null' | edit!
@@ -322,7 +336,7 @@ noremap ]s ]S
 noremap Q gq
 
 " Create new window.
-noremap <leader>w call NewWindow()
+" noremap <leader>w call NewWindow()
 
 " Switch windows
 noremap <leader><Up> :wincmd k<CR>
@@ -357,7 +371,7 @@ noremap ;<Bar> :wincmd v<CR>
 tnoremap <Esc> <C-\><C-n>
 
 " Repeat the last : command
-noremap <leader>: @:
+" noremap <leader>: @:
 
 " [m ]m navigate marks.
 noremap [m ['zz
@@ -380,10 +394,6 @@ noremap N Nzz
 " Use ;/ to search this file for the current word/selection.
 vnoremap <leader>/ y/<C-r>"<CR>
 nnoremap <leader>/ /<C-r><C-w><CR>
-
-" Use ;rg to search for the current word/selection in all files in the pwd.
-vnoremap <leader>rg y:Rg <C-r>"<CR>
-nnoremap <leader>rg :Rg <C-r><C-w><CR>
 
 " <leader>s will prepare a :s command for the current word/selection.
 vnoremap <leader>s y:%s/<C-r>"\C/<C-r>"/g
@@ -451,7 +461,7 @@ noremap <leader>` :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . 
   \ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
 
   " For shenanigans.
-noremap <leader>r ggg?G``:set invspell<CR>
+" noremap <leader>r ggg?G``:set invspell<CR>
 
   " Smart Home, moves to the first non-whitespace character.
 noremap <expr> <Home> col('.') == match(getline('.'),'\S')+1 ? '0' : '^'
@@ -535,15 +545,55 @@ augroup aledelayed
 augroup end
 
 " FZF:
-" Maps Ctrl-t, <leader>t, and Ctrl-p to open files.
+
+let $FZF_DEFAULT_COMMAND='rg --files --hidden'
+let g:fzf_preview_base='bat --terminal-width $FZF_PREVIEW_COLUMNS --style full --color always'
+let g:fzf_preview_range=' --line-range :$((FZF_PREVIEW_LINES-2)) '
+let g:fzf_preview_sed=" | sed '1d;$d'"
+
+let $FZF_PREVIEW_COMMAND=g:fzf_preview_base . g:fzf_preview_range . ' {} ' . g:fzf_preview_sed
+let g:fzf_preview_buffers='farg={2}; ' . g:fzf_preview_base . g:fzf_preview_range . ' ${farg:s/~/$HOME} ' . g:fzf_preview_sed
+" let g:fzf_preview_marks="l='{3}'; f='{4}'; fn=${f:s/~/$HOME}; fl=$(echo $(wc -l $fn) | cut -d' ' -f1); sl=$((0 < line-lines/2 ? line-lines/2 : 0)); el=$((fl < (sl + $FZF_PREVIEW_LINES) ? fl : (sl + $FZF_PREVIEW_LINES))); sl=$((endl-lines)); " . g:fzf_preview_base . '--line-range $((sl)):$((el)) --highlight-line $l $fn'
+let g:fzf_preview_windows='farg={3..}; fn=${farg:s/> //}; ' . g:fzf_preview_base . g:fzf_preview_range . ' ${fn:s/~/$HOME} ' . g:fzf_preview_sed
+
+command! -bang -nargs=? -complete=dir Files call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
+command! -bar -bang -nargs=? -complete=buffer Buffers  call fzf#vim#buffers(
+  \ <q-args>,
+  \ {'options': ['--preview',  g:fzf_preview_buffers]},
+  \ <bang>0
+  \)
+command! -bang -nargs=? GFiles call fzf#vim#gitfiles(<q-args>, fzf#vim#with_preview(), <bang>0)
+command! -bang -nargs=* Rg call fzf#vim#grep(
+  \ "rg --column --line-number --no-heading --color=always ".shellescape(<q-args>),
+  \ 1,
+  \ fzf#vim#with_preview(),
+  \ <bang>0
+  \)
+command! -bar -bang Commands call fzf#vim#commands(<bang>0)
+command! -bar -bang Marks call fzf#vim#marks(<bang>0)
+command! -bar -bang Windows call fzf#vim#windows(
+  \ {'options': ['--preview',  g:fzf_preview_windows]},
+  \ <bang>0
+  \)
+command! -bar -bang Commits call fzf#vim#commits(<bang>0)
+command! -bar -bang BCommits call fzf#vim#buffer_commits(<bang>0)
+command! -bar -bang Maps call fzf#vim#maps("n", <bang>0)
+command! -bang -nargs=* History call s:history(<q-args>, <bang>0)
+
 noremap <C-p> :FZF<cr>
 noremap <C-t> :FZF<cr>
-" noremap <leader>t :FZF<CR>
-" <leader><space> to open files.
-noremap <leader><Space> :FZF<cr>
-" <leader><enter> to open buffers.
+noremap <leader><Space> :Files
 noremap <leader><CR> :Buffers<cr>
-let $FZF_DEFAULT_COMMAND='rg --files --hidden'
+vnoremap <leader>rg y:Rg <C-r>"
+nnoremap <leader>rg :Rg <C-r><C-w>
+noremap <leader>g :GFiles?<cr>
+noremap <leader>: :History:<CR>
+noremap <leader>// :History/<CR>
+noremap <leader>m :Maps<CR>
+noremap <leader>w :Windows<CR>
+noremap <leader>?? :Commits<CR>
+noremap <leader>? :BCommits<CR>
+noremap <leader>:: :Commands<CR>
 
 let g:fzf_colors =
 \ { 'fg':      ['fg', 'Normal'],
@@ -584,7 +634,7 @@ let g:airline_detect_spell=0
 let g:airline#parts#ffenc#skip_expected_string='utf-8[unix]'
 let g:airline#extensions#tabline#show_splits = 1
 let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
-let g:airline#extensions#tabline#fnamemod = ':t'
+" let g:airline#extensions#tabline#fnamemod = ':t'
 " Replaces the "tabs" label in the tabline with the abbreviated pwd.
 augroup tablinecwd
   au!
@@ -598,12 +648,12 @@ endfunction
 
 call Batterypercent()
 
-if !exists('g:tablinetimer')
+if exists('g:tablinetimer')
   call timer_stop(g:tablinetimer)
 endif
 let g:tablinetimer = timer_start(&updatetime, 'Tablineupdate', { 'repeat': -1 })
 
-if !exists('g:batterytimer')
+if exists('g:batterytimer')
   call timer_stop(g:batterytimer)
 endif
 let g:batterytimer = timer_start(&updatetime, 'Updatebattery')

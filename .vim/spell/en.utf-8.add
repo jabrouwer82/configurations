@@ -125,3 +125,16 @@ batterytimer
 txt
 swp
 DS
+IdentityFile
+UseKeychain
+AddKeysToAgent
+DataIngestSource
+avro
+DataLakeSources
+Concat
+SpellLocal
+SpellRare
+Mixins
+openRaw
+RowDecoder
+invspell
