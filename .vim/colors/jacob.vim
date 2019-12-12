@@ -5,6 +5,35 @@ if exists('syntax_on')
 endif
 let g:colors_name = 'jacob'
 
+" Colors:
+"
+" #000000
+" #030303
+" #555555
+" #1E1E1E
+" #D3D3D3
+" #A8A8A8
+" #FFFFFF
+"
+" #003B3B
+" #0087AF
+" #06989A
+" #280400
+" #4CB24C
+" #5D3F98
+" #5FD7FF
+" #75507B
+" #7D5FB8
+" #7D7FB8
+" #87FFAF
+" #AD7FA8
+" #BD5F78
+" #C85050
+" #D78700
+" #EF2929
+" #FCD54F
+" #FF0000
+
 " Text:
 hi Boolean guifg=#7D5FB8
 hi Character guifg=#BD5F78
@@ -19,7 +48,7 @@ hi Exception guifg=#FCD54F
 hi Float guifg=#7D7FB8
 hi Folded guibg=#003B3B guifg=#FFFFFF
 hi Function guifg=#FFFFFF gui=bold
-hi Identifier guifg=#34E2E2 gui=bold
+hi Identifier guifg=#5FD7FF gui=bold
 hi Ignore guifg=#000000
 hi Include guifg=#5FD7FF
 hi Keyword guifg=#FCD54F
@@ -42,7 +71,8 @@ hi StorageClass guifg=#87FFAF
 hi String guifg=#AD7FA8
 hi Structure guifg=#87FFAF
 hi Tag guifg=#75507B
-hi Todo guibg=#FCD54F guifg=#000000
+hi Title guifg=#AD7FA8 gui=bold
+hi Todo guifg=#FCD54F gui=undercurl,bold
 hi Type guifg=#87FFAF
 hi Typedef guifg=#87FFAF
 
@@ -92,3 +122,4 @@ augroup spaces
 augroup end
 call matchadd('TrailingSpaces', '\s\+$', 100)
 call matchadd('DoubleSpaces', '\S\zs\s\{2,}', 100)
+

@@ -1,13 +1,12 @@
 let g:airline#themes#jacob#palette = {}
 
-let s:normal = '#0087af'
-let s:insert = '#87d700'
-let s:inactive = '#6e4e8e'
-let s:visual = '#dfdf00'
-let s:special = '#d78700'
-let s:error = '#d70000'
+let s:normal = '#0087Af'
+let s:insert = '#87D700'
+let s:visual = '#6E4E8E'
+let s:special = '#D78700'
+let s:error = '#D70000'
 let s:black = '#080808'
-let s:dark = '#1c1c1c'
+let s:dark = '#1C1C1C'
 let s:light = '#767676'
 
 let s:N_A = [ s:black , s:normal , 232 , 45 ]
@@ -42,8 +41,8 @@ let g:airline#themes#jacob#palette.visual = airline#themes#generate_color_map(s:
 let g:airline#themes#jacob#palette.visual_modified = copy(g:airline#themes#jacob#palette.normal_modified)
 
 
-let s:IA_A  = [ s:black , s:inactive , 239 , 232  , '' ]
-let s:IA_B = [ s:inactive , s:dark , 239 , 234 , '' ]
+let s:IA_A  = [ s:normal , s:dark , 239 , 232  , '' ]
+let s:IA_B = [ s:black, s:normal , 239 , 234 , '' ]
 let g:airline#themes#jacob#palette.inactive = airline#themes#generate_color_map(s:IA_A, s:IA_B, s:IA_B)
 let g:airline#themes#jacob#palette.inactive_modified = {
   \ 'airline_c': [ s:error, '', 160, '', '' ],

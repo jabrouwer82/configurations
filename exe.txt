@@ -1,0 +1,9 @@
+trash-cli https://github.com/andreafrancia/trash-cli
+exa https://github.com/ogham/exa
+bat https://github.com/sharkdp/bat
+fd https://github.com/sharkdp/fd
+hyperfine https://github.com/sharkdp/hyperfine
+pastel https://github.com/sharkdp/pastel
+ripgrep https://github.com/BurntSushi/ripgrep
+fzf https://github.com/junegunn/fzf
+

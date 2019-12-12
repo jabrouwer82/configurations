@@ -21,6 +21,8 @@
 
 --type-add=scala:*.sc
 
+--type-add=mill:build.sc
+
 --type-add=amm:*.sc
 
 --type-add=sbt:*.sbt

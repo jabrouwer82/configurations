@@ -1,47 +1,173 @@
 source ~/.p10k.zsh # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 source ~/.exa_colors.zsh # Customizes the color scheme of ls and exa.
 
-source /Users/jbrouwer/.gcloud/path.zsh.inc
-source /Users/jbrouwer/.gcloud/completion.zsh.inc
+source /Users/jbrouwer/.ghcup/env
 
-fpath=(/Users/jbrouwer/.zsh/ $fpath)
-
-export PATH=$HOME/bin:/usr/local/bin:$PATH
-export PATH=$HOME/thirdparty/dotty/bin:$PATH
-export PATH=$HOME/.cargo/bin:$PATH
-
-export ZSH="/Users/jbrouwer/.oh-my-zsh"
-
-export ZSH_TMUX_AUTOSTART_ONCE=true
-ZSH_THEME="powerlevel10k/powerlevel10k"
-CASE_SENSITIVE="true"
-
-# Uncomment the following line to use hyphen-insensitive completion.
-# Case-sensitive completion must be off. _ and - will be interchangeable.
-# HYPHEN_INSENSITIVE="true"
-
-plugins=(
-  fd
-  git
-  fzf
-  scala
-  sbt
-  ripgrep
-  colorize
-  colored-man-pages
-  command-not-found
-  thefuck
-  ssh-agent
-  tmux
-  kubectl
-  zsh-completions
+typeset -U fpath
+fpath+=(
+  $HOME/.zsh/
 )
 
-DISABLE_MAGIC_FUNCTIONS=true
-source $ZSH/oh-my-zsh.sh
+typeset -U path
+path+=(
+  $HOME/.local/bin
+  $HOME/bin
+  /usr/local/bin
+  $HOME/thirdparty/dotty/bin
+  $HOME/.cargo/bin
+)
+export PATH
 
-setopt autopushd
-setopt pushdignoredups
+# Check if zplug is installed
+if [[ ! -d ~/.zplug ]]; then
+  git clone https://github.com/zplug/zplug ~/.zplug
+  source ~/.zplug/init.zsh && zplug update --self
+fi
+
+# Essential
+source ~/.zplug/init.zsh
+
+# Plugins
+zplug "changyuheng/fz", defer:1
+zplug "plugin/cabal", from:oh-my-zsh
+zplug "plugin/colored-man-pages", from:oh-my-zsh
+zplug "plugin/colorize", from:oh-my-zsh
+zplug "plugin/command-not-found", from:oh-my-zsh
+zplug "plugin/encode64", from:oh-my-zsh
+zplug "plugin/fd", from:oh-my-zsh
+zplug "plugin/fzf", from:oh-my-zsh
+zplug "plugin/git", from:oh-my-zsh
+zplug "plugin/kubectl", from:oh-my-zsh
+zplug "plugin/ripgrep", from:oh-my-zsh
+zplug "plugin/sbt", from:oh-my-zsh
+zplug "plugin/scala", from:oh-my-zsh
+zplug "plugin/ssh-agent", from:oh-my-zsh
+zplug "plugin/thefuck", from:oh-my-zsh
+zplug "plugin/tmux", from:oh-my-zsh
+zplug "plugin/zsh-completions", from:oh-my-zsh
+zplug "rupa/z", use:z.sh
+zplug "zsh-users/zsh-history-substring-search", defer:3
+zplug "zsh-users/zsh-syntax-highlighting", defer:2
+zplug "romkatv/powerlevel10k", as:theme, depth:1
+zplug "MichaelAquilina/zsh-auto-notify"
+zplug "zsh-users/zsh-autosuggestions"
+zplug "b4b4r07/emoji-cli"
+zplug "littleq0903/gcloud-zsh-completion", use:src
+zplug "zsh-users/zsh-completions"
+
+# Install packages that have not been installed yet
+if ! zplug check --verbose; then
+  zplug install
+fi
+zplug load
+
+# MichaelAquilina/zsh-auto-notify:
+# Don't get notifications for these commands.
+AUTO_NOTIFY_IGNORE+=("ipython" "python" "scala" "amm" "bat")
+
+# zsh-users/zsh-history-substring-search:
+# Bind up and down keys to history search.
+bindkey "${terminfo[kcuu1]}" history-substring-search-up
+bindkey "${terminfo[kcud1]}" history-substring-search-down
+typeset -g HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND='bg=#0087AF,fg=white,bold'
+typeset -g HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_NOT_FOUND='bg=#EF2929,fg=white,bold'
+
+# zsh-users/zsh-autosuggestions:
+# Use history to autocomplete, or use completion if there's no history.
+export ZSH_AUTOSUGGEST_STRATEGY=(history completion)
+# Async autosuggestions.
+export ZSH_AUTOSUGGEST_USE_ASYNC=1
+
+# zsh-users/zsh-syntax-highlighting:
+# Just highlight fucking everything.
+export ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern cursor root line)
+
+# vv Taken from oh-my-zsh vv
+zmodload -i zsh/complist
+
+unsetopt menu_complete # Do not autoselect the first completion entry.
+unsetopt flowcontrol # Disabled flow control (idk)
+setopt auto_menu # show completion menu on successive tab press
+setopt complete_in_word # Completion is done from both ends of a word? I don't fully understand this one.
+setopt always_to_end # Move cursor to end of the word on completion.
+
+zstyle ':completion:*:*:*:*:*' menu select
+zstyle ':completion:*' matcher-list 'r:|=*' 'l:|=* r:|=*'
+# Complete . and .. special directories
+zstyle ':completion:*' special-dirs true
+
+zstyle ':completion:*' list-colors ''
+zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#) ([0-9a-z-]#)*=01;34=0=01'
+zstyle ':completion:*:*:*:*:processes' command "ps -u $USER -o pid,user,comm -w -w"
+# disable named-directories autocompletion
+zstyle ':completion:*:cd:*' tag-order local-directories directory-stack path-directories
+# Don't complete uninteresting users
+zstyle ':completion:*:*:*:users' ignored-patterns \
+        adm amanda apache at avahi avahi-autoipd beaglidx bin cacti canna \
+        clamav daemon dbus distcache dnsmasq dovecot fax ftp games gdm \
+        gkrellmd gopher hacluster haldaemon halt hsqldb ident junkbust kdm \
+        ldap lp mail mailman mailnull man messagebus  mldonkey mysql nagios \
+        named netdump news nfsnobody nobody nscd ntp nut nx obsrun openvpn \
+        operator pcap polkitd postfix postgres privoxy pulse pvm quagga radvd \
+        rpc rpcuser rpm rtkit scard shutdown squid sshd statd svn sync tftp \
+        usbmux uucp vcsa wwwrun xfs '_*'
+# ... unless we really want to.
+zstyle '*' single-ignored show
+if (( ${+terminfo[smkx]} )) && (( ${+terminfo[rmkx]} )); then
+  function zle-line-init() {
+    echoti smkx
+  }
+  function zle-line-finish() {
+    echoti rmkx
+  }
+  zle -N zle-line-init
+  zle -N zle-line-finish
+fi
+
+bindkey -e # Use emacs key bindings
+
+bindkey '^r' history-incremental-search-backward
+
+if [[ "${terminfo[khome]}" != "" ]]; then
+  bindkey "${terminfo[khome]}" beginning-of-line # [Home] - Go to beginning of line
+fi
+if [[ "${terminfo[kend]}" != "" ]]; then
+  bindkey "${terminfo[kend]}"  end-of-line # [End] - Go to end of line
+fi
+
+bindkey ' ' magic-space # [Space] - do history expansion
+
+bindkey '^[[1;5C' forward-word # [Ctrl-RightArrow] - move forward one word
+bindkey '^[[1;5D' backward-word # [Ctrl-LeftArrow] - move backward one word
+
+if [[ "${terminfo[kcbt]}" != "" ]]; then
+  bindkey "${terminfo[kcbt]}" reverse-menu-complete # [Shift-Tab] - move through the completion menu backwards
+fi
+
+bindkey '^?' backward-delete-char # [Backspace] - delete backward
+if [[ "${terminfo[kdch1]}" != "" ]]; then
+  bindkey "${terminfo[kdch1]}" delete-char # [Delete] - delete forward
+else
+  bindkey "^[[3~" delete-char
+  bindkey "^[3;5~" delete-char
+  bindkey "\e[3~" delete-char
+fi
+
+bindkey "^_" copy-prev-shell-word # Ctrl-_ to copy the previous "word" in a command.
+# ^^ Taken from oh-my-zsh ^^
+
+setopt auto_pushd # Makes `cd` push to the dir stack.
+setopt extended_history # Log timestamp and duration of commands in history.
+setopt hist_expire_dups_first # When the history gets too long, expire old duplicates first.
+setopt hist_ignore_all_dups # When adding a dupe entry, immediately expire the older duplicate(s).
+setopt hist_ignore_space # Don't enter commands that start with a space.
+setopt hist_verify # Allow me to edit a line after selecting it from history.
+setopt inc_append_history_time # Immediately append commands with time to the history file.
+setopt interactive_comments # Allow comments in interactive shell.
+setopt long_list_jobs # Print job notifications in the long form.
+setopt prompt_subst # Allows expansion and substitution in prompt.
+setopt pushd_ignore_dups # Don't add duplicates to the dir stack.
+setopt pushd_minus # Swap the meaning of '+' and '-' in pushd.
 
 # Exports
 # Less doesn't do anything if there's less than one page.
@@ -64,7 +190,9 @@ export HOST_IP=$(ifconfig en0 | awk '$1 == "inet" {print $2}')
 # Use ripgrep for fzf to respect gitignore files.
 export FZF_DEFAULT_COMMAND='rg --files --hidden'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
-
+export HISTFILE=$HOME/.zsh_history
+export HISTSIZE=50000
+export SAVEHIST=10000
 
 # Aliases
 alias sudo='sudo '
@@ -111,26 +239,23 @@ vim() {
   fi
 }
 
-unalias tmux
-tmux() {
-  if [[ -z $* ]]; then
-    command tmux a 2&> /dev/null || command tmux
-  else
-    command tmux $*
-  fi
-}
+# unalias tmux
+# tmux() {
+#   if [[ -z $* ]]; then
+#     command tmux a 2&> /dev/null || command tmux
+#   else
+#     command tmux $*
+#   fi
+# }
 
 # Detaches tmux if closing the last pane in the open session, else just calls exit.
-exit() {
-  if [[ -z $TMUX ]] || [[ $(tmux list-panes -s | wc -l) -gt 1 ]]; then
-    builtin exit
-  else
-    tmux detach
-  fi
-}
+# exit() {
+#   if [[ -z $TMUX ]] || [[ $(tmux list-panes -s | wc -l) -gt 1 ]]; then
+#     builtin exit
+#   else
+#     tmux detach
+#   fi
+# }
 
-autoload -Uz bashcompinit
-bashcompinit
-
-autoload -Uz compinit
+autoload -Uz compinit compdef
 compinit

@@ -26,6 +26,7 @@ ln -sf "$(pwd)"/.vim/autoload/airline/themes/jacob.vim ~/.vim/autoload/airline/t
 ln -sf "$(pwd)"/.vim/coc-settings.json ~/.vim/coco-settings.json
 ln -sf "$(pwd)"/.vim/colors/jacob.vim ~/.vim/colors/jacob.vim
 ln -sf "$(pwd)"/.vim/spell/en.utf-8.add ~/.vim/spell/en.utf-8.add
+ln -sf "$(pwd)"/backup.sh ~/.tmp/vim/backup.sh
 
 echo -e '\033[1;36mInstalling zsh configs...\033[0m'
 ln -sf "$(pwd)"/.zshrc ~/.zshrc

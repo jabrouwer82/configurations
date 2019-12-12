@@ -10,6 +10,12 @@ scriptencoding=utf-8
 " Turns syntax highlighting on.
 syntax on
 
+if system('uname') ==# "Darwin\n"
+  " Source macvim specific stuff.
+else
+  " Let's just assume it's linux.
+endif
+
 " Crap to make 24bit color work in terminals, these need to be adjusted per terminal.
 let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
 let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
@@ -185,6 +191,18 @@ let $MANPAGER='cat'
 " AUTOCMDS:
 " A lot of these are FileType autocommands, which should really be located in ~/.vim/after/ftplugin/[ft].vim.
 
+" Save the reltime that vim starts.
+augroup starttime
+  au VimEnter let g:start_time=reltime()
+augroup end
+
+" Disables the swap file if the file isn't modified.
+augroup swpctrl
+  au!
+  autocmd CursorHold,BufWritePost,BufReadPost,BufLeave *
+    \ if isdirectory(expand("<amatch>:h")) | let &swapfile = &modified | endif
+augroup end
+
 " My backup/undo/swp files are in a git repo that gets a new commit every write.
 augroup tmpbackup
   au!
@@ -258,7 +276,7 @@ augroup filetypestuff
   au BufEnter *.svg setf html
 
   " sbt files are just scala.
-  au BufRead,BufNewFile *.sbt setf cala
+  au BufRead,BufNewFile *.sbt setf scala
 
   " There's not a language plugin for JSON5 (json with comments).
   au FileType json syntax match Comment +\/\/.\+$+
@@ -283,18 +301,18 @@ augroup autocursorpos
 augroup END
 
 
-" SOURCE OTHER VIM SCRIPTS:
-" This script converts decimal numbers to their hex equivalents.
-source ~/.vim/Dec2hex.vim
-
 
 " FUNCTIONS:
 " Calls the script that backs up my backup/undo/swp.
 let g:backup_time_delta=60*15
 function! Backup_tmp_files()
   if !exists('g:last_backup_ts') || reltimefloat(reltime(g:last_backup_ts)) > g:backup_time_delta
+    echom 'Backing up tmp files, this might take > 10 seconds...'
     call system('sh -c ' . $VIM_TMP_DIR . '/backup.sh > ' . $VIM_TMP_DIR . '/log.txt 2>&1')
     let g:last_backup_ts=reltime()
+    " These two lines clear the message.
+    echon "\r\r"
+    echon ''
   endif
 endfunction
 
@@ -330,6 +348,10 @@ com W :call SuWrite()
 
 " MAPPINGS:
 let mapleader=';'
+
+" <leader># or <leader>3 to go to alt buffer.
+noremap <leader># <C-^>
+noremap <leader>3 <C-^>
 
 " Skip SpellLocal and SpellRare.
 noremap [s [S
@@ -384,9 +406,6 @@ noremap ]m ]'zz
 " Deletes the on-disk file in the current buffer, but does not close to buffer in case it was an accident.
 nnoremap <leader><Del> :call delete(expand('%:p'))<CR>
 
-" Save current cursor location: 'mqHmw'
-" Move back to old location and remove marks: '`w:delm w<CR>zt`q:delm q<CR>'
-
 " Center the cursor when jumping to marks.
 noremap <expr> ' "'" . nr2char(getchar()) . "zz"
 noremap <expr> ` "`" . nr2char(getchar()) . "zz"
@@ -403,24 +422,6 @@ nnoremap <leader>/ /<C-r><C-w><CR>
 vnoremap <leader>s y:%s/<C-r>"\C/<C-r>"/g
 nnoremap <leader>s :%s/<C-r><C-w>\C/<C-r><C-w>/g
 
-" <leader>' will wrap the current word with next characters entered.
-" eg. ;''' will wrap a word in single quotes.
-vnoremap <expr> <leader>' 'xi' . nr2char(getchar()) . '<esc>pa' . nr2char(getchar()) . '<esc>'
-nnoremap <expr> <leader>' 'diwi' . nr2char(getchar()) . '<esc>pa' . nr2char(getchar()) . '<esc>'
-
-" <leader>q['"`] will change all quote marks on that line to the one entered.
-noremap <leader>q" :s/['`]/"/g<CR>:noh<CR>
-noremap <leader>q' :s/["`]/'/g<CR>:noh<CR>
-noremap <leader>q` :s/['"]/`/g<CR>:noh<CR>
-
-" <leader>l to switch current word/selection to lower case
-nnoremap <leader>l guiw
-vnoremap <leader>l u
-
-" <leader>u to switch current work/selection to UPPER CASE
-nnoremap <leader>u gUiw
-vnoremap <leader>u U
-
 " <leader>c to toggle comment.
 nnoremap <leader>c :Commentary<CR>
 vnoremap <leader>c :Commentary<CR>
@@ -433,6 +434,8 @@ nnoremap <leader>. >>
 vnoremap <leader>. >
 
 " <leader>== auto indents the whole file.
+" Save current cursor location: 'mqHmw'
+" Move back to old location and remove marks: '`w:delm w<CR>zt`q:delm q<CR>'
 nnoremap <silent> <leader>== mqHmwgg=G`w:delm w<CR>zt`q:delm q<CR>:SignatureRefresh<CR>
 
 " Pressing enter will clear search highlighting.
@@ -510,7 +513,27 @@ Plug 'andrewradev/bufferize.vim'
 Plug 'airblade/vim-rooter'
 Plug 'tjdevries/coc-zsh'
 Plug 'tpope/vim-markdown'
+Plug 'moll/vim-bbye' " Dep for vim-symlink.
+Plug 'aymericbeaumet/vim-symlink' " Automatically follow symlinks.
+Plug 'tpope/vim-surround' " cs/ds/ys/css/dss/yss to change/delete/surround a word/line.
+Plug 'tpope/vim-repeat' " Allow . to work with (some) plugins.
+Plug 'glts/vim-magnum' " Numeric library, dep for radical.
+Plug 'glts/vim-radical' " gA, crd/crx/cro/crb for decimal/hex/octal/binary conversions.
+Plug 'arthurxavierx/vim-caser' " Change cases.
+Plug 'tommcdo/vim-fubitive' " Bitbucket plugin for fugitive
+Plug 'tpope/vim-rhubarb' " Githug plugin for fugitive
 call plug#end()
+
+" Caser:
+" gsm MixedCase
+" gsc camelCase
+" gs_ snake_case
+" gsu UPPER_CASE
+" gst Title Case
+" gss Sentence case
+" gs  space case
+" gs- kebab-case
+" gs. dot.case
 
 " Yankstack:
 " These have to use nmap rather than nnoremap.
@@ -521,7 +544,7 @@ nmap ]p <Plug>yankstack_substitute_newer_paste
 let g:indentLine_char = '▏'
 
 " Rooter:
-let g:rooter_patterns = ['build.sbt', '.git/']
+let g:rooter_patterns = ['build.sbt', '.git/', 'build.sc']
 let g:rooter_silent_chdir = 1
 
 " Html5:
@@ -561,12 +584,14 @@ let g:fzf_preview_buffers='farg={2}; ' . g:fzf_preview_base . g:fzf_preview_rang
 let g:fzf_preview_windows='farg={3..}; fn=${farg:s/> //}; ' . g:fzf_preview_base . g:fzf_preview_range . ' ${fn:s/~/$HOME} ' . g:fzf_preview_sed
 
 command! -bang -nargs=? -complete=dir Files call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
+" TODO: It would be super cool if this could highlight the cursor position in the buffer.
 command! -bar -bang -nargs=? -complete=buffer Buffers  call fzf#vim#buffers(
   \ <q-args>,
   \ {'options': ['--preview',  g:fzf_preview_buffers]},
   \ <bang>0
   \)
 command! -bang -nargs=? GFiles call fzf#vim#gitfiles(<q-args>, fzf#vim#with_preview(), <bang>0)
+" TODO: This doesn't highlight the correct line number.
 command! -bang -nargs=* Rg call fzf#vim#grep(
   \ "rg --column --line-number --no-heading --color=always ".shellescape(<q-args>),
   \ 1,
@@ -586,7 +611,8 @@ command! -bang -nargs=* History call s:history(<q-args>, <bang>0)
 
 noremap <C-p> :FZF<cr>
 noremap <C-t> :FZF<cr>
-noremap <leader><Space> :Files
+noremap <leader><Space> :Files<CR>
+noremap <leader><S-Space> :Files
 noremap <leader><CR> :Buffers<cr>
 vnoremap <leader>rg y:Rg <C-r>"
 nnoremap <leader>rg :Rg <C-r><C-w>
@@ -683,6 +709,28 @@ function! Tablineupdate(timer)
 endfunction
 
 " Coc:
+let g:coc_global_extensions = [
+  \ 'coc-vimlsp',
+  \ 'coc-highlight',
+  \ 'coc-yaml',
+  \ 'coc-rls',
+  \ 'coc-python',
+  \ 'coc-json',
+  \]
+
+
+let g:coc_user_config = {
+\  'coc.preferences.colorSupport': v:true,
+\  'rust-client.rustupPath': '/Users/jbrouwer/.cargo/bin/rustup',
+\  'languageserver': {
+\    'metals': {
+\      'command': 'metals-vim',
+\      'rootPatterns': ['build.sbt'],
+\      'filetypes': ['scala', 'sbt']
+\    }
+\  }
+\}
+
 " Use tab for trigger completion with characters ahead and navigate.
 " Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
 inoremap <silent><expr> <TAB>
