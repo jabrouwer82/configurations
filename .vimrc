@@ -343,7 +343,7 @@ endfunction
 
 " COMMANDS:
 " :W to use sudo to write a file.
-com W :call SuWrite()
+command! W :call SuWrite()
 
 
 " MAPPINGS:
@@ -522,6 +522,7 @@ Plug 'glts/vim-radical' " gA, crd/crx/cro/crb for decimal/hex/octal/binary conve
 Plug 'arthurxavierx/vim-caser' " Change cases.
 Plug 'tommcdo/vim-fubitive' " Bitbucket plugin for fugitive
 Plug 'tpope/vim-rhubarb' " Githug plugin for fugitive
+Plug 'zplugin/zplugin-vim-syntax' " Syntax highlighting for zplugin.
 call plug#end()
 
 " Caser:

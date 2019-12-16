@@ -76,6 +76,8 @@ hi Todo guifg=#FCD54F gui=undercurl,bold
 hi Type guifg=#87FFAF
 hi Typedef guifg=#87FFAF
 
+hi link htmlEndTag htmlTag
+
 " Spell:
 hi clear SpellLocal
 hi clear SpellRare

@@ -1,4 +1,3 @@
-source ~/.p10k.zsh # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 source ~/.exa_colors.zsh # Customizes the color scheme of ls and exa.
 
 source /Users/jbrouwer/.ghcup/env
@@ -15,51 +14,47 @@ path+=(
   /usr/local/bin
   $HOME/thirdparty/dotty/bin
   $HOME/.cargo/bin
+  $HOME/.gcloud/bin
 )
 export PATH
 
-# Check if zplug is installed
-if [[ ! -d ~/.zplug ]]; then
-  git clone https://github.com/zplug/zplug ~/.zplug
-  source ~/.zplug/init.zsh && zplug update --self
+# Check is zplugin is installed.
+if [[ ! -d ~/.zplugin/bin/ ]]; then
+  git clone https://github.com/zdharma/zplugin.git ~/.zplugin/bin
+  source ~/.zplugin/bin/zplugin.zsh && zplugin self-update
 fi
+source ~/.zplugin/bin/zplugin.zsh
 
-# Essential
-source ~/.zplug/init.zsh
+zplugin ice wait'!0a' depth'1' atload'!source ~/.p10k.zsh; _p9k_precmd'
+zplugin load romkatv/powerlevel10k
 
-# Plugins
-zplug "changyuheng/fz", defer:1
-zplug "plugin/cabal", from:oh-my-zsh
-zplug "plugin/colored-man-pages", from:oh-my-zsh
-zplug "plugin/colorize", from:oh-my-zsh
-zplug "plugin/command-not-found", from:oh-my-zsh
-zplug "plugin/encode64", from:oh-my-zsh
-zplug "plugin/fd", from:oh-my-zsh
-zplug "plugin/fzf", from:oh-my-zsh
-zplug "plugin/git", from:oh-my-zsh
-zplug "plugin/kubectl", from:oh-my-zsh
-zplug "plugin/ripgrep", from:oh-my-zsh
-zplug "plugin/sbt", from:oh-my-zsh
-zplug "plugin/scala", from:oh-my-zsh
-zplug "plugin/ssh-agent", from:oh-my-zsh
-zplug "plugin/thefuck", from:oh-my-zsh
-zplug "plugin/tmux", from:oh-my-zsh
-zplug "plugin/zsh-completions", from:oh-my-zsh
-zplug "rupa/z", use:z.sh
-zplug "zsh-users/zsh-history-substring-search", defer:3
-zplug "zsh-users/zsh-syntax-highlighting", defer:2
-zplug "romkatv/powerlevel10k", as:theme, depth:1
-zplug "MichaelAquilina/zsh-auto-notify"
-zplug "zsh-users/zsh-autosuggestions"
-zplug "b4b4r07/emoji-cli"
-zplug "littleq0903/gcloud-zsh-completion", use:src
-zplug "zsh-users/zsh-completions"
+# Completions
+zplugin wait'0b' depth'1' blockf atpull'zplugin creinstall -q' as'completion' lucid for \
+  svn OMZ::plugins/cargo \
+  svn OMZ::plugins/fd \
+  svn OMZ::plugins/ripgrep
 
-# Install packages that have not been installed yet
-if ! zplug check --verbose; then
-  zplug install
-fi
-zplug load
+# Completions with other functions.
+zplugin wait'0b' depth'1' blockf atpull'zplugin creinstall -q' lucid for \
+  svn OMZ::plugins/cabal \
+  svn OMZ::plugins/fzf \
+  svn OMZ::plugins/kubectl \
+  zsh-users/zsh-completions \
+  littleq0903/gcloud-zsh-completion
+
+# Normal plugins.
+zplugin wait'0a' depth'1' lucid for \
+  svn OMZ::plugins/ssh-agent \
+  svn OMZ::plugins/thefuck \
+  rupa/z \
+  changyuheng/fz \
+  atload'_zsh_autosuggest_start' zsh-users/zsh-autosuggestions \
+  MichaelAquilina/zsh-auto-notify \
+  b4b4r07/emoji-cli \
+  zsh-users/zsh-history-substring-search
+
+zplugin ice lucid wait'0c' depth'1' atinit"zpcompinit; zpcdreplay"
+zplugin load zdharma/fast-syntax-highlighting
 
 # MichaelAquilina/zsh-auto-notify:
 # Don't get notifications for these commands.
@@ -186,7 +181,6 @@ export WORK="$HOME/work/"
 export SCF="$HOME/work/foundation"
 export CFG="$HOME/personal/configurations/"
 export CLOUDSDK_CORE_PROJECT='sparkcognition-dev'
-export HOST_IP=$(ifconfig en0 | awk '$1 == "inet" {print $2}')
 # Use ripgrep for fzf to respect gitignore files.
 export FZF_DEFAULT_COMMAND='rg --files --hidden'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
@@ -220,6 +214,17 @@ alias pip3="sudo pip3"
 alias man="~/thirdparty/bat-extras/src/batman.sh"
 
 # Functions
+
+# Setup for docker compose nonsense.
+hostip() {
+  echo $(ifconfig en0 | awk '$1 == "inet" {print $2}')
+}
+
+sethostip() {
+  export HOST_IP=$(hostip)
+}
+
+precmd_functions+=( sethostip )
 
 # Mute "cd -", I have my pwd in my path, I don't need it again.
 cd() {
@@ -256,6 +261,3 @@ vim() {
 #     tmux detach
 #   fi
 # }
-
-autoload -Uz compinit compdef
-compinit
