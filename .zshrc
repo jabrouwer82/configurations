@@ -51,9 +51,14 @@ zplugin wait'0a' depth'1' lucid for \
   atload'_zsh_autosuggest_start' zsh-users/zsh-autosuggestions \
   MichaelAquilina/zsh-auto-notify \
   b4b4r07/emoji-cli \
-  zsh-users/zsh-history-substring-search
 
-zplugin ice lucid wait'0c' depth'1' atinit"zpcompinit; zpcdreplay"
+zplugin ice wait'0a' depth'1' lucid atload'
+typeset -g HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND='"'"'bg=#0087AF,fg=white,bold'"'"'
+typeset -g HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_NOT_FOUND='"'"'bg=#EF2929,fg=white,bold'"'"'
+'
+zplugin load zsh-users/zsh-history-substring-search
+
+zplugin ice lucid wait'0c' depth'1' atinit'zpcompinit; zpcdreplay' nocd
 zplugin load zdharma/fast-syntax-highlighting
 
 # MichaelAquilina/zsh-auto-notify:
@@ -64,8 +69,6 @@ AUTO_NOTIFY_IGNORE+=("ipython" "python" "scala" "amm" "bat")
 # Bind up and down keys to history search.
 bindkey "${terminfo[kcuu1]}" history-substring-search-up
 bindkey "${terminfo[kcud1]}" history-substring-search-down
-typeset -g HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND='bg=#0087AF,fg=white,bold'
-typeset -g HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_NOT_FOUND='bg=#EF2929,fg=white,bold'
 
 # zsh-users/zsh-autosuggestions:
 # Use history to autocomplete, or use completion if there's no history.
@@ -166,7 +169,7 @@ setopt pushd_minus # Swap the meaning of '+' and '-' in pushd.
 
 # Exports
 # Less doesn't do anything if there's less than one page.
-export LESS="-F -X $LESS"
+export LESS="-FRX $LESS"
 export MANPATH="/usr/local/man:$MANPATH"
 export LANG=en_US.UTF-8
 export EDITOR='vim'

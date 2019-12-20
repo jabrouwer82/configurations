@@ -183,9 +183,13 @@ set fillchars+=vert:\
 set spell
 
 
+
 " Environment:
 " This makes it easy to do :term man <cmd>, less gets weird.
 let $MANPAGER='cat'
+" Use java 8
+let $JAVA_HOME='/Library/Java/JavaVirtualMachines/adoptopenjdk-8.jdk/Contents/Home'
+
 
 
 " AUTOCMDS:
@@ -234,8 +238,6 @@ augroup termft
     \ if &buftype=='terminal'
     \ |   setlocal nowrap
     \ |   setlocal nospell
-          " Enable paste in terminal normal mode. Maps in Ifs screw up parsing, this should be moved to a function.
-    \ |   exe 'noremap <buffer> p :call term_sendkeys("", trim(getreg("*")))<CR>'
     \ | endif
   " au FocusLost,WinLeave *
   "   \ if &buftype=='terminal' && mode() == 't'
@@ -253,13 +255,13 @@ augroup end
 " Easier closing of vim help menus.
 augroup helpft
   au!
-  au FileType help noremap <buffer> <Esc> :q<CR>
+  au FileType help noremap <buffer> q :q<CR>
 augroup end
 
 " Easier closing of bufferized commands.
 augroup bufferizeft
   au!
-  au FileType bufferize noremap <buffer> <Esc> :q<CR>
+  au FileType bufferize noremap <buffer> q :q<CR>
 augroup end
 
 " Automatically write any updates in the current file when focus is lost.
@@ -303,6 +305,7 @@ augroup END
 
 
 " FUNCTIONS:
+
 " Calls the script that backs up my backup/undo/swp.
 let g:backup_time_delta=60*15
 function! Backup_tmp_files()
@@ -349,6 +352,15 @@ command! W :call SuWrite()
 " MAPPINGS:
 let mapleader=';'
 
+" - to open new terminal.
+noremap - :term<CR>
+" _ to open new terminal with given command.
+noremap _ :term 
+" \ to open new vertical terminal.
+noremap <Bslash> :vert term<CR>
+" | to open new vertical terminal with given command.
+noremap <Bar> :vert term 
+
 " <leader># or <leader>3 to go to alt buffer.
 noremap <leader># <C-^>
 noremap <leader>3 <C-^>
@@ -390,7 +402,7 @@ noremap ;- :wincmd n<CR>
 
 " <leader>v or <leader>\ or <leader>| will create a new split to the right of this one.
 noremap ;n :wincmd v<CR>
-noremap ;\ :wincmd v<CR>
+noremap ;<bslash> :wincmd v<CR>
 noremap ;<Bar> :wincmd v<CR>
 
 " Esc to enter terminal normal mode
@@ -523,6 +535,7 @@ Plug 'arthurxavierx/vim-caser' " Change cases.
 Plug 'tommcdo/vim-fubitive' " Bitbucket plugin for fugitive
 Plug 'tpope/vim-rhubarb' " Githug plugin for fugitive
 Plug 'zplugin/zplugin-vim-syntax' " Syntax highlighting for zplugin.
+Plug 'roman/golden-ratio' " Automatically resize windows.
 call plug#end()
 
 " Caser:
@@ -613,7 +626,7 @@ command! -bang -nargs=* History call s:history(<q-args>, <bang>0)
 noremap <C-p> :FZF<cr>
 noremap <C-t> :FZF<cr>
 noremap <leader><Space> :Files<CR>
-noremap <leader><S-Space> :Files
+noremap <leader><S-Space> :Files 
 noremap <leader><CR> :Buffers<cr>
 vnoremap <leader>rg y:Rg <C-r>"
 nnoremap <leader>rg :Rg <C-r><C-w>
@@ -711,6 +724,7 @@ endfunction
 
 " Coc:
 let g:coc_global_extensions = [
+  \ 'coc-metals',
   \ 'coc-vimlsp',
   \ 'coc-highlight',
   \ 'coc-yaml',
@@ -723,13 +737,6 @@ let g:coc_global_extensions = [
 let g:coc_user_config = {
 \  'coc.preferences.colorSupport': v:true,
 \  'rust-client.rustupPath': '/Users/jbrouwer/.cargo/bin/rustup',
-\  'languageserver': {
-\    'metals': {
-\      'command': 'metals-vim',
-\      'rootPatterns': ['build.sbt'],
-\      'filetypes': ['scala', 'sbt']
-\    }
-\  }
 \}
 
 " Use tab for trigger completion with characters ahead and navigate.
@@ -762,6 +769,12 @@ nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 
+" Remap for do codeAction of current line
+nmap <leader>ac <Plug>(coc-codeaction)
+
+" Remap for do action format
+nnoremap <silent> F :call CocAction('format')<CR>
+
 " Use K to show documentation in preview window
 nnoremap <silent> K :call <SID>show_documentation()<CR>
 
@@ -779,9 +792,7 @@ endfunction
 " Use this for now:
 nmap <silent> <leader>rn :call CocAction('runCommand', 'document.renameCurrentWord')<CR>
 
-" Remap for format selected region
-xmap <leader>f  <Plug>(coc-format-selected)
-nmap <leader>f  <Plug>(coc-format-selected)
+
 
 augroup coccustom
   autocmd!
