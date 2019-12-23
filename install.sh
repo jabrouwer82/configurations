@@ -29,6 +29,7 @@ ln -sf "$(pwd)"/.vim/spell/en.utf-8.add ~/.vim/spell/en.utf-8.add
 ln -sf "$(pwd)"/backup.sh ~/.tmp/vim/backup.sh
 
 echo -e '\033[1;36mInstalling zsh configs...\033[0m'
+ln -sf "$(pwd)"/.zshenv ~/.zshenv
 ln -sf "$(pwd)"/.zshrc ~/.zshrc
 ln -sf "$(pwd)"/.p10k.zsh ~/.p10k.zsh
 ln -sf "$(pwd)"/.exa_colors.zsh ~/.exa_colors.zsh

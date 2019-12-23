@@ -1,6 +1,6 @@
 source ~/.exa_colors.zsh # Customizes the color scheme of ls and exa.
 
-source /Users/jbrouwer/.ghcup/env
+# source /Users/jbrouwer/.ghcup/env
 
 typeset -U fpath
 fpath+=(
@@ -168,25 +168,12 @@ setopt pushd_ignore_dups # Don't add duplicates to the dir stack.
 setopt pushd_minus # Swap the meaning of '+' and '-' in pushd.
 
 # Exports
-# Less doesn't do anything if there's less than one page.
-export LESS="-FRX $LESS"
-export MANPATH="/usr/local/man:$MANPATH"
-export LANG=en_US.UTF-8
-export EDITOR='vim'
-export TERM=xterm-256color
-export HOMEBREW_NO_AUTO_UPDATE=1
-export JAVA_HOME="/Library/Java/JavaVirtualMachines/adoptopenjdk-8.jdk/Contents/Home"
-export PYTHONPATH="${PYTHONPATH}:$HOME/work/python"
-export RIPGREP_CONFIG_PATH="/Users/jbrouwer/.ripgreprc"
-export FZF_BASE=/usr/local/bin/fzf
 export THIRDPARTY="$HOME/thirdparty"
 export WORK="$HOME/work/"
 export SCF="$HOME/work/foundation"
 export CFG="$HOME/personal/configurations/"
 export CLOUDSDK_CORE_PROJECT='sparkcognition-dev'
 # Use ripgrep for fzf to respect gitignore files.
-export FZF_DEFAULT_COMMAND='rg --files --hidden'
-export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export HISTFILE=$HOME/.zsh_history
 export HISTSIZE=50000
 export SAVEHIST=10000
@@ -223,11 +210,11 @@ hostip() {
   echo $(ifconfig en0 | awk '$1 == "inet" {print $2}')
 }
 
-sethostip() {
-  export HOST_IP=$(hostip)
-}
+#sethostip() {
+#  export HOST_IP=$(hostip)
+#}
 
-precmd_functions+=( sethostip )
+#precmd_functions+=( sethostip )
 
 # Mute "cd -", I have my pwd in my path, I don't need it again.
 cd() {

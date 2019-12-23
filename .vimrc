@@ -11,9 +11,24 @@ scriptencoding=utf-8
 syntax on
 
 if system('uname') ==# "Darwin\n"
-  " Source macvim specific stuff.
+  " Use ligatures
+  set macligatures
+  
+  " Sets my font.
+  set guifont=Hasklug\ Nerd\ Font:h11
+  
+  function! Batterypercent()
+    let g:batterypercent = system('pmset -g batt | grep -Eo "\d+%" | cut -d% -f1')[:-2]
+  endfunction
 else
-  " Let's just assume it's linux.
+  " Sets my font.
+  set guifont=Hasklug\ Nerd\ Font\ 11
+
+  " This should really check the existance of a battery ior something.
+  " I'll worry about it when I get a linux laptop.
+  function! Batterypercent()
+    let g:batterypercent = "100"
+  endfunction
 endif
 
 " Crap to make 24bit color work in terminals, these need to be adjusted per terminal.
@@ -26,11 +41,7 @@ set termguicolors
 " My custom color scheme, located at ~/.vim/colors/jacob.vim
 colorscheme jacob
 
-" Sets my font.
-set macligatures
-set guifont=Hasklug\ Nerd\ Font:h11
-
-" Removes macvim scrollbars.
+" Removes macvim/gvim scrollbars.
 set guioptions=
 
 " Displays tabs, nbsps, and trailing spaces with printable characters.
@@ -112,9 +123,6 @@ set clipboard=unnamed
 " Enforces 5 lines of space between the cursor and the top/bottom of a window.
 set scrolloff=5
 
-" Set a root location for undo/back/swp files.
-let $VIM_TMP_DIR=$HOME . '/.tmp/vim'
-
 " Persist undo changes to disk
 set undofile
 " Location of undo files.
@@ -186,9 +194,7 @@ set spell
 
 " Environment:
 " This makes it easy to do :term man <cmd>, less gets weird.
-let $MANPAGER='cat'
-" Use java 8
-let $JAVA_HOME='/Library/Java/JavaVirtualMachines/adoptopenjdk-8.jdk/Contents/Home'
+export MANPAGER='cat'
 
 
 
@@ -518,7 +524,7 @@ Plug 'sheerun/vim-polyglot'
 Plug 'markonm/traces.vim'
 Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
 Plug 'jeffkreeftmeijer/vim-numbertoggle'
-Plug 'TaDaa/vimade'
+" Plug 'TaDaa/vimade' " Fades inactive buffers.
 Plug 'qpkorr/vim-bufkill'
 Plug 'regedarek/zoomwin'
 Plug 'andrewradev/bufferize.vim'
@@ -535,7 +541,7 @@ Plug 'arthurxavierx/vim-caser' " Change cases.
 Plug 'tommcdo/vim-fubitive' " Bitbucket plugin for fugitive
 Plug 'tpope/vim-rhubarb' " Githug plugin for fugitive
 Plug 'zplugin/zplugin-vim-syntax' " Syntax highlighting for zplugin.
-Plug 'roman/golden-ratio' " Automatically resize windows.
+" Plug 'roman/golden-ratio' " Automatically resize windows.
 call plug#end()
 
 " Caser:
@@ -587,7 +593,6 @@ augroup end
 
 " FZF:
 
-let $FZF_DEFAULT_COMMAND='rg --files --hidden'
 let g:fzf_preview_base='bat --terminal-width $FZF_PREVIEW_COLUMNS --style full --color always'
 let g:fzf_preview_range=' --line-range :$((FZF_PREVIEW_LINES-2)) '
 let g:fzf_preview_sed=" | sed '1d;$d'"
@@ -686,10 +691,6 @@ augroup tablinecwd
 augroup end
 
 " This chunk puts a clock and battery meter in the top right of the airline tabline.
-function! Batterypercent()
-  let g:batterypercent = system('pmset -g batt | grep -Eo "\d+%" | cut -d% -f1')[:-2]
-endfunction
-
 call Batterypercent()
 
 if exists('g:tablinetimer')

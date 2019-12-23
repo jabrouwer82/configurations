@@ -1,172 +1,136 @@
 set background=dark
-hi clear
+exe "hi clear"
 if exists('syntax_on')
  syntax reset
 endif
 let g:colors_name = 'jacob'
 
-" Colors:
-"
-" #000000
-" #030303
-" #555555
-" #1E1E1E
-" #D3D3D3
-" #A8A8A8
-" #FFFFFF
-"
-" #003B3B
-" #0087AF
-" #06989A
-" #4CB24C
-" #5D3F98
-" #5FD7FF
-" #75507B
-" #7D5FB8
-" #7D7FB8
-" #87FFAF
-" #AD7FA8
-" #BD5F78
-" #C85050
-" #D78700
-" #EF2929
-" #FCD54F
+let $jblack="#00080A"
+let $jwhite="#E4FDFD"
 
-" #002b36
-" #073642
-" #657b83
-" #839496
-" #93a1a1
-" #eee8d5
-" #fdf6e3
-" #b58900
-" #cb4b16
-" #dc322f
-" #268bd2
-" #2aa198
-" #6c71c4
-" #859900
+let $jdgrey="#252A2d"
+let $jgrey="#6B7A82"
+let $jlgrey="#B1CBD7"
 
+let $jdblue="#0D3D55"
+let $jblue="#1A7DAA"
+let $jlblue="#28B8FF"
 
-" #280400
-" #00080A
-" #FDF6E3
+let $jdcyan="#165550"
+let $jcyan="#2CAAA0"
+let $jlcyan="#42FFF0"
 
-" #586E75
-" #839496
+let $jdgreen="#2D553A"
+let $jgreen="#5AAA75"
+let $jlgreen="#87FFAF"
 
-" #268BD2
-" #7D23D7
-" #1BD882
-" #FFC629
-" #FF9E20
-" #FF5D20
+let $jdpurple="#392C55"
+let $jpurple="#7358AA"
+let $jlpurple="#AD84FF"
 
+let $jdorange="#552F0F"
+let $jorange="#AA5E1F"
+let $jlorange="#FF8D2F"
 
+let $jdyellow="#55461A"
+let $jyellow="#AA8D34"
+let $jlyellow="#FFD54F"
 
+let $jvdred="#280400"
+let $jdred="#551A1A"
+let $jred="#AA3535"
+let $jlred="#FF5050"
 
-" #FCD54F
-" #FF8D2F
-" #FF5050
-" #D33682
-" #7D5FB8
-" #4A2591
-" #054a91
-" #268BD2
-" #5FD7FF
-" #2AA198
-" #87FFAF
-" #4CB24C
-
-" #280400
-
+let $jdmagenta="#552A3D"
+let $jmagenta="#AA557B"
+let $jlmagenta="#FF80B9"
 
 " Text:
-hi Boolean guifg=#7D5FB8
-hi Character guifg=#BD5F78
-hi Comment guifg=#06989A
-hi Conditional guifg=#D78700
-hi Constant guifg=#AD7FA8
-hi Debug guifg=#75507B
-hi Define guifg=#5FD7FF
-hi Delimiter guifg=#FFFFFF gui=bold
-hi Error guibg=#EF2929 guifg=#FFFFFF
-hi Exception guifg=#FCD54F
-hi Float guifg=#7D7FB8
-hi Folded guibg=#003B3B guifg=#FFFFFF
-hi Function guifg=#FFFFFF gui=bold
-hi Identifier guifg=#5FD7FF gui=bold
-hi Ignore guifg=#000000
-hi Include guifg=#5FD7FF
-hi Keyword guifg=#FCD54F
-hi Label guifg=#FCD54F
-hi Macro guifg=#5FD7FF
-hi NonText guifg=#5D3F98
-hi Normal guifg=#D3D3D3 guibg=#030303
-hi Number guifg=#7D5FB8
-hi Operator guifg=#D78700
-hi PreCondit guifg=#5FD7FF
-hi PreProc guifg=#5FD7FF
-hi Repeat guifg=#FFFFFF
-hi Search guifg=#000000 guibg=#FCD54F
-hi Special guifg=#75507B
-hi SpecialChar guifg=#75507B
-hi SpecialComment guifg=#75507B
-hi SpellBad guisp=#FF0000
-hi Statement guifg=#FCD54F
-hi StorageClass guifg=#87FFAF
-hi String guifg=#AD7FA8
-hi Structure guifg=#87FFAF
-hi Tag guifg=#75507B
-hi Title guifg=#AD7FA8 gui=bold
-hi Todo guifg=#FCD54F gui=undercurl,bold
-hi Type guifg=#87FFAF
-hi Typedef guifg=#87FFAF
+exe "hi Boolean guifg=" . $jpurple
+exe "hi Character guifg=" . $jlmagenta
+exe "hi Comment guifg=" . $jblue
+exe "hi Conditional guifg=" . $jlorange
+exe "hi Constant guifg=" . $jlpurple
+exe "hi Debug guifg=" . $jpurple
+exe "hi Define guifg=" . $jlblue
+exe "hi Delimiter guifg=" . $jwhite . " gui=bold"
+exe "hi Error guibg=" . $jlred . " guifg=" . $jwhite
+exe "hi Exception guifg=" . $jlyellow
+exe "hi Float guifg=" . $jpurple
+exe "hi Folded guibg=" . $jdgreen . " guifg=" . $jwhite
+exe "hi Function guifg=" . $jwhite . " gui=bold"
+exe "hi Identifier guifg=" . $jlblue . " gui=bold"
+exe "hi Ignore guifg=" . $jblack
+exe "hi Include guifg=" . $jlblue
+exe "hi Keyword guifg=" . $jlyellow
+exe "hi Label guifg=" . $jlyellow
+exe "hi Macro guifg=" . $jlblue
+exe "hi NonText guifg=" . $jlcyan
+exe "hi Normal guifg=" . $jlgrey . " guibg=" . $jblack
+exe "hi Number guifg=" . $jpurple
+exe "hi Operator guifg=" . $jlorange
+exe "hi PreCondit guifg=" . $jlblue
+exe "hi PreProc guifg=" . $jlblue
+exe "hi Repeat guifg=" . $jwhite
+exe "hi Search guifg=" . $jblack . " guibg=" . $jlyellow
+exe "hi Special guifg=" . $jpurple
+exe "hi SpecialChar guifg=" . $jpurple
+exe "hi SpecialComment guifg=" . $jpurple
+exe "hi SpellBad guisp=" . $jlred
+exe "hi Statement guifg=" . $jlyellow
+exe "hi StorageClass guifg=" . $jlgreen
+exe "hi String guifg=" . $jlpurple
+exe "hi Structure guifg=" . $jlgreen
+exe "hi Tag guifg=" . $jpurple
+exe "hi Title guifg=" . $jlpurple . " gui=bold"
+exe "hi Todo guifg=" . $jlyellow . " gui=undercurl,bold"
+exe "hi Type guifg=" . $jlgreen
+exe "hi Typedef guifg=" . $jlgreen
 
-hi link htmlEndTag htmlTag
+exe "hi link htmlEndTag htmlTag"
 
 " Spell:
-hi clear SpellLocal
-hi clear SpellRare
-hi clear SpellCap
+exe "hi clear SpellLocal"
+exe "hi clear SpellRare"
+exe "hi clear SpellCap"
 
 " GUI:
-hi ColorColumn guibg=#280400
-hi CursorColumn guibg=#1E1E1E
-hi CursorLine gui=bold guibg=#1E1E1E
-hi CursorLineNR gui=bold guifg=#5FD7FF guibg=NONE
-hi LineNR guifg=#A8A8A8 guibg=NONE
-hi SpecialKey guibg=#FCD54F
-hi StatusLine gui=NONE guifg=#7D5FB8 guibg=#1E1E1E
-hi StatusLineTerm gui=NONE guifg=#7D5FB8 guibg=#1E1E1E
-hi StatusLineTermNC guibg=NONE
+exe "hi ColorColumn guibg=" . $jvdred
+exe "hi CursorColumn guibg=" . $jdgrey
+exe "hi CursorLine gui=bold guibg=" . $jdgrey
+exe "hi CursorLineNR gui=bold guifg=" . $jlblue . " guibg=NONE"
+exe "hi LineNR guifg=" . $jlgrey . " guibg=NONE"
+exe "hi SpecialKey guibg=" . $jlyellow
+exe "hi StatusLine gui=NONE guifg=" . $jpurple . " guibg=" . $jdgrey
+exe "hi StatusLineTerm gui=NONE guifg=" . $jpurple . " guibg=" . $jdgrey
+exe "hi StatusLineTermNC guibg=NONE"
 " This should keep the vertical split highlight synced with airline, but it doesn't work for insert mode.
 " hi! link VertSplit airline_a
-hi VertSplit guibg=#000000 guifg=#0087AF
-hi WildMenu gui=bold guifg=#FCD54F guibg=#1E1E1E
+exe "hi VertSplit guibg=" . $jblack . " guifg=" . $jblue
+exe "hi WildMenu gui=bold guifg=" . $jlyellow . " guibg=" . $jdgrey
 
 " Git Column:
-hi GitAddSign guifg=#4CB24C gui=bold
-hi GitChangeSign guifg=#5FD7FF gui=bold
-hi GitDeleteSign guifg=#C85050 gui=bold
-hi GitChangeDeleteSign guifg=#75507B gui=bold
+exe "hi GitAddSign guifg=" . $jgreen . " gui=bold"
+exe "hi GitChangeSign guifg=" . $jlblue . " gui=bold"
+exe "hi GitDeleteSign guifg=" . $jlred . " gui=bold"
+exe "hi GitChangeDeleteSign guifg=" . $jpurple . " gui=bold"
 
 " ALE Colors:
-hi ALEWarningSign guifg=#FCD54F guibg=NONE
-hi ALEWarning guifg=NONE guibg=NONE
-hi LintErrorSign guifg=#EF2929 gui=bold
+exe "hi ALEWarningSign guifg=" . $jlyellow . " guibg=NONE"
+exe "hi ALEWarning guifg=NONE guibg=NONE"
+exe "hi LintErrorSign guifg=" . $jlred . " gui=bold"
 
 " Coc Colors:
-hi Pmenu guibg=#555555
-hi PmenuSel guifg=#555555
-hi CocHighlightText gui=underline
+exe "hi Pmenu guibg=" . $jgrey
+exe "hi PmenuSel guifg=" . $jgrey
+exe "hi CocHighlightText gui=underline"
 
 " Space Display And Highlighting:
-hi TrailingSpaces guibg=#C85050
-hi DoubleSpaces guibg=#C85050
+exe "hi TrailingSpaces guibg=" . $jdred
+exe "hi DoubleSpaces guibg=" . $jdred
 augroup spaces
   au!
-  au BufReadPost,BufNewFile * hi DoubleSpaces guibg=#C85050
+  au BufReadPost,BufNewFile * exe "hi DoubleSpaces guibg=" . $jdred
   au BufReadPost,BufNewFile routes hi DoubleSpaces guibg=NONE
 augroup end
 call matchadd('TrailingSpaces', '\s\+$', 100)

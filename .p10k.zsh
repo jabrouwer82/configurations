@@ -70,7 +70,7 @@ fi
       # ranger                  # ranger shell (https://github.com/ranger/ranger)
       # ram                   # free RAM
       # load                  # CPU load
-      battery               # internal battery
+      battery                 # internal battery
       time                    # current time
       # =========================[ Line #2 ]=========================
       newline
@@ -170,7 +170,7 @@ fi
   fi
 
   # Default background color.
-  typeset -g POWERLEVEL9K_BACKGROUND='#444444'
+  typeset -g POWERLEVEL9K_BACKGROUND=$jdgrey
 
   # Separator between same-color segments on the left.
   typeset -g POWERLEVEL9K_LEFT_SUBSEGMENT_SEPARATOR='%246F\uE0B1'
@@ -195,9 +195,9 @@ fi
   # Transparent background.
   typeset -g POWERLEVEL9K_PROMPT_CHAR_BACKGROUND=
   # Green prompt symbol if the last command succeeded.
-  typeset -g POWERLEVEL9K_PROMPT_CHAR_OK_{VIINS,VICMD,VIVIS}_FOREGROUND='#5faf00'
+  typeset -g POWERLEVEL9K_PROMPT_CHAR_OK_{VIINS,VICMD,VIVIS}_FOREGROUND=$jlgreen
   # Red prompt symbol if the last command failed.
-  typeset -g POWERLEVEL9K_PROMPT_CHAR_ERROR_{VIINS,VICMD,VIVIS}_FOREGROUND='#EF2929'
+  typeset -g POWERLEVEL9K_PROMPT_CHAR_ERROR_{VIINS,VICMD,VIVIS}_FOREGROUND=$jlred
   # Default prompt symbol.
   typeset -g POWERLEVEL9K_PROMPT_CHAR_{OK,ERROR}_VIINS_CONTENT_EXPANSION='❯'
   # Prompt symbol in command vi mode.
@@ -213,18 +213,18 @@ fi
 
   ##################################[ dir: current directory ]##################################
   # Default current directory color.
-  typeset -g POWERLEVEL9K_DIR_FOREGROUND='#000000'
-  typeset -g POWERLEVEL9K_DIR_BACKGROUND='#0087af'
+  typeset -g POWERLEVEL9K_DIR_FOREGROUND=$jblack
+  typeset -g POWERLEVEL9K_DIR_BACKGROUND=$jlblue
   # If directory is too long, shorten some of its segments to the shortest possible unique
   # prefix. The shortened directory can be tab-completed to the original.
   typeset -g POWERLEVEL9K_SHORTEN_STRATEGY=truncate_to_unique
   # Replace removed segment suffixes with this symbol.
   typeset -g POWERLEVEL9K_SHORTEN_DELIMITER=
   # Color of the shortened directory segments.
-  typeset -g POWERLEVEL9K_DIR_SHORTENED_FOREGROUND='#002277'
+  typeset -g POWERLEVEL9K_DIR_SHORTENED_FOREGROUND=$jblue
   # Color of the anchor directory segments. Anchor segments are never shortened. The first
   # segment is always an anchor.
-  typeset -g POWERLEVEL9K_DIR_ANCHOR_FOREGROUND='#383838'
+  typeset -g POWERLEVEL9K_DIR_ANCHOR_FOREGROUND=$jdgrey
   # Display anchor directory segments in bold.
   typeset -g POWERLEVEL9K_DIR_ANCHOR_BOLD=true
   # Don't shorten directories that contain any of these files. They are anchors.
@@ -304,7 +304,7 @@ fi
   # FOREGROUND, SHORTENED_FOREGROUND and ANCHOR_FOREGROUND for every directory class that you wish
   # to have its own color.
   #
-  #   typeset -g POWERLEVEL9K_DIR_WORK_FOREGROUND='#0087af'
+  #   typeset -g POWERLEVEL9K_DIR_WORK_FOREGROUND=$jlblue
   #   typeset -g POWERLEVEL9K_DIR_WORK_SHORTENED_FOREGROUND=103
   #   typeset -g POWERLEVEL9K_DIR_WORK_ANCHOR_FOREGROUND=39
   #
@@ -342,18 +342,18 @@ fi
   # typeset -g POWERLEVEL9K_VCS_UNTRACKED_FOREGROUND=76
   # typeset -g POWERLEVEL9K_VCS_MODIFIED_FOREGROUND=178
 
-  typeset -g POWERLEVEL9K_VCS_CLEAN_FOREGROUND='#000000'
-  typeset -g POWERLEVEL9K_VCS_CLEAN_BACKGROUND='#5faf00'
-  typeset -g POWERLEVEL9K_VCS_UNTRACKED_FOREGROUND='#000000'
-  typeset -g POWERLEVEL9K_VCS_UNTRACKED_BACKGROUND='#d78700'
-  typeset -g POWERLEVEL9K_VCS_MODIFIED_FOREGROUND='#000000'
-  typeset -g POWERLEVEL9K_VCS_MODIFIED_BACKGROUND='#EF2929'
-  typeset -g POWERLEVEL9K_VCS_{CLEAN,UNTRACKED,MODIFIED}_UNTRACKEDFORMAT_FOREGROUND='#000000'
-  typeset -g POWERLEVEL9K_VCS_{CLEAN,UNTRACKED,MODIFIED}_UNSTAGEDFORMAT_FOREGROUND='#000000'
-  typeset -g POWERLEVEL9K_VCS_{CLEAN,UNTRACKED,MODIFIED}_STAGEDFORMAT_FOREGROUND='#000000'
-  typeset -g POWERLEVEL9K_VCS_{CLEAN,UNTRACKED,MODIFIED}_INCOMING_CHANGESFORMAT_FOREGROUND='#000000'
-  typeset -g POWERLEVEL9K_VCS_{CLEAN,UNTRACKED,MODIFIED}_OUTGOING_CHANGESFORMAT_FOREGROUND='#000000'
-  typeset -g POWERLEVEL9K_VCS_{CLEAN,UNTRACKED,MODIFIED}_ACTIONFORMAT_FOREGROUND='#000000'
+  typeset -g POWERLEVEL9K_VCS_CLEAN_FOREGROUND=$jblack
+  typeset -g POWERLEVEL9K_VCS_CLEAN_BACKGROUND=$jlgreen
+  typeset -g POWERLEVEL9K_VCS_UNTRACKED_FOREGROUND=$jblack
+  typeset -g POWERLEVEL9K_VCS_UNTRACKED_BACKGROUND=$jlorange
+  typeset -g POWERLEVEL9K_VCS_MODIFIED_FOREGROUND=$jblack
+  typeset -g POWERLEVEL9K_VCS_MODIFIED_BACKGROUND=$jlred
+  typeset -g POWERLEVEL9K_VCS_{CLEAN,UNTRACKED,MODIFIED}_UNTRACKEDFORMAT_FOREGROUND=$jblack
+  typeset -g POWERLEVEL9K_VCS_{CLEAN,UNTRACKED,MODIFIED}_UNSTAGEDFORMAT_FOREGROUND=$jblack
+  typeset -g POWERLEVEL9K_VCS_{CLEAN,UNTRACKED,MODIFIED}_STAGEDFORMAT_FOREGROUND=$jblack
+  typeset -g POWERLEVEL9K_VCS_{CLEAN,UNTRACKED,MODIFIED}_INCOMING_CHANGESFORMAT_FOREGROUND=$jblack
+  typeset -g POWERLEVEL9K_VCS_{CLEAN,UNTRACKED,MODIFIED}_OUTGOING_CHANGESFORMAT_FOREGROUND=$jblack
+  typeset -g POWERLEVEL9K_VCS_{CLEAN,UNTRACKED,MODIFIED}_ACTIONFORMAT_FOREGROUND=$jblack
 
   typeset -g POWERLEVEL9K_VCS_GIT_HOOKS=(vcs-detect-changes git-untracked git-aheadbehind git-remotebranch git-tagname)
 
@@ -365,24 +365,24 @@ fi
   # Status on success. No content, just an icon. No need to show it if prompt_char is enabled as
   # it will signify success by turning green.
   typeset -g POWERLEVEL9K_STATUS_OK=false
-  typeset -g POWERLEVEL9K_STATUS_OK_FOREGROUND='#5faf00'
+  typeset -g POWERLEVEL9K_STATUS_OK_FOREGROUND=$jlgreen
   typeset -g POWERLEVEL9K_STATUS_OK_VISUAL_IDENTIFIER_EXPANSION='✔'
 
   # Status when some part of a pipe command fails but the overall exit status is zero. It may look
   # like this: 1|0.
   typeset -g POWERLEVEL9K_STATUS_OK_PIPE=true
-  typeset -g POWERLEVEL9K_STATUS_OK_PIPE_FOREGROUND='#5faf00'
+  typeset -g POWERLEVEL9K_STATUS_OK_PIPE_FOREGROUND=$jlgreen
   typeset -g POWERLEVEL9K_STATUS_OK_PIPE_VISUAL_IDENTIFIER_EXPANSION='✔'
 
   # Status when it's just an error code (e.g., '1'). No need to show it if prompt_char is enabled as
   # it will signify error by turning red.
   typeset -g POWERLEVEL9K_STATUS_ERROR=false
-  typeset -g POWERLEVEL9K_STATUS_ERROR_FOREGROUND='#EF2929'
+  typeset -g POWERLEVEL9K_STATUS_ERROR_FOREGROUND=$jlred
   typeset -g POWERLEVEL9K_STATUS_ERROR_VISUAL_IDENTIFIER_EXPANSION='↵'
 
   # Status when the last command was terminated by a signal.
   typeset -g POWERLEVEL9K_STATUS_ERROR_SIGNAL=true
-  typeset -g POWERLEVEL9K_STATUS_ERROR_SIGNAL_FOREGROUND='#EF2929'
+  typeset -g POWERLEVEL9K_STATUS_ERROR_SIGNAL_FOREGROUND=$jlred
   # Use terse signal names: "INT" instead of "SIGINT(2)".
   typeset -g POWERLEVEL9K_STATUS_VERBOSE_SIGNAME=false
   typeset -g POWERLEVEL9K_STATUS_ERROR_SIGNAL_VISUAL_IDENTIFIER_EXPANSION='↵'
@@ -390,7 +390,7 @@ fi
   # Status when some part of a pipe command fails and the overall exit status is also non-zero.
   # It may look like this: 1|0.
   typeset -g POWERLEVEL9K_STATUS_ERROR_PIPE=true
-  typeset -g POWERLEVEL9K_STATUS_ERROR_PIPE_FOREGROUND='#EF2929'
+  typeset -g POWERLEVEL9K_STATUS_ERROR_PIPE_FOREGROUND=$jlred
   typeset -g POWERLEVEL9K_STATUS_ERROR_PIPE_VISUAL_IDENTIFIER_EXPANSION='↵'
 
   ###################[ command_execution_time: duration of the last command ]###################
@@ -400,7 +400,7 @@ fi
   # Show this many fractional digits. Zero means round to seconds.
   typeset -g POWERLEVEL9K_COMMAND_EXECUTION_TIME_PRECISION=2
   # Execution time color.
-  typeset -g POWERLEVEL9K_COMMAND_EXECUTION_TIME_FOREGROUND='#a8a8a8'
+  typeset -g POWERLEVEL9K_COMMAND_EXECUTION_TIME_FOREGROUND=$jlgrey
   # Duration format: 1d 2h 3m 4s.
   typeset -g POWERLEVEL9K_COMMAND_EXECUTION_TIME_FORMAT='d h m s'
   # Custom icon.
@@ -412,18 +412,18 @@ fi
   # Don't show the number of background jobs.
   typeset -g POWERLEVEL9K_BACKGROUND_JOBS_VERBOSE=false
   # Background jobs color.
-  typeset -g POWERLEVEL9K_BACKGROUND_JOBS_FOREGROUND='#00afaf'
+  typeset -g POWERLEVEL9K_BACKGROUND_JOBS_FOREGROUND=$jlcyan
   # Icon to show when there are background jobs.
   typeset -g POWERLEVEL9K_BACKGROUND_JOBS_VISUAL_IDENTIFIER_EXPANSION='${P9K_VISUAL_IDENTIFIER}'
 
   ####################################[ context: user@host ]####################################
   # Default context color.
-  typeset -g POWERLEVEL9K_CONTEXT_FOREGROUND='#d7af87'
+  typeset -g POWERLEVEL9K_CONTEXT_FOREGROUND=$jorange
   # Default context format: %n is username, %m is hostname.
   typeset -g POWERLEVEL9K_CONTEXT_TEMPLATE='%n@%m'
 
   # Context color when running with privileges.
-  typeset -g POWERLEVEL9K_CONTEXT_ROOT_FOREGROUND='#d7af00'
+  typeset -g POWERLEVEL9K_CONTEXT_ROOT_FOREGROUND=$jlorange
   # Context format when running with privileges: %n is username, %m is hostname.
   typeset -g POWERLEVEL9K_CONTEXT_ROOT_TEMPLATE='%n@%m'
 
@@ -437,7 +437,7 @@ fi
 
   ################[ terraform: terraform workspace (https://www.terraform.io) ]#################
   # Terraform color.
-  typeset -g POWERLEVEL9K_TERRAFORM_FOREGROUND='#00afd7'
+  typeset -g POWERLEVEL9K_TERRAFORM_FOREGROUND=$jlblue
   # Custom icon.
   # typeset -g POWERLEVEL9K_TERRAFORM_VISUAL_IDENTIFIER_EXPANSION='⭐'
 
@@ -472,7 +472,7 @@ fi
       # '*prod*'  PROD    # These values are examples that are unlikely
       # '*test*'  TEST    # to match your needs. Customize them as needed.
       '*'       DEFAULT)
-  typeset -g POWERLEVEL9K_KUBECONTEXT_DEFAULT_FOREGROUND='#af5fd7'
+  typeset -g POWERLEVEL9K_KUBECONTEXT_DEFAULT_FOREGROUND=$jlpurple
   typeset -g POWERLEVEL9K_KUBECONTEXT_DEFAULT_VISUAL_IDENTIFIER_EXPANSION=''
 
   # Use POWERLEVEL9K_KUBECONTEXT_CONTENT_EXPANSION to specify the content displayed by kubecontext
@@ -524,21 +524,21 @@ fi
 
   ###############################[ public_ip: public IP address ]###############################
   # Public IP color.
-  typeset -g POWERLEVEL9K_PUBLIC_IP_FOREGROUND='#875f00'
+  typeset -g POWERLEVEL9K_PUBLIC_IP_FOREGROUND=$jlorange
   # Custom icon.
   # typeset -g POWERLEVEL9K_PUBLIC_IP_VISUAL_IDENTIFIER_EXPANSION='⭐'
 
   ################################[ battery: internal battery ]#################################
   # Show battery in red when it's below this level and not connected to power supply.
   typeset -g POWERLEVEL9K_BATTERY_LOW_THRESHOLD=4
-  typeset -g POWERLEVEL9K_BATTERY_LOW_BACKGROUND='#EF2929'
-  typeset -g POWERLEVEL9K_BATTERY_LOW_FOREGROUND='#000000'
-  typeset -g POWERLEVEL9K_BATTERY_{CHARGING,CHARGED}_FOREGROUND='#000000'
-  typeset -g POWERLEVEL9K_BATTERY_DISCONNECTED_FOREGROUND='#000000'
+  typeset -g POWERLEVEL9K_BATTERY_LOW_BACKGROUND=$jlred
+  typeset -g POWERLEVEL9K_BATTERY_LOW_FOREGROUND=$jblack
+  typeset -g POWERLEVEL9K_BATTERY_{CHARGING,CHARGED}_FOREGROUND=$jblack
+  typeset -g POWERLEVEL9K_BATTERY_DISCONNECTED_FOREGROUND=$jblack
   # Show battery in green when it's charging or fully charged.
-  typeset -g POWERLEVEL9K_BATTERY_{CHARGING,CHARGED}_BACKGROUND='#5faf00'
+  typeset -g POWERLEVEL9K_BATTERY_{CHARGING,CHARGED}_BACKGROUND=$jlgreen
   # Show battery in yellow when it's discharging.
-  typeset -g POWERLEVEL9K_BATTERY_DISCONNECTED_BACKGROUND='#d78700'
+  typeset -g POWERLEVEL9K_BATTERY_DISCONNECTED_BACKGROUND=$jlorange
   # typeset -g POWERLEVEL9K_BATTERY_{LOW,CHARGING,CHARGED,DISCONNECTED}_BACKGROUND=
   # Battery pictograms going from low to high level of charge.
   typeset -g POWERLEVEL9K_BATTERY_STAGES=$'\uf58d\uf579\uf57a\uf57b\uf57c\uf57d\uf57e\uf57f\uf580\uf581\uf578'
@@ -547,8 +547,8 @@ fi
 
   ####################################[ time: current time ]####################################
   # Current time color.
-  typeset -g POWERLEVEL9K_TIME_FOREGROUND='#000000'
-  typeset -g POWERLEVEL9K_TIME_BACKGROUND='#0087af'
+  typeset -g POWERLEVEL9K_TIME_FOREGROUND=$jblack
+  typeset -g POWERLEVEL9K_TIME_BACKGROUND=$jlblue
   # Format for the current time: 09:51:02. See `man 3 strftime`.
   typeset -g POWERLEVEL9K_TIME_FORMAT='%D{%H:%M:%S %d/%m}'
   # If set to true, time will update when you hit enter. This way prompts for the past
