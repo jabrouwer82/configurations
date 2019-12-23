@@ -5,46 +5,6 @@ if exists('syntax_on')
 endif
 let g:colors_name = 'jacob'
 
-let $jblack="#00080A"
-let $jwhite="#E4FDFD"
-
-let $jdgrey="#252A2d"
-let $jgrey="#6B7A82"
-let $jlgrey="#B1CBD7"
-
-let $jdblue="#0D3D55"
-let $jblue="#1A7DAA"
-let $jlblue="#28B8FF"
-
-let $jdcyan="#165550"
-let $jcyan="#2CAAA0"
-let $jlcyan="#42FFF0"
-
-let $jdgreen="#2D553A"
-let $jgreen="#5AAA75"
-let $jlgreen="#87FFAF"
-
-let $jdpurple="#392C55"
-let $jpurple="#7358AA"
-let $jlpurple="#AD84FF"
-
-let $jdorange="#552F0F"
-let $jorange="#AA5E1F"
-let $jlorange="#FF8D2F"
-
-let $jdyellow="#55461A"
-let $jyellow="#AA8D34"
-let $jlyellow="#FFD54F"
-
-let $jvdred="#280400"
-let $jdred="#551A1A"
-let $jred="#AA3535"
-let $jlred="#FF5050"
-
-let $jdmagenta="#552A3D"
-let $jmagenta="#AA557B"
-let $jlmagenta="#FF80B9"
-
 " Text:
 exe "hi Boolean guifg=" . $jpurple
 exe "hi Character guifg=" . $jlmagenta
@@ -65,7 +25,7 @@ exe "hi Include guifg=" . $jlblue
 exe "hi Keyword guifg=" . $jlyellow
 exe "hi Label guifg=" . $jlyellow
 exe "hi Macro guifg=" . $jlblue
-exe "hi NonText guifg=" . $jlcyan
+exe "hi NonText guifg=" . $jmagenta
 exe "hi Normal guifg=" . $jlgrey . " guibg=" . $jblack
 exe "hi Number guifg=" . $jpurple
 exe "hi Operator guifg=" . $jlorange
@@ -103,10 +63,10 @@ exe "hi LineNR guifg=" . $jlgrey . " guibg=NONE"
 exe "hi SpecialKey guibg=" . $jlyellow
 exe "hi StatusLine gui=NONE guifg=" . $jpurple . " guibg=" . $jdgrey
 exe "hi StatusLineTerm gui=NONE guifg=" . $jpurple . " guibg=" . $jdgrey
-exe "hi StatusLineTermNC guibg=NONE"
+exe "hi StatusLineTermNC guibg=" . $jlblue
 " This should keep the vertical split highlight synced with airline, but it doesn't work for insert mode.
 " hi! link VertSplit airline_a
-exe "hi VertSplit guibg=" . $jblack . " guifg=" . $jblue
+exe "hi VertSplit guibg=" . $jlblue . " guifg=" . $jlblue
 exe "hi WildMenu gui=bold guifg=" . $jlyellow . " guibg=" . $jdgrey
 
 " Git Column:
@@ -121,8 +81,8 @@ exe "hi ALEWarning guifg=NONE guibg=NONE"
 exe "hi LintErrorSign guifg=" . $jlred . " gui=bold"
 
 " Coc Colors:
-exe "hi Pmenu guibg=" . $jgrey
-exe "hi PmenuSel guifg=" . $jgrey
+exe "hi Pmenu guibg=" . $jdblue
+exe "hi PmenuSel guifg=" . $jdgrey
 exe "hi CocHighlightText gui=underline"
 
 " Space Display And Highlighting:

@@ -195,7 +195,7 @@ fi
   # Transparent background.
   typeset -g POWERLEVEL9K_PROMPT_CHAR_BACKGROUND=
   # Green prompt symbol if the last command succeeded.
-  typeset -g POWERLEVEL9K_PROMPT_CHAR_OK_{VIINS,VICMD,VIVIS}_FOREGROUND=$jlgreen
+  typeset -g POWERLEVEL9K_PROMPT_CHAR_OK_{VIINS,VICMD,VIVIS}_FOREGROUND=$jgreen
   # Red prompt symbol if the last command failed.
   typeset -g POWERLEVEL9K_PROMPT_CHAR_ERROR_{VIINS,VICMD,VIVIS}_FOREGROUND=$jlred
   # Default prompt symbol.
@@ -343,7 +343,7 @@ fi
   # typeset -g POWERLEVEL9K_VCS_MODIFIED_FOREGROUND=178
 
   typeset -g POWERLEVEL9K_VCS_CLEAN_FOREGROUND=$jblack
-  typeset -g POWERLEVEL9K_VCS_CLEAN_BACKGROUND=$jlgreen
+  typeset -g POWERLEVEL9K_VCS_CLEAN_BACKGROUND=$jgreen
   typeset -g POWERLEVEL9K_VCS_UNTRACKED_FOREGROUND=$jblack
   typeset -g POWERLEVEL9K_VCS_UNTRACKED_BACKGROUND=$jlorange
   typeset -g POWERLEVEL9K_VCS_MODIFIED_FOREGROUND=$jblack
@@ -365,13 +365,13 @@ fi
   # Status on success. No content, just an icon. No need to show it if prompt_char is enabled as
   # it will signify success by turning green.
   typeset -g POWERLEVEL9K_STATUS_OK=false
-  typeset -g POWERLEVEL9K_STATUS_OK_FOREGROUND=$jlgreen
+  typeset -g POWERLEVEL9K_STATUS_OK_FOREGROUND=$jgreen
   typeset -g POWERLEVEL9K_STATUS_OK_VISUAL_IDENTIFIER_EXPANSION='✔'
 
   # Status when some part of a pipe command fails but the overall exit status is zero. It may look
   # like this: 1|0.
   typeset -g POWERLEVEL9K_STATUS_OK_PIPE=true
-  typeset -g POWERLEVEL9K_STATUS_OK_PIPE_FOREGROUND=$jlgreen
+  typeset -g POWERLEVEL9K_STATUS_OK_PIPE_FOREGROUND=$jgreen
   typeset -g POWERLEVEL9K_STATUS_OK_PIPE_VISUAL_IDENTIFIER_EXPANSION='✔'
 
   # Status when it's just an error code (e.g., '1'). No need to show it if prompt_char is enabled as
@@ -536,7 +536,7 @@ fi
   typeset -g POWERLEVEL9K_BATTERY_{CHARGING,CHARGED}_FOREGROUND=$jblack
   typeset -g POWERLEVEL9K_BATTERY_DISCONNECTED_FOREGROUND=$jblack
   # Show battery in green when it's charging or fully charged.
-  typeset -g POWERLEVEL9K_BATTERY_{CHARGING,CHARGED}_BACKGROUND=$jlgreen
+  typeset -g POWERLEVEL9K_BATTERY_{CHARGING,CHARGED}_BACKGROUND=$jgreen
   # Show battery in yellow when it's discharging.
   typeset -g POWERLEVEL9K_BATTERY_DISCONNECTED_BACKGROUND=$jlorange
   # typeset -g POWERLEVEL9K_BATTERY_{LOW,CHARGING,CHARGED,DISCONNECTED}_BACKGROUND=

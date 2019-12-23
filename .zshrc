@@ -1,6 +1,6 @@
 source ~/.exa_colors.zsh # Customizes the color scheme of ls and exa.
 
-# source /Users/jbrouwer/.ghcup/env
+# source ~/.ghcup/env
 
 typeset -U fpath
 fpath+=(
@@ -53,8 +53,8 @@ zplugin wait'0a' depth'1' lucid for \
   b4b4r07/emoji-cli \
 
 zplugin ice wait'0a' depth'1' lucid atload'
-typeset -g HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND='"'"'bg=#0087AF,fg=white,bold'"'"'
-typeset -g HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_NOT_FOUND='"'"'bg=#EF2929,fg=white,bold'"'"'
+typeset -g HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND='"'""bg=$jblue,fg=$jwhite,bold""'"'
+typeset -g HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_NOT_FOUND='"'""bg=$jlred,fg=$jwhite,bold""'"'
 '
 zplugin load zsh-users/zsh-history-substring-search
 
@@ -173,7 +173,6 @@ export WORK="$HOME/work/"
 export SCF="$HOME/work/foundation"
 export CFG="$HOME/personal/configurations/"
 export CLOUDSDK_CORE_PROJECT='sparkcognition-dev'
-# Use ripgrep for fzf to respect gitignore files.
 export HISTFILE=$HOME/.zsh_history
 export HISTSIZE=50000
 export SAVEHIST=10000
@@ -191,10 +190,6 @@ alias ipyinstall="cd ~/work/test/ipython && pip install -e"
 #alias ls="ls -AlFhG"
 alias ls="exa -mlha --git --git-ignore --time-style long-iso"
 alias gl="git status"
-alias rgsc="rg -tscala"
-alias rgpy="rg -tpy"
-alias rgts="rg -tts"
-alias rgjs="rg -tjs"
 alias reboot="echo nap"
 alias rm="trash-put"
 alias vi="vim"

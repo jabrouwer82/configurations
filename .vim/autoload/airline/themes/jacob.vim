@@ -1,8 +1,6 @@
 let g:airline#themes#jacob#palette = {}
 
-let $jlblue = '#6E4E8E'
-
-let s:N_A = [$jblack, $jlpurple, 232, 45]
+let s:N_A = [$jblack, $jlblue, 232, 45]
 let s:N_B = [$jlorange, $jdgrey, 202, 234]
 let s:N_C = [$jlgrey, $jblack, 243, 232]
 let g:airline#themes#jacob#palette.normal = airline#themes#generate_color_map(s:N_A, s:N_B, s:N_C)

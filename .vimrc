@@ -194,8 +194,8 @@ set spell
 
 " Environment:
 " This makes it easy to do :term man <cmd>, less gets weird.
-export MANPAGER='cat'
-
+let $MANPAGER='cat'
+export test="asdf"
 
 
 " AUTOCMDS:
