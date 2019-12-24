@@ -214,14 +214,14 @@ fi
   ##################################[ dir: current directory ]##################################
   # Default current directory color.
   typeset -g POWERLEVEL9K_DIR_FOREGROUND=$jblack
-  typeset -g POWERLEVEL9K_DIR_BACKGROUND=$jlblue
+  typeset -g POWERLEVEL9K_DIR_BACKGROUND=$jblue
   # If directory is too long, shorten some of its segments to the shortest possible unique
   # prefix. The shortened directory can be tab-completed to the original.
   typeset -g POWERLEVEL9K_SHORTEN_STRATEGY=truncate_to_unique
   # Replace removed segment suffixes with this symbol.
   typeset -g POWERLEVEL9K_SHORTEN_DELIMITER=
   # Color of the shortened directory segments.
-  typeset -g POWERLEVEL9K_DIR_SHORTENED_FOREGROUND=$jblue
+  typeset -g POWERLEVEL9K_DIR_SHORTENED_FOREGROUND=$jdblue
   # Color of the anchor directory segments. Anchor segments are never shortened. The first
   # segment is always an anchor.
   typeset -g POWERLEVEL9K_DIR_ANCHOR_FOREGROUND=$jdgrey
@@ -548,7 +548,7 @@ fi
   ####################################[ time: current time ]####################################
   # Current time color.
   typeset -g POWERLEVEL9K_TIME_FOREGROUND=$jblack
-  typeset -g POWERLEVEL9K_TIME_BACKGROUND=$jlblue
+  typeset -g POWERLEVEL9K_TIME_BACKGROUND=$jblue
   # Format for the current time: 09:51:02. See `man 3 strftime`.
   typeset -g POWERLEVEL9K_TIME_FORMAT='%D{%H:%M:%S %d/%m}'
   # If set to true, time will update when you hit enter. This way prompts for the past

@@ -3,25 +3,25 @@ BG='48;2;'
 BOLD=';1'
 UNDER=';4'
 
-TODO=$FG$jwhite2';'$BG$jlred2
-CHECK=$FG$jlred2';'$BG$jwhite2
-CODE=$FG$jlblue2
-CONFIG=$FG$jpurple2
-OTHER=$FG$jdblue2
-DATA=$FG$jdgreen2
+TODO=$FG$jwhite2';'$BG$jlredexa
+CHECK=$FG$jlred2';'$BG$jwhiteexa
+CODE=$FG$jlblueexa
+CONFIG=$FG$jlpurpleexa
+OTHER=$FG$jdblueexa
+DATA=$FG$jgreenexa
 
 RAW_LS_COLORS=(
   'no='$TODO # Default.
   'rs='$TODO # Reset.
 
-  'di='$FG$jlgreen2 # Directories.
-  'ex='$FG$jlorange2 # Executable Files.
-  'fi='$FG$jlgrey2 # Normal file.
-  'ln='$FG$jwhite2 # Symlinks.
-  'mh='$FG$jwhite2 # Regular files with more than one line.
-  'mi='$UNDER$FG$jlred2$UNDER # Non-existent file pointed to by a symbolic link.
-  'or='$FG$jlred2 # Symlinks with no target.
-  'pi='$FG$jlorange2 # Named Pipes.
+  'di='$FG$jlgreenexa # Directories.
+  'ex='$FG$jlorangeexa # Executable Files.
+  'fi='$FG$jlgreyexa # Normal file.
+  'ln='$FG$jwhiteexa # Symlinks.
+  'mh='$FG$jwhiteexa # Regular files with more than one line.
+  'mi='$UNDER$FG$jlredexa$UNDER # Non-existent file pointed to by a symbolic link.
+  'or='$FG$jlredexa # Symlinks with no target.
+  'pi='$FG$jlorangeexa # Named Pipes.
 
   'ow='$TODO # Directory that is other-writable (o+w)
   'do='$TODO # Door.
@@ -153,7 +153,10 @@ RAW_LS_COLORS=(
 
   # Config
   '.*rc='$CONFIG
+  '.*env='$CONFIG
   '*conf='$CONFIG
+  '*config='$CONFIG
+  '*attributes='$CONFIG
   '*.git='$CONFIG
   '*.toml='$CONFIG
   '*.lock='$CONFIG
@@ -209,43 +212,43 @@ RAW_LS_COLORS=(
 )
 
 RAW_EXA_COLORS=(
-  'hd='$FG$jwhite2 # The header row of a table.
-  'xx='$FG$jdgrey2 # "punctuation", including many background UI elements.
+  'hd='$FG$jwhiteexa # The header row of a table.
+  'xx='$FG$jdgreyexa # "punctuation", including many background UI elements.
 
-  'ur='$FG$jdpurple2 # The user-read permission bit.
-  'gr='$FG$jdpurple2 # The group-read permission bit.
-  'tr='$FG$jdpurple2 # The world-read permission bit.
+  'ur='$FG$jpurpleexa # The user-read permission bit.
+  'gr='$FG$jpurpleexa # The group-read permission bit.
+  'tr='$FG$jpurpleexa # The world-read permission bit.
 
-  'uw='$FG$jpurple2 # The user-write permission bit.
-  'gw='$FG$jpurple2 # The group-write permission bit.
-  'tw='$FG$jpurple2 # The world-write permission bit.
+  'uw='$FG$jlpurpleexa # The user-write permission bit.
+  'gw='$FG$jlpurpleexa # The group-write permission bit.
+  'tw='$FG$jlpurpleexa # The world-write permission bit.
 
-  'ux='$FG$jred2 # The user-execute permission bit for regular files.
-  'ue='$FG$jred2 # The user-execute for other file kinds.
-  'gx='$FG$jred2 # The group-execute permission bit.
-  'tx='$FG$jred2 # The world-execute permission bit.
+  'ux='$FG$jlredexa # The user-execute permission bit for regular files.
+  'ue='$FG$jlredexa # The user-execute for other file kinds.
+  'gx='$FG$jlredexa # The group-execute permission bit.
+  'tx='$FG$jlredexa # The world-execute permission bit.
 
-  'sn='$FG$jblue2 # The numbers of a file='s size.
-  'sb='$FG$jlblue2 # The units of a file='s size.
+  'sn='$FG$jblueexa # The numbers of a file='s size.
+  'sb='$FG$jlblueexa # The units of a file='s size.
 
-  'uu='$FG$jdblue2 # A user that='s you.
-  'un='$FG$jlblue2 # A user that='s someone else.
-  'gu='$FG$jgrey2 # A group that you belong to.
-  'gn='$FG$jlred2$BOLD # A group you aren't a member of.
+  'uu='$FG$jdblueexa # A user that='s you.
+  'un='$FG$jlblueexa # A user that='s someone else.
+  'gu='$FG$jgreyexa # A group that you belong to.
+  'gn='$FG$jlredexa$BOLD # A group you aren't a member of.
 
-  'da='$FG$jlgrey2 # A file='s date.
+  'da='$FG$jlgreyexa # A file='s date.
 
-  'ga='$FG$jgreen2 # A new flag in Git.
-  'gm='$FG$jlblue2 # A modified flag in Git.
-  'gd='$RG$jlred2 # A deleted flag in Git.
-  'gv='$FG$jgreen2 # A renamed flag in Git.
-  'gt='$FG$jlblue2 # A modified metadata flag in Git.
+  'ga='$FG$jgreenexa # A new flag in Git.
+  'gm='$FG$jlblueexa # A modified flag in Git.
+  'gd='$RG$jlredexa # A deleted flag in Git.
+  'gv='$FG$jgreenexa # A renamed flag in Git.
+  'gt='$FG$jlblueexa # A modified metadata flag in Git.
 
-  'lp='$FG$jlgrey2 # The path of a symlink.
-  'cc='$FG$jpurple2 # An escaped character in a filename.
-  'bO='$FG$jlred2 # The overlay style for broken symlink paths.
+  'lp='$FG$jlgreyexa # The path of a symlink.
+  'cc='$FG$jpurpleexa # An escaped character in a filename.
+  'bO='$FG$jlredexa # The overlay style for broken symlink paths.
 
-  'xa='$FG$jgrey2 # The extended attribute indicator.
+  'xa='$FG$jgreyexa # The extended attribute indicator.
 
   'df='$TODO # A device='s major ID.
   'ds='$TODO # A device='s minor ID.

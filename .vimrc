@@ -45,7 +45,7 @@ colorscheme jacob
 set guioptions=
 
 " Displays tabs, nbsps, and trailing spaces with printable characters.
-set list listchars=tab:▸\ ,nbsp:·,trail:·
+set list listchars=tab:▸\ ,nbsp:·,trail:–
 " Shows a fancy arrow on wrapped lines.
 set showbreak=↪\ 
 
@@ -195,7 +195,6 @@ set spell
 " Environment:
 " This makes it easy to do :term man <cmd>, less gets weird.
 let $MANPAGER='cat'
-export test="asdf"
 
 
 " AUTOCMDS:
@@ -403,13 +402,13 @@ noremap [w :wincmd w<CR>
 noremap ]w :wincmd W<CR>
 
 " <leader>n or <leader>- will create a new split below this one.
-noremap ;n :wincmd n<CR>
-noremap ;- :wincmd n<CR>
+noremap <leader>n :wincmd n<CR>
+noremap <leader>- :wincmd n<CR>
 
 " <leader>v or <leader>\ or <leader>| will create a new split to the right of this one.
-noremap ;n :wincmd v<CR>
-noremap ;<bslash> :wincmd v<CR>
-noremap ;<Bar> :wincmd v<CR>
+noremap <leader>v :wincmd v<CR>
+noremap <leader><bslash> :wincmd v<CR>
+noremap <leader><Bar> :wincmd v<CR>
 
 " Esc to enter terminal normal mode
 tnoremap <Esc> <C-\><C-n>
@@ -492,6 +491,10 @@ noremap <leader>` :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . 
 noremap <expr> <Home> col('.') == match(getline('.'),'\S')+1 ? '0' : '^'
 imap <Home> <C-O><Home>
 
+
+" Vim-polyglot:
+let g:polyglot_disabled = ['scala']
+
 " PLUGINS:
 " Auto-install vim-plug. This places probably too much trust in junegunn's github.
 if empty(glob('~/.vim/autoload/plug.vim'))
@@ -542,6 +545,7 @@ Plug 'tommcdo/vim-fubitive' " Bitbucket plugin for fugitive
 Plug 'tpope/vim-rhubarb' " Githug plugin for fugitive
 Plug 'zplugin/zplugin-vim-syntax' " Syntax highlighting for zplugin.
 " Plug 'roman/golden-ratio' " Automatically resize windows.
+Plug 'jabrouwer82/vim-scala' " My customized version of derekwyatt/vim-scala.
 call plug#end()
 
 " Caser:

@@ -28,12 +28,11 @@ case "$OSTYPE" in
   ;;
 esac
 
-# Use java 8
-
+# Important: These must use uppercase hex letters for bs to work properly.
 export jblack="#00080A"
 export jwhite="#E4FDFD"
 
-export jdgrey="#252A2d"
+export jdgrey="#252A2D"
 export jgrey="#6B7A82"
 export jlgrey="#B1CBD7"
 
