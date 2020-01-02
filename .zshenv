@@ -20,7 +20,7 @@ case "$OSTYPE" in
   darwin*)
     export HOMEBREW_NO_AUTO_UPDATE=1
     export JAVA_HOME='/Library/Java/JavaVirtualMachines/adoptopenjdk-8.jdk/Contents/Home'
-    export RIPGREP_CONFIG_PATH="/home/jbrouwer/.ripgreprc"
+    export RIPGREP_CONFIG_PATH="/Users/jbrouwer/.ripgreprc"
   ;;
   linux*)
     export JAVA_HOME='/usr/lib/jvm/default/'
@@ -167,4 +167,5 @@ export jdmagentarg=$(rghex $jdmagenta)
 export jmagentarg=$(rghex $jmagenta)
 export jlmagentarg=$(rghex $jlmagenta)
 
+# Can't use variables in .ripgreprc, so this has to be an alias.
 alias rg="rg --colors=line:fg:$jlbluerg --colors=line:style:nobold --colors=path:fg:$jlpurplerg --colors=path:style:nobold --colors=match:fg:$jblackrg --colors=match:bg:$jlyellowrg --colors=match:style:nobold"

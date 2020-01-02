@@ -25,7 +25,7 @@ if [[ ! -d ~/.zplugin/bin/ ]]; then
 fi
 source ~/.zplugin/bin/zplugin.zsh
 
-zplugin ice wait'!0a' depth'1' atload'!source ~/.p10k.zsh; _p9k_precmd' nocd
+zplugin ice wait'!0a' depth'1' atload'!source ~/.p10k.zsh; _p9k_precmd' nocd lucid
 zplugin load romkatv/powerlevel10k
 
 # Completions

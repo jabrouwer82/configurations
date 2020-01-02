@@ -527,10 +527,10 @@ Plug 'sheerun/vim-polyglot'
 Plug 'markonm/traces.vim'
 Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
 Plug 'jeffkreeftmeijer/vim-numbertoggle'
-" Plug 'TaDaa/vimade' " Fades inactive buffers.
-Plug 'qpkorr/vim-bufkill'
-Plug 'regedarek/zoomwin'
-Plug 'andrewradev/bufferize.vim'
+Plug 'TaDaa/vimade' " Fades inactive buffers.
+Plug 'qpkorr/vim-bufkill' " Provides a command to close a buffer but keep its window.
+Plug 'regedarek/zoomwin' " Provides a tmux-like zoom function.
+Plug 'andrewradev/bufferize.vim' " Allows output of commands to be opened in their own normal buffer.
 Plug 'airblade/vim-rooter'
 Plug 'tjdevries/coc-zsh'
 Plug 'tpope/vim-markdown'
@@ -544,7 +544,7 @@ Plug 'arthurxavierx/vim-caser' " Change cases.
 Plug 'tommcdo/vim-fubitive' " Bitbucket plugin for fugitive
 Plug 'tpope/vim-rhubarb' " Githug plugin for fugitive
 Plug 'zplugin/zplugin-vim-syntax' " Syntax highlighting for zplugin.
-" Plug 'roman/golden-ratio' " Automatically resize windows.
+Plug 'roman/golden-ratio' " Automatically resize windows.
 Plug 'jabrouwer82/vim-scala' " My customized version of derekwyatt/vim-scala.
 call plug#end()
 
