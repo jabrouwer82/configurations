@@ -21,6 +21,7 @@ mkdir -p ~/.vim/autoload/airline/themes
 mkdir -p ~/.vim/bundle
 mkdir -p ~/.vim/colors
 mkdir -p ~/.vim/spell
+mkdir -p ~/.tmp/vim
 ln -sf "$(pwd)"/.vim/Dec2hex.vim ~/.vim/Dec2hex.vim
 ln -sf "$(pwd)"/.vim/autoload/airline/themes/jacob.vim ~/.vim/autoload/airline/themes/jacob.vim
 ln -sf "$(pwd)"/.vim/coc-settings.json ~/.vim/coco-settings.json
@@ -29,10 +30,12 @@ ln -sf "$(pwd)"/.vim/spell/en.utf-8.add ~/.vim/spell/en.utf-8.add
 ln -sf "$(pwd)"/backup.sh ~/.tmp/vim/backup.sh
 
 echo -e '\033[1;36mInstalling zsh configs...\033[0m'
+mkdir -p ~/.config/fsh
 ln -sf "$(pwd)"/.zshenv ~/.zshenv
 ln -sf "$(pwd)"/.zshrc ~/.zshrc
 ln -sf "$(pwd)"/.p10k.zsh ~/.p10k.zsh
 ln -sf "$(pwd)"/.exa_colors.zsh ~/.exa_colors.zsh
+ln -sf "$(pwd)"/fsh/jacob.ini ~/.config/fsh/jacob.ini
 
 echo -e '\033[1;36mInstalling git configs...\033[0m'
 ln -sf "$(pwd)"/.gitconfig ~/.gitconfig
@@ -46,11 +49,14 @@ ln -sf "$(pwd)"/.ripgreprc ~/.ripgreprc
 
 echo -e '\033[1;36mInstalling ammonite configs...\033[0m'
 mkdir -p ~/.ammonite
+ln -sf "$(pwd)"/.ammonite/predefScript.sc ~/.ammonite/predef.sc
 ln -sf "$(pwd)"/.ammonite/predef.sc ~/.ammonite/predef.sc
 
 echo -e '\033[1;36mInstalling bat configs...\033[0m'
-mkdir -p ~/.config/bat
-ln -sf "$(pwd)"/bat.conf ~/.config/bat/config
+mkdir -p ~/.config/bat/themes
+ln -sf "$(pwd)"/bat/bat.conf ~/.config/bat/config
+ln -sf "$(pwd)"/bat/jacob.tmTheme ~/.config/bat/themes/jacob.tmTheme
+bat cache --build > /dev/null
 
 # echo -e '\033[1;36mInstalling xorg configs...\033[0m'
 # sudo ln -sf "$(pwd)"/xorg/50-marblemouse.conf /etc/X11/xorg.conf.d/50-marblemouse.conf

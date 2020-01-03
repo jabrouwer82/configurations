@@ -58,7 +58,7 @@ typeset -g HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_NOT_FOUND='"'""bg=$jlred,fg=$jwhit
 '
 zplugin load zsh-users/zsh-history-substring-search
 
-zplugin ice lucid wait'0c' depth'1' atinit'zpcompinit; zpcdreplay' nocd
+zplugin ice lucid wait'0c' depth'1' atload'fast-theme XDG:jacob > /dev/null' atinit'zpcompinit; zpcdreplay' nocd
 zplugin load zdharma/fast-syntax-highlighting
 
 # MichaelAquilina/zsh-auto-notify:
@@ -75,10 +75,6 @@ bindkey "${terminfo[kcud1]}" history-substring-search-down
 export ZSH_AUTOSUGGEST_STRATEGY=(history completion)
 # Async autosuggestions.
 export ZSH_AUTOSUGGEST_USE_ASYNC=1
-
-# zsh-users/zsh-syntax-highlighting:
-# Just highlight fucking everything.
-export ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern cursor root line)
 
 # vv Taken from oh-my-zsh vv
 zmodload -i zsh/complist
@@ -121,8 +117,6 @@ if (( ${+terminfo[smkx]} )) && (( ${+terminfo[rmkx]} )); then
   zle -N zle-line-init
   zle -N zle-line-finish
 fi
-
-bindkey -e # Use emacs key bindings
 
 bindkey '^r' history-incremental-search-backward
 

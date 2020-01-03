@@ -27,7 +27,7 @@ else
   " This should really check the existance of a battery ior something.
   " I'll worry about it when I get a linux laptop.
   function! Batterypercent()
-    let g:batterypercent = "100"
+    let g:batterypercent = '100'
   endfunction
 endif
 
@@ -282,6 +282,9 @@ augroup filetypestuff
   au BufEnter *.svg setlocal foldmethod=indent
   au BufEnter *.svg setf html
 
+  " TextMate/Sublime themes are xml.
+  au BufEnter *.tmTheme setf xml
+
   " sbt files are just scala.
   au BufRead,BufNewFile *.sbt setf scala
 
@@ -326,7 +329,7 @@ endfunction
 
 " Allow saving of files as sudo when I forgot to start vim using sudo.
 fun SuWrite()
-  echo 'Sudo writing file' | silent write '!sudo tee "%" > /dev/null' | edit!
+  echo 'Sudo writing file' | execute 'silent write !sudo tee % > /dev/null' | edit!
 endfun
 
 " These two functions allow me to use fzf for spell suggestions, which is much nicer than the default ui.

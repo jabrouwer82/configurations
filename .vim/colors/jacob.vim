@@ -40,8 +40,8 @@ exe 'hi Structure guifg=' . $jlgreen . ' guibg=' . $jlred
 exe 'hi Typedef guifg=' . $jgreen
 
 exe 'hi Special guifg=' . $jgrey
+exe 'hi Delimiter guifg=' . $jgrey
 exe 'hi Tag guifg=' . $jlcyan . ' guibg=' . $jlred
-exe 'hi Delimiter guifg=' . $jlcyan . ' guibg=' . $jlred
 exe 'hi Debug guifg=' . $jcyan . ' guibg=' . $jlred
 
 exe 'hi EndOfBuffer guifg=' . $jmagenta
@@ -93,6 +93,12 @@ exe 'hi LintErrorSign guifg=' . $jlred . ' gui=bold'
 exe 'hi Pmenu guibg=' . $jdblue
 exe 'hi PmenuSel guifg=' . $jdgrey
 exe 'hi CocHighlightText gui=underline'
+
+" Terminal Ansi Colors:
+let g:terminal_ansi_colors = [
+  \ $jblack, $jred, $jgreen, $jyellow, $jblue, $jpurple, $jcyan, $jlgrey,
+  \ $jgrey, $jlred, $jlgreen, $jlyellow, $jlblue, $jlpurple, $jlcyan, $jwhite,
+  \]
 
 " Space Display And Highlighting:
 " exe 'hi TrailingSpaces guibg=' . $jdred

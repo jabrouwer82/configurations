@@ -36,6 +36,6 @@ let s:IA_A  = [$jpurple, $jdgrey, 239, 232 , '']
 let s:IA_B = [$jblack, $jpurple, 239, 234, '']
 let g:airline#themes#jacob#palette.inactive = airline#themes#generate_color_map(s:IA_A, s:IA_B, s:IA_B)
 let g:airline#themes#jacob#palette.inactive_modified = {
-  \ 'airline_c': [$jlred, '', 160, '', ''],
+  \ 'airline_c': [$jdred, '', 160, '', ''],
   \ }
 
