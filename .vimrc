@@ -314,6 +314,16 @@ augroup END
 
 " FUNCTIONS:
 
+" Allows scrolling from terminal-job mode.
+function! EnterNormalMode()
+  if &buftype ==# 'terminal' && mode('') ==# 't'
+    setlocal nospell
+    setlocal nowrap
+    call feedkeys("\<c-w>N")
+    call feedkeys("\<c-y>")
+  endif
+endfunction
+
 " Calls the script that backs up my backup/undo/swp.
 let g:backup_time_delta=60*15
 function! Backup_tmp_files()
@@ -359,6 +369,9 @@ command! W :call SuWrite()
 
 " MAPPINGS:
 let mapleader=';'
+
+" Allows scrolling up from terminal-job mode.
+tmap <silent> <ScrollWheelUp> <c-w>:call EnterNormalMode()<CR>
 
 " - to open new terminal.
 noremap - :term<CR>

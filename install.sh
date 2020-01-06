@@ -1,4 +1,4 @@
-#! /bin/bash
+#! /bin/zsh
 
 # TODO: Switch all this crap to gnu stow and add separation for unix and macos things
 
