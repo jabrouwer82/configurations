@@ -29,45 +29,61 @@ case "$OSTYPE" in
 esac
 
 # Important: These must use uppercase hex letters for bs to work properly.
-export jblack="#00080A"
-export jwhite="#E4FDFD"
+export jblack='#00080A'
+export jvdgrey='#1F2426'
+export jdgrey='#343C41'
+export jgrey='#677881'
+export jlgrey='#A2BDCB'
+export jvlgrey='#C4D1D9'
+export jwhite='#E6EEF2'
 
-export jdgrey="#252A2D"
-export jgrey="#6B7A82"
-export jlgrey="#B1CBD7"
+export jvdblue='#061B26'
+export jdblue='#0D3C54'
+export jblue='#1979A8'
+export jlblue='#26B7FF'
+export jvlblue='#D9F2FF'
 
-export jdblue="#0D3D55"
-export jblue="#1A7DAA"
-export jlblue="#28B8FF"
+export jvdcyan='#062624'
+export jdcyan='#0D544E'
+export jcyan='#19A89C'
+export jlcyan='#26FFED'
+export jvlcyan='#D9FFFC'
 
-export jdcyan="#165550"
-export jcyan="#2CAAA0"
-export jlcyan="#42FFF0"
+export jvdgreen='#132619'
+export jdgreen='#2A5438'
+export jgreen='#54A870'
+export jlgreen='#7FFFAA'
+export jvlgreen='#D9FFE5'
 
-export jdgreen="#2D553A"
-export jgreen="#5AAA75"
-export jlgreen="#87FFAF"
+export jvdpurple='#191326'
+export jdpurple='#382A54'
+export jpurple='#7054A8'
+export jlpurple='#AA7FFF'
+export jvlpurple='#E5D9FF'
 
-export jdpurple="#392C55"
-export jpurple="#7358AA"
-export jlpurple="#AD84FF"
+export jvdorange='#261606'
+export jdorange='#54300D'
+export jorange='#A86119'
+export jlorange='#FF9326'
+export jvlorange='#FFECD9'
 
-export jdorange="#552F0F"
-export jorange="#AA5E1F"
-export jlorange="#FF8D2F"
+export jvdyellow='#26200B'
+export jdyellow='#544519'
+export jyellow='#A88B32'
+export jlyellow='#FFD24C'
+export jvlyellow='#FFF5D9'
 
-export jdyellow="#55461A"
-export jyellow="#AA8D34"
-export jlyellow="#FFD54F"
+export jvdred='#260B0B'
+export jdred='#541919'
+export jred='#A83232'
+export jlred='#FF4C4C'
+export jvlred='#FFD9D9'
 
-export jvdred="#280400"
-export jdred="#551A1A"
-export jred="#AA3535"
-export jlred="#FF5050"
-
-export jdmagenta="#552A3D"
-export jmagenta="#AA557B"
-export jlmagenta="#FF80B9"
+export jvdmagenta='#26131C'
+export jdmagenta='#542A3D'
+export jmagenta='#A8547A'
+export jlmagenta='#FF7FB9'
+export jvlmagenta='#FFD9EA'
 
 function exahex() {
   p1=$(h2d ${1[2,3]})

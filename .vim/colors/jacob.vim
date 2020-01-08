@@ -3,7 +3,7 @@ exe 'hi clear'
 if exists('syntax_on')
  syntax reset
 endif
-let g:colors_name = 'jacob'
+let g:colors_name='jacob'
 
 " Text:
 exe 'hi Comment guifg=' . $jgrey
@@ -32,11 +32,11 @@ exe 'hi PreProc guifg=' . $jlcyan
 exe 'hi Include guifg=' . $jcyan
 exe 'hi Define guifg=' . $jlcyan . ' guibg=' . $jlred
 exe 'hi Macro guifg=' . $jcyan
-exe 'hi PreCondit guifg=' . $jlcyan . ' guibg=' . $jlred
+exe 'hi PreCondit guifg=' . $jlcyan
 
 exe 'hi Type guifg=' . $jlgreen . ' gui=NONE'
-exe 'hi StorageClass guifg=' . $jlgreen . ' guibg=' . $jlred
-exe 'hi Structure guifg=' . $jlgreen . ' guibg=' . $jlred
+exe 'hi StorageClass guifg=' . $jlgreen
+exe 'hi Structure guifg=' . $jlgreen
 exe 'hi Typedef guifg=' . $jgreen
 
 exe 'hi Special guifg=' . $jgrey
@@ -53,7 +53,7 @@ exe 'hi Normal guifg=' . $jlgrey . ' guibg=' . $jblack
 exe 'hi Search guifg=' . $jblack . ' guibg=' . $jlyellow
 exe 'hi SpecialKey guibg=' . $jdred . ' guifg=' . $jlred
 exe 'hi Title guifg=' . $jlpurple . ' gui=bold'
-exe 'hi Todo guifg=' . $jlyellow . ' guibg=NONE gui=undercurl,bold'
+exe 'hi Todo guifg=' . $jorange . ' guibg=NONE gui=undercurl,bold'
 
 " HTML:
 hi link htmlEndTag htmlTag
@@ -68,8 +68,8 @@ hi clear SpellCap
 exe 'hi ColorColumn guibg=' . $jvdred
 exe 'hi CursorColumn guibg=' . $jdgrey
 exe 'hi CursorLine gui=bold guibg=' . $jdgrey
-exe 'hi CursorLineNR gui=bold guifg=' . $jlblue . ' guibg=NONE'
-exe 'hi LineNR guifg=' . $jlgrey . ' guibg=NONE'
+exe 'hi CursorLineNR gui=bold guifg=' . $jlblue . ' guibg=' . $jvdgrey
+exe 'hi LineNR guifg=' . $jdblue . ' guibg=' . $jvdgrey
 exe 'hi StatusLine gui=NONE guifg=' . $jpurple . ' guibg=' . $jdgrey
 exe 'hi StatusLineTerm gui=NONE guifg=' . $jpurple . ' guibg=' . $jdgrey
 exe 'hi StatusLineTermNC guibg=' . $jlblue
@@ -79,10 +79,10 @@ exe 'hi VertSplit guibg=' . $jblue . ' guifg=' . $jblue
 exe 'hi WildMenu gui=bold guifg=' . $jlyellow . ' guibg=' . $jdgrey
 
 " Git Column:
-exe 'hi GitAddSign guifg=' . $jgreen . ' gui=bold'
-exe 'hi GitChangeSign guifg=' . $jlblue . ' gui=bold'
-exe 'hi GitDeleteSign guifg=' . $jlred . ' gui=bold'
-exe 'hi GitChangeDeleteSign guifg=' . $jpurple . ' gui=bold'
+exe 'hi GitAddSign guifg=' . $jgreen . ' gui=bold guibg=' . $jvdgrey
+exe 'hi GitChangeSign guifg=' . $jlblue . ' gui=bold guibg=' . $jvdgrey
+exe 'hi GitDeleteSign guifg=' . $jlred . ' gui=bold guibg=' . $jvdgrey
+exe 'hi GitChangeDeleteSign guifg=' . $jpurple . ' gui=bold guibg=' . $jvdgrey
 
 " ALE Colors:
 exe 'hi ALEWarningSign guifg=' . $jlyellow . ' guibg=NONE'
@@ -93,6 +93,22 @@ exe 'hi LintErrorSign guifg=' . $jlred . ' gui=bold'
 exe 'hi Pmenu guibg=' . $jdblue
 exe 'hi PmenuSel guifg=' . $jdgrey
 exe 'hi CocHighlightText gui=underline'
+exe 'hi CocErrorHighlight gui=undercurl guisp=' . $jlred
+hi link CocErrorSign LintErrorSign
+hi link CocErrorFloat Normal
+
+" Signature Marks:
+exe 'hi Marks guifg=' . $jlmagenta
+
+" GitGutter:
+hi link GitGutterAdd GitAddSign
+exe 'hi GitGutterAddLine guibg=' . $jvdgreen
+hi link GitGutterChange GitChangeSign
+exe 'hi GitGutterChangeLine guibg=' . $jvdblue
+hi link GitGutterDelete GitDeleteSign
+exe 'hi GitGutterDeleteLine guibg=' . $jvdred
+hi link GitGutterChangeDelete GitChangeDeleteSign
+exe 'hi GitGutterChangeDeleteLine guibg=' . $jvdpurple
 
 " Terminal Ansi Colors:
 let g:terminal_ansi_colors = [

@@ -45,7 +45,7 @@ colorscheme jacob
 set guioptions=
 
 " Displays tabs, nbsps, and trailing spaces with printable characters.
-set list listchars=tab:▸\ ,nbsp:·,trail:–
+set list listchars=tab:▸\ ,nbsp:·,trail:·
 " Shows a fancy arrow on wrapped lines.
 set showbreak=↪\ 
 
@@ -311,7 +311,6 @@ augroup autocursorpos
 augroup END
 
 
-
 " FUNCTIONS:
 
 " Allows scrolling from terminal-job mode.
@@ -361,11 +360,18 @@ function! NewWindow()
   endif
 endfunction
 
+function! CocStatus()
+  let l:coc_status = get(g:, 'coc_status', 'No Coc Status')
+  echo l:coc_status ==# '' ? '✓' : l:coc_status
+endfunction
+
 
 " COMMANDS:
 " :W to use sudo to write a file.
 command! W :call SuWrite()
 
+" :CS to print coc status.
+command! CS :call CocStatus()
 
 " MAPPINGS:
 let mapleader=';'
@@ -526,29 +532,27 @@ call plug#begin('~/.vim/plugged')
 Plug '/usr/local/opt/fzf'
 Plug 'junegunn/fzf.vim'
 Plug 'yggdroot/indentline'
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
+Plug 'vim-airline/vim-airline' " Pretty ui.
+Plug 'vim-airline/vim-airline-themes' " I'm using my own theme, I'm not sure I need to pull this in anymore.
 Plug 'tpope/vim-characterize'
 Plug 'gorodinskiy/vim-coloresque'
-Plug 'airblade/vim-gitgutter'
-Plug 'kshenoy/vim-signature'
-Plug 'tpope/vim-unimpaired'
-Plug 'w0rp/ale'
-Plug 'tpope/vim-commentary'
-Plug 'maxbrunsfeld/vim-yankstack'
-Plug 'tpope/vim-fugitive'
+Plug 'airblade/vim-gitgutter' " Display git status in each file.
+Plug 'kshenoy/vim-signature' " Display marks in the sign column.
+Plug 'tpope/vim-unimpaired' " Lots of really nice movement mappings.
+Plug 'w0rp/ale' " Display live linter output.
+Plug 'tpope/vim-commentary' " Quick comment toggle command.
+Plug 'maxbrunsfeld/vim-yankstack' " Keeps yanked text in a stack for easy recall.
+Plug 'tpope/vim-fugitive' " Git integration.
 Plug 'chrisbra/Recover.vim'
-Plug 'gre/play2vim'
-Plug 'sheerun/vim-polyglot'
-Plug 'markonm/traces.vim'
-Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
-Plug 'jeffkreeftmeijer/vim-numbertoggle'
+Plug 'gre/play2vim' " Syntax, etc for play route/conf/scala.html.
+Plug 'sheerun/vim-polyglot' " All the syntax plugins I could ever need.
+Plug 'markonm/traces.vim' " Preview for substitute commands.
+Plug 'jeffkreeftmeijer/vim-numbertoggle' " Toggle rnu/nu on insert vs normal modes.
 Plug 'TaDaa/vimade' " Fades inactive buffers.
 Plug 'qpkorr/vim-bufkill' " Provides a command to close a buffer but keep its window.
 Plug 'regedarek/zoomwin' " Provides a tmux-like zoom function.
 Plug 'andrewradev/bufferize.vim' " Allows output of commands to be opened in their own normal buffer.
-Plug 'airblade/vim-rooter'
-Plug 'tjdevries/coc-zsh'
+Plug 'airblade/vim-rooter' " Finds the root of the project for open files.
 Plug 'tpope/vim-markdown'
 Plug 'moll/vim-bbye' " Dep for vim-symlink.
 Plug 'aymericbeaumet/vim-symlink' " Automatically follow symlinks.
@@ -562,6 +566,18 @@ Plug 'tpope/vim-rhubarb' " Githug plugin for fugitive
 Plug 'zplugin/zplugin-vim-syntax' " Syntax highlighting for zplugin.
 Plug 'roman/golden-ratio' " Automatically resize windows.
 Plug 'jabrouwer82/vim-scala' " My customized version of derekwyatt/vim-scala.
+" COC:
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'tjdevries/coc-zsh'
+" These are actually npm projects, they need these args to install correctly.
+let g:coc_plugin_args = {'do': 'yarn install --frozen-lockfile --no-progress'}
+Plug 'ckipp01/coc-metals', g:coc_plugin_args
+Plug 'iamcco/coc-vimlsp', g:coc_plugin_args
+Plug 'neoclide/coc-highlight', g:coc_plugin_args
+Plug 'neoclide/coc-yaml', g:coc_plugin_args
+Plug 'neoclide/coc-rls', g:coc_plugin_args
+Plug 'neoclide/coc-python', g:coc_plugin_args
+Plug 'neoclide/coc-json', g:coc_plugin_args
 call plug#end()
 
 " Caser:
@@ -602,7 +618,11 @@ let g:ale_sh_shellcheck_options = '-e SC1090,SC2207'
 let g:ale_typescript_tslint_config_path = '/home/jbrouwer/personal/configurations/tslint.json'
 let g:ale_echo_msg_error_str = 'E'
 let g:ale_echo_msg_warning_str = 'W'
-let g:ale_echo_msg_format = '[%linter%]%[code]%[%severity%]: %s'
+let g:ale_echo_msg_format = 'ALE: [%linter%]%[code]%[%severity%]: %s'
+let g:ale_linters = {
+  \   'scala': ['scalastyle'],
+  \ }
+
 " The following delay the commands until after ALE loads, otherwise ALE overwrites them
 augroup aledelayed
   au!
@@ -612,7 +632,6 @@ augroup aledelayed
 augroup end
 
 " FZF:
-
 let g:fzf_preview_base='bat --terminal-width $FZF_PREVIEW_COLUMNS --style full --color always'
 let g:fzf_preview_range=' --line-range :$((FZF_PREVIEW_LINES-2)) '
 let g:fzf_preview_sed=" | sed '1d;$d'"
@@ -683,27 +702,43 @@ let g:fzf_colors =
 let g:vim_json_syntax_conceal = 0
 
 " GitGutter:
-hi link GitGutterAdd GitAddSign
-hi link GitGutterChange GitChangeSign
-hi link GitGutterDelete GitDeleteSign
-hi link GitGutterChangeDelete GitChangeDeleteSign
-
 let g:gitgutter_diff_base = 'origin/HEAD'
 
 " Signature:
-let g:SignatureMarkTextHLDynamic = 1
+let g:SignatureMarkTextHL = 'Marks'
 
 " Airline:
+" Use my custom airline theme.
 let g:airline_theme = 'jacob'
+" Use powerline symbols.
 let g:airline_powerline_fonts = 1
+" Use a better symbol for dirty branches.
+let g:airline_symbols.dirty = ' '
+" Enable the tabline.
 let g:airline#extensions#tabline#enabled = 1
+" Enables detection of whitespace errors.
 let g:airline#extensions#whitespace#enabled = 0
+" Show the keymap in use (I'm pretty sure I'm not using keymaps, I'm not sure why I have this enabled)
 let g:airline#extensions#keymap#enabled = 1
+" Don't show the 'spell' section in the status bar.
 let g:airline_detect_spell=0
+" Don't show the encoding if it's what it should be.
 let g:airline#parts#ffenc#skip_expected_string='utf-8[unix]'
+" Show visible buffers of current tab in tabline.
 let g:airline#extensions#tabline#show_splits = 1
-let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
-" let g:airline#extensions#tabline#fnamemod = ':t'
+" Truncate buffer names in the tabline to just the filename without extension.
+let g:airline#extensions#tabline#fnamemod = ':t:r'
+" Number tabs by tab number (splits is the default?)
+let g:airline#extensions#tabline#tab_nr_type = 1
+" Always show tabs in tabline (doesn't work, but I would prefer it)
+let g:airline#extensions#tabline#show_tabs = 1
+" Don't show the tab count.
+let g:airline#extensions#tabline#show_tab_count = 0
+" Don't show close button for tabs.
+let g:airline#extensions#tabline#show_close_button = 0
+" Switch buffers and tabs in the tabline, only works for ctrlspace, but hopefully that changes.
+let g:airline#extensions#tabline#switch_buffers_and_tabs = 0
+
 " Replaces the "tabs" label in the tabline with the abbreviated pwd.
 augroup tablinecwd
   au!
@@ -738,26 +773,17 @@ function! Updatebattery(timer)
 endfunction
 
 function! Tablineupdate(timer)
-  let g:airline#extensions#tabline#buffers_label = strftime('%F %T') . ' |' . g:batterypercent . '%%|'
+  let g:airline#extensions#tabline#buffers_label = strftime('%m/%d %T') . ' |' . g:batterypercent . '%%|'
   call airline#util#doautocmd('BufMRUChange')
   call airline#extensions#tabline#redraw()
 endfunction
 
 " Coc:
-let g:coc_global_extensions = [
-  \ 'coc-metals',
-  \ 'coc-vimlsp',
-  \ 'coc-highlight',
-  \ 'coc-yaml',
-  \ 'coc-rls',
-  \ 'coc-python',
-  \ 'coc-json',
-  \]
-
-
 let g:coc_user_config = {
 \  'coc.preferences.colorSupport': v:true,
 \  'rust-client.rustupPath': '/Users/jbrouwer/.cargo/bin/rustup',
+\  'diagnostics.errorSign': '>',
+\  'diagnostics.warningSign': '>',
 \}
 
 " Use tab for trigger completion with characters ahead and navigate.
@@ -812,8 +838,6 @@ endfunction
 " nmap <leader>rn <Plug>(coc-rename)
 " Use this for now:
 nmap <silent> <leader>rn :call CocAction('runCommand', 'document.renameCurrentWord')<CR>
-
-
 
 augroup coccustom
   autocmd!
