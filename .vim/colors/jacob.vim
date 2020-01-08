@@ -69,7 +69,7 @@ exe 'hi ColorColumn guibg=' . $jvdred
 exe 'hi CursorColumn guibg=' . $jdgrey
 exe 'hi CursorLine gui=bold guibg=' . $jdgrey
 exe 'hi CursorLineNR gui=bold guifg=' . $jlblue . ' guibg=' . $jvdgrey
-exe 'hi LineNR guifg=' . $jdblue . ' guibg=' . $jvdgrey
+exe 'hi LineNR guifg=' . $jdcyan . ' guibg=' . $jvdgrey
 exe 'hi StatusLine gui=NONE guifg=' . $jpurple . ' guibg=' . $jdgrey
 exe 'hi StatusLineTerm gui=NONE guifg=' . $jpurple . ' guibg=' . $jdgrey
 exe 'hi StatusLineTermNC guibg=' . $jlblue

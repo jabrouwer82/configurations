@@ -1,5 +1,6 @@
 AUTOCMDS
 AddKeysToAgent
+Ansi
 Bizarro
 Brouwer
 Bufferize
@@ -54,6 +55,7 @@ codeAction
 config
 cr
 cterm
+ctrlspace
 currentname
 customInput
 decrementors
@@ -93,6 +95,8 @@ jbrouwer
 js
 json
 junegunn's
+keymap
+keymaps
 lfs
 link
 lorem
@@ -105,6 +109,7 @@ nnoremap
 noremap
 openRaw
 p10k
+partitionKey
 powerline
 pwd
 rebase
@@ -128,6 +133,7 @@ tc
 templatedir
 timestamp
 tmux
+traverse
 truecolor
 tsserver
 txt
@@ -144,7 +150,3 @@ xargs
 xml
 zg
 zsh
-keymaps
-keymap
-ctrlspace
-Ansi
