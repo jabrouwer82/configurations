@@ -65,11 +65,12 @@ hi clear SpellRare
 hi clear SpellCap
 
 " GUI:
+let g:sign_bg = $jvdgrey
 exe 'hi ColorColumn guibg=' . $jvdred
 exe 'hi CursorColumn guibg=' . $jdgrey
 exe 'hi CursorLine gui=bold guibg=' . $jdgrey
-exe 'hi CursorLineNR gui=bold guifg=' . $jlblue . ' guibg=' . $jvdgrey
-exe 'hi LineNR guifg=' . $jdcyan . ' guibg=' . $jvdgrey
+exe 'hi CursorLineNR gui=bold guifg=' . $jlblue . ' guibg=' . g:sign_bg
+exe 'hi LineNR guifg=' . $jdcyan . ' guibg=' . g:sign_bg
 exe 'hi StatusLine gui=NONE guifg=' . $jpurple . ' guibg=' . $jdgrey
 exe 'hi StatusLineTerm gui=NONE guifg=' . $jpurple . ' guibg=' . $jdgrey
 exe 'hi StatusLineTermNC guibg=' . $jlblue
@@ -79,15 +80,15 @@ exe 'hi VertSplit guibg=' . $jblue . ' guifg=' . $jblue
 exe 'hi WildMenu gui=bold guifg=' . $jlyellow . ' guibg=' . $jdgrey
 
 " Git Column:
-exe 'hi GitAddSign guifg=' . $jgreen . ' gui=bold guibg=' . $jvdgrey
-exe 'hi GitChangeSign guifg=' . $jlblue . ' gui=bold guibg=' . $jvdgrey
-exe 'hi GitDeleteSign guifg=' . $jlred . ' gui=bold guibg=' . $jvdgrey
-exe 'hi GitChangeDeleteSign guifg=' . $jpurple . ' gui=bold guibg=' . $jvdgrey
+exe 'hi GitAddSign guifg=' . $jgreen . ' gui=bold guibg=' . g:sign_bg
+exe 'hi GitChangeSign guifg=' . $jlblue . ' gui=bold guibg=' . g:sign_bg
+exe 'hi GitDeleteSign guifg=' . $jlred . ' gui=bold guibg=' . g:sign_bg
+exe 'hi GitChangeDeleteSign guifg=' . $jpurple . ' gui=bold guibg=' . g:sign_bg
 
 " ALE Colors:
-exe 'hi ALEWarningSign guifg=' . $jlyellow . ' guibg=NONE'
-exe 'hi ALEWarning guifg=NONE guibg=NONE'
-exe 'hi LintErrorSign guifg=' . $jlred . ' gui=bold'
+exe 'hi ALEWarningSign guifg=' . $jlyellow . ' guibg=' . g:sign_bg
+exe 'hi ALEWarning guifg=NONE guibg=' . g:sign_bg
+exe 'hi LintErrorSign guifg=' . $jlred . ' gui=bold guibg=' . g:sign_bg
 
 " Coc Colors:
 exe 'hi Pmenu guibg=' . $jdblue

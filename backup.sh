@@ -19,7 +19,7 @@ echo ""
 
 echo "replace"
 echo ""
-git -C $dir replace -f --graft @{7.days.ago}
+git -C $dir replace -f --graft @{2.days.ago}
 echo ""
 
 echo "filter-branch"
