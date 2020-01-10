@@ -33,12 +33,13 @@ let g:airline#themes#jacob#palette.visual_modified = copy(g:airline#themes#jacob
 
 
 let s:IA_A  = [$jpurple, $jdgrey, '', '' , '']
-let s:IA_B = [$jblack, $jpurple, '', '', '']
+let s:IA_B = [$jgrey, $jdpurple, '', '', '']
 let g:airline#themes#jacob#palette.inactive = airline#themes#generate_color_map(s:IA_A, s:IA_B, s:IA_B)
 let g:airline#themes#jacob#palette.inactive_modified = {
   \ 'airline_c': [$jdred, '', '', '', ''],
   \ }
 
+" Tabline:
 let g:airline#themes#jacob#palette.tabline = {}
 
 " Inactive tabs/buffers.

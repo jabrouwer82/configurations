@@ -580,6 +580,10 @@ Plug 'neoclide/coc-python', g:coc_plugin_args
 Plug 'neoclide/coc-json', g:coc_plugin_args
 call plug#end()
 
+" Golden Ratio:
+" This should disable the plugin, use :GoldenRatioToggle to reenable.
+let g:loaded_golden_ratio = 0
+
 " Caser:
 " gsm MixedCase
 " gsc camelCase
@@ -702,6 +706,7 @@ let g:fzf_colors =
 let g:vim_json_syntax_conceal = 0
 
 " GitGutter:
+let g:gitgutter_highlight_lines = 1
 let g:gitgutter_diff_base = 'origin/HEAD'
 
 " Signature:

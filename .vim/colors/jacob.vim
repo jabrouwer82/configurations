@@ -91,8 +91,8 @@ exe 'hi ALEWarning guifg=NONE guibg=' . g:sign_bg
 exe 'hi LintErrorSign guifg=' . $jlred . ' gui=bold guibg=' . g:sign_bg
 
 " Coc Colors:
-exe 'hi Pmenu guibg=' . $jdblue
-exe 'hi PmenuSel guifg=' . $jdgrey
+exe 'hi Pmenu guibg=' . $jdblue . ' guifg=' . $jlgrey
+exe 'hi PmenuSel guifg=' . $jdblue . ' guibg=' . $jlgrey
 exe 'hi CocHighlightText gui=underline'
 exe 'hi CocErrorHighlight gui=undercurl guisp=' . $jlred
 hi link CocErrorSign LintErrorSign
