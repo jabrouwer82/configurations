@@ -95,8 +95,14 @@ exe 'hi Pmenu guibg=' . $jdblue . ' guifg=' . $jlgrey
 exe 'hi PmenuSel guifg=' . $jdblue . ' guibg=' . $jlgrey
 exe 'hi CocHighlightText gui=underline'
 exe 'hi CocErrorHighlight gui=undercurl guisp=' . $jlred
+exe 'hi CocErrorFloat guifg=' . $jlred
 hi link CocErrorSign LintErrorSign
-hi link CocErrorFloat Normal
+hi link CocWarningSign ALEWarningSign
+exe 'hi CocWarningFloat guifg=' . $jlyellow
+exe 'hi CocInfoSign guifg=' . $jlgrey . ' guibg=' . g:sign_bg
+exe 'hi CocInfoFloat guifg=' . $jlgrey
+exe 'hi CocHintSign guifg=' . $jlcyan . ' guibg=' . g:sign_bg
+exe 'hi CocHintFloat guifg=' . $jlcyan
 
 " Signature Marks:
 exe 'hi Marks guifg=' . $jlmagenta

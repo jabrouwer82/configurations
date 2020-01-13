@@ -200,6 +200,18 @@ let $MANPAGER='cat'
 " AUTOCMDS:
 " A lot of these are FileType autocommands, which should really be located in ~/.vim/after/ftplugin/[ft].vim.
 
+" Clear the stupid stuck popup from coc whenever I switch windows.
+augroup ClearPopup
+  au!
+  au WinEnter * call popup_clear()
+augroup end
+
+" Center the cursor when switching to a buffer.
+augroup BufCursorCenter
+  au!
+  au BufEnter * normal zz
+augroup end
+
 " Save the reltime that vim starts.
 augroup starttime
   au VimEnter let g:start_time=reltime()
@@ -312,6 +324,13 @@ augroup END
 
 
 " FUNCTIONS:
+
+" Prints a warning message.
+function Warn(message)
+  echohl WarningMsg
+  echom a:message
+  echohl None
+endfunction
 
 " Allows scrolling from terminal-job mode.
 function! EnterNormalMode()
@@ -571,13 +590,14 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'tjdevries/coc-zsh'
 " These are actually npm projects, they need these args to install correctly.
 let g:coc_plugin_args = {'do': 'yarn install --frozen-lockfile --no-progress'}
-Plug 'ckipp01/coc-metals', g:coc_plugin_args
+Plug 'scalameta/coc-metals', g:coc_plugin_args
 Plug 'iamcco/coc-vimlsp', g:coc_plugin_args
 Plug 'neoclide/coc-highlight', g:coc_plugin_args
 Plug 'neoclide/coc-yaml', g:coc_plugin_args
 Plug 'neoclide/coc-rls', g:coc_plugin_args
 Plug 'neoclide/coc-python', g:coc_plugin_args
 Plug 'neoclide/coc-json', g:coc_plugin_args
+Plug 'neoclide/coc-java', g:coc_plugin_args
 call plug#end()
 
 " Golden Ratio:
@@ -645,15 +665,25 @@ let g:fzf_preview_buffers='farg={2}; ' . g:fzf_preview_base . g:fzf_preview_rang
 " let g:fzf_preview_marks="l='{3}'; f='{4}'; fn=${f:s/~/$HOME}; fl=$(echo $(wc -l $fn) | cut -d' ' -f1); sl=$((0 < line-lines/2 ? line-lines/2 : 0)); el=$((fl < (sl + $FZF_PREVIEW_LINES) ? fl : (sl + $FZF_PREVIEW_LINES))); sl=$((endl-lines)); " . g:fzf_preview_base . '--line-range $((sl)):$((el)) --highlight-line $l $fn'
 let g:fzf_preview_windows='farg={3..}; fn=${farg:s/> //}; ' . g:fzf_preview_base . g:fzf_preview_range . ' ${fn:s/~/$HOME} ' . g:fzf_preview_sed
 
+" function! FzfCd(dir, ...)
+"   if !empty(a:dir)
+"     if !isdirectory(expand(a:dir))
+"       Warn("Invalid directory")
+"       return 0
+"     endif
+"     exe 'cd' fnameescape(a:dir)
+"   endif
+"   call fzf#vim#files(a:dir, a:000)
+" endfunction
+
 command! -bang -nargs=? -complete=dir Files call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
-" TODO: It would be super cool if this could highlight the cursor position in the buffer.
+" command! -bang -nargs=? -complete=dir Files call FzfCd(<q-args>, fzf#vim#with_preview(), <bang>0)
 command! -bar -bang -nargs=? -complete=buffer Buffers  call fzf#vim#buffers(
   \ <q-args>,
   \ {'options': ['--preview',  g:fzf_preview_buffers]},
   \ <bang>0
   \)
 command! -bang -nargs=? GFiles call fzf#vim#gitfiles(<q-args>, fzf#vim#with_preview(), <bang>0)
-" TODO: This doesn't highlight the correct line number.
 command! -bang -nargs=* Rg call fzf#vim#grep(
   \ "rg --column --line-number --no-heading --color=always ".shellescape(<q-args>),
   \ 1,
