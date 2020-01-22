@@ -33,12 +33,14 @@ TerminalNormal
 UseKeychain
 VertSplit
 Yankstack
+api
 autocommands
 autocrlf
 autofix
 autogroup
 autoindents
 autoread
+autowrite
 avro
 basename
 batterytimer
@@ -122,6 +124,7 @@ scala
 scalastyle
 scio
 sed
+serializable
 sharding
 statusline
 sudo
@@ -150,4 +153,3 @@ xargs
 xml
 zg
 zsh
-serializable

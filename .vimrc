@@ -50,7 +50,7 @@ set list listchars=tab:▸\ ,nbsp:·,trail:·
 set showbreak=↪\ 
 
 " Vim will automatically save files when moving between buffers.
-" This is pretty safe because all edit history is persisted, so it's still easy to undo changes if a buffer gets closed.
+" This is pretty safe because I persist edit history, so I can undo changes if a buffer gets closed.
 set autowrite
 set autowriteall
 
@@ -157,7 +157,7 @@ set wildmenu
 " Searches will ignore case, use \C in searches for case sensitive searches.
 set ignorecase
 
-" Bizarro fix for tmux mouse scrolling.
+" Turn on mouse support for almost everything.
 set mouse=a
 
 " I think this is off as a security measure, but I'm not sure and don't see the point in the feature in the first place.
@@ -197,8 +197,15 @@ set spell
 let $MANPAGER='cat'
 
 
+
 " AUTOCMDS:
 " A lot of these are FileType autocommands, which should really be located in ~/.vim/after/ftplugin/[ft].vim.
+
+" autowrite[all] only saves in certain situations, leaving a window is another situation that I think should autosave.
+augroup AutoWrite
+  au!
+  au WinLeave * silent! update
+augroup end
 
 " Clear the stupid stuck popup from coc whenever I switch windows.
 augroup ClearPopup
@@ -209,7 +216,7 @@ augroup end
 " Center the cursor when switching to a buffer.
 augroup BufCursorCenter
   au!
-  au BufEnter * normal zz
+  au BufWinEnter * normal zz
 augroup end
 
 " Save the reltime that vim starts.
@@ -819,6 +826,7 @@ let g:coc_user_config = {
 \  'rust-client.rustupPath': '/Users/jbrouwer/.cargo/bin/rustup',
 \  'diagnostics.errorSign': '>',
 \  'diagnostics.warningSign': '>',
+\  'coc.preferences.rootPatterns': ['.git', 'build.sbt', '.projections.json', 'build.sc'],
 \}
 
 " Use tab for trigger completion with characters ahead and navigate.
