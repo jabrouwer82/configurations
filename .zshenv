@@ -15,6 +15,9 @@ export TERM=xterm-256color
 export PYTHONPATH="${PYTHONPATH}:$HOME/work/python"
 export FZF_BASE=/usr/local/bin/fzf
 
+# This blocks the 10 second delay on git filter-branch, which is used by my backup script.
+# It probably makes more sense to set this only in that script instead.
+export FILTER_BRANCH_SQUELCH_WARNING=1
 
 case "$OSTYPE" in
   darwin*)

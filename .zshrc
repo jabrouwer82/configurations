@@ -1,3 +1,11 @@
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block, everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
+source ~/.p10k.zsh # Powerlevel10k configuration.
 source ~/.exa_colors.zsh # Customizes the color scheme of ls and exa.
 
 # source ~/.ghcup/env
@@ -18,48 +26,47 @@ path+=(
 )
 export PATH
 
-# Check is zplugin is installed.
-if [[ ! -d ~/.zplugin/bin/ ]]; then
-  git clone https://github.com/zdharma/zplugin.git ~/.zplugin/bin
-  source ~/.zplugin/bin/zplugin.zsh && zplugin self-update
+# Check is zinit is installed.
+if [[ ! -d ~/.zinit/bin/ ]]; then
+  git clone https://github.com/zdharma/zinit.git ~/.zinit/bin
+  source ~/.zinit/bin/zinit.zsh && zinit self-update
 fi
-source ~/.zplugin/bin/zplugin.zsh
+source ~/.zinit/bin/zinit.zsh
 
-zplugin ice wait'!0a' depth'1' atload'!source ~/.p10k.zsh; _p9k_precmd' nocd lucid
-zplugin load romkatv/powerlevel10k
+zinit ice depth'1'
+zinit light romkatv/powerlevel10k
+
+# Normal plugins.
+zinit light-mode depth'1' for \
+  svn OMZ::plugins/ssh-agent \
+  svn OMZ::plugins/thefuck \
+  rupa/z \
+  changyuheng/fz \
+  atload'_zsh_autosuggest_start' zsh-users/zsh-autosuggestions \
+  MichaelAquilina/zsh-auto-notify
 
 # Completions
-zplugin wait'0b' depth'1' blockf atpull'zplugin creinstall -q' as'completion' lucid for \
+zinit light-mode depth'1' blockf atpull'zinit creinstall -q' as'completion' for \
   svn OMZ::plugins/cargo \
   svn OMZ::plugins/fd \
   svn OMZ::plugins/ripgrep
 
 # Completions with other functions.
-zplugin wait'0b' depth'1' blockf atpull'zplugin creinstall -q' lucid for \
+zinit light-mode depth'1' blockf atpull'zinit creinstall -q' for \
   svn OMZ::plugins/cabal \
   svn OMZ::plugins/fzf \
   svn OMZ::plugins/kubectl \
   zsh-users/zsh-completions \
   littleq0903/gcloud-zsh-completion
 
-# Normal plugins.
-zplugin wait'0a' depth'1' lucid for \
-  svn OMZ::plugins/ssh-agent \
-  svn OMZ::plugins/thefuck \
-  rupa/z \
-  changyuheng/fz \
-  atload'_zsh_autosuggest_start' zsh-users/zsh-autosuggestions \
-  MichaelAquilina/zsh-auto-notify \
-  b4b4r07/emoji-cli \
-
-zplugin ice wait'0a' depth'1' lucid atload'
+zinit ice depth'1' atload'
 typeset -g HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND='"'""bg=$jblue,fg=$jwhite,bold""'"'
 typeset -g HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_NOT_FOUND='"'""bg=$jlred,fg=$jwhite,bold""'"'
 '
-zplugin load zsh-users/zsh-history-substring-search
+zinit light zsh-users/zsh-history-substring-search
 
-zplugin ice lucid wait'0c' depth'1' atload'fast-theme XDG:jacob > /dev/null' atinit'zpcompinit; zpcdreplay' nocd
-zplugin load zdharma/fast-syntax-highlighting
+zinit ice depth'1' atload'fast-theme XDG:jacob > /dev/null; zicompinit; zicdreplay' nocd
+zinit light zdharma/fast-syntax-highlighting
 
 # MichaelAquilina/zsh-auto-notify:
 # Don't get notifications for these commands.

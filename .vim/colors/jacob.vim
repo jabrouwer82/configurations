@@ -105,7 +105,7 @@ exe 'hi CocHintSign guifg=' . $jlcyan . ' guibg=' . g:sign_bg
 exe 'hi CocHintFloat guifg=' . $jlcyan
 
 " Signature Marks:
-exe 'hi Marks guifg=' . $jlmagenta
+exe 'hi Marks guifg=' . $jlmagenta . ' guibg=' . g:sign_bg
 
 " GitGutter:
 hi link GitGutterAdd GitAddSign

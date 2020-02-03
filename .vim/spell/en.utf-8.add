@@ -1,3 +1,4 @@
+#artitionInfo
 AUTOCMDS
 AddKeysToAgent
 Ansi
@@ -111,6 +112,7 @@ nnoremap
 noremap
 openRaw
 p10k
+partitionInfo/!
 partitionKey
 powerline
 pwd

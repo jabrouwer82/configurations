@@ -407,10 +407,14 @@ tmap <silent> <ScrollWheelUp> <c-w>:call EnterNormalMode()<CR>
 
 " - to open new terminal.
 noremap - :term<CR>
+" -a to open new ammonite terminal.
+noremap -a :term ++close amm<CR>
 " _ to open new terminal with given command.
 noremap _ :term 
 " \ to open new vertical terminal.
 noremap <Bslash> :vert term<CR>
+" \a to open new vertical terminal.
+noremap <Bslash>a :vert term ++close amm<CR>
 " | to open new vertical terminal with given command.
 noremap <Bar> :vert term 
 
@@ -453,10 +457,9 @@ noremap ]w :wincmd W<CR>
 noremap <leader>n :wincmd n<CR>
 noremap <leader>- :wincmd n<CR>
 
-" <leader>v or <leader>\ or <leader>| will create a new split to the right of this one.
+" <leader>v or <leader>\ will create a new split to the right of this one.
 noremap <leader>v :wincmd v<CR>
 noremap <leader><bslash> :wincmd v<CR>
-noremap <leader><Bar> :wincmd v<CR>
 
 " Esc to enter terminal normal mode
 tnoremap <Esc> <C-\><C-n>
@@ -588,13 +591,13 @@ Plug 'glts/vim-magnum' " Numeric library, dep for radical.
 Plug 'glts/vim-radical' " gA, crd/crx/cro/crb for decimal/hex/octal/binary conversions.
 Plug 'arthurxavierx/vim-caser' " Change cases.
 Plug 'tommcdo/vim-fubitive' " Bitbucket plugin for fugitive
-Plug 'tpope/vim-rhubarb' " Githug plugin for fugitive
+Plug 'tpope/vim-rhubarb' " Github plugin for fugitive
 Plug 'zplugin/zplugin-vim-syntax' " Syntax highlighting for zplugin.
 Plug 'roman/golden-ratio' " Automatically resize windows.
 Plug 'jabrouwer82/vim-scala' " My customized version of derekwyatt/vim-scala.
 " COC:
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'tjdevries/coc-zsh'
+" Plug 'tjdevries/coc-zsh' " This plugin is painfully unresponsive, at least on macos.
 " These are actually npm projects, they need these args to install correctly.
 let g:coc_plugin_args = {'do': 'yarn install --frozen-lockfile --no-progress'}
 Plug 'scalameta/coc-metals', g:coc_plugin_args
@@ -631,7 +634,7 @@ nmap ]p <Plug>yankstack_substitute_newer_paste
 let g:indentLine_char = '▏'
 
 " Rooter:
-let g:rooter_patterns = ['build.sbt', '.git/', 'build.sc']
+let g:rooter_patterns = ['version.sbt', '.git/', 'build.sc']
 let g:rooter_silent_chdir = 1
 
 " Html5:
@@ -643,7 +646,7 @@ let g:RecoverPlugin_Delete_Unmodified_Swapfile = 1
 " ALE:
 "let g:ale_lint_on_text_changed = 'never'
 let g:ale_python_pylint_options = '--rcfile ~/.pylintrc'
-"let g:ale_scala_scalastyle_config = '/home/jbrouwer/personal/configurations/scalastyle.xml'
+let g:ale_scala_scalastyle_config = '/Users/jbrouwer/personal/configurations/linters/scalastyle.xml'
 let g:ale_scala_scalastyle_options = '-w false -v true'
 let g:ale_sh_shellcheck_options = '-e SC1090,SC2207'
 let g:ale_typescript_tslint_config_path = '/home/jbrouwer/personal/configurations/tslint.json'
@@ -826,7 +829,7 @@ let g:coc_user_config = {
 \  'rust-client.rustupPath': '/Users/jbrouwer/.cargo/bin/rustup',
 \  'diagnostics.errorSign': '>',
 \  'diagnostics.warningSign': '>',
-\  'coc.preferences.rootPatterns': ['.git', 'build.sbt', '.projections.json', 'build.sc'],
+\  'coc.preferences.rootPatterns': ['.git', 'version.sbt', 'build.sc', 'Cargo.toml'],
 \}
 
 " Use tab for trigger completion with characters ahead and navigate.

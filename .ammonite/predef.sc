@@ -54,14 +54,12 @@ import $file.`sparkcognition`
 
 sparkcognition.addSparkRepo()
 
-import $ivy.`com.chuusai::shapeless:2.3.3`
-import $ivy.`org.typelevel::cats-effect:2.0.0`
-import $ivy.`org.typelevel::cats-core:2.0.0`
 import $ivy.`org.typelevel::simulacrum:1.0.0`
+import $ivy.`com.sparkcognition::data-ingestion-lib:latest.integration`
 
-import $plugin.$ivy.`org.typelevel:kind-projector_2.12.8:0.11.0`
+import $plugin.$ivy.`org.typelevel:::kind-projector:0.11.0`
 import $plugin.$ivy.`com.olegpy::better-monadic-for:0.3.1`
-import $plugin.$ivy.`org.scalamacros:paradise_2.12.8:2.1.0`
+import $plugin.$ivy.`org.scalamacros:::paradise:2.1.0`
 
 object Imports {
   import language.experimental.macros
@@ -104,22 +102,6 @@ object Imports {
         import scala.util.{Success, Failure}
         import scala.concurrent._
         implicit val ec = ExecutionContext.global
-        ()
-      """)
-    }
-  }
-
-  @compileTimeOnly("This should just always say 'compile time only annotation', why do I have to write this myself")
-  class allimports extends StaticAnnotation {
-    def macroTransform(annottees: Any*): Any = macro allimports.impl
-  }
-
-  object allimports {
-    def impl(c: Context)(annottees: c.Expr[Any]*): c.Expr[Any] = {
-      import c.universe._
-      c.Expr(q"""
-        @fpimports object FP
-        @futureimports object FP
         ()
       """)
     }

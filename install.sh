@@ -21,7 +21,9 @@ mkdir -p ~/.vim/autoload/airline/themes
 mkdir -p ~/.vim/bundle
 mkdir -p ~/.vim/colors
 mkdir -p ~/.vim/spell
-mkdir -p ~/.tmp/vim
+mkdir -p ~/.tmp/vim/back
+mkdir -p ~/.tmp/vim/undo
+mkdir -p ~/.tmp/vim/dir
 ln -sf "$(pwd)"/.vim/Dec2hex.vim ~/.vim/Dec2hex.vim
 ln -sf "$(pwd)"/.vim/autoload/airline/themes/jacob.vim ~/.vim/autoload/airline/themes/jacob.vim
 ln -sf "$(pwd)"/.vim/coc-settings.json ~/.vim/coco-settings.json

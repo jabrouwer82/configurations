@@ -1,0 +1,2 @@
+#!/bin/bash
+exec coursier launch com.beautiful-scala:scalastyle_2.12:1.1.0 -M org.scalastyle.Main -- "$@"

@@ -4,7 +4,7 @@
   <check class="org.scalastyle.scalariform.SpacesAfterPlusChecker" enabled="true" level="warning" />
   <check class="org.scalastyle.file.WhitespaceEndOfLineChecker" enabled="true" level="warning" />
   <check class="org.scalastyle.scalariform.SpacesBeforePlusChecker" enabled="true" level="warning" />
-  <check class="org.scalastyle.file.IndentationChecker" enabled="true" level="warning" />
+  <check class="org.scalastyle.file.IndentationChecker" enabled="false" level="warning" />
   <check class="org.scalastyle.file.FileLineLengthChecker" enabled="true" level="warning">
     <parameters>
       <parameter name="maxLineLength">120</parameter>
@@ -32,7 +32,7 @@
       <parameter name="illegalImports">sun._,java.awt._</parameter>
     </parameters>
   </check>
-  <check class="org.scalastyle.scalariform.ImportOrderChecker" enabled="true" level="warning">
+  <check class="org.scalastyle.scalariform.ImportOrderChecker" enabled="false" level="warning">
     <parameters>
       <parameter name="groups">java,scala,others</parameter>
       <parameter name="group.java">javax?\..+</parameter>
@@ -64,7 +64,7 @@
   <check class="org.scalastyle.scalariform.SpacesBeforePlusChecker" enabled="true" level="warning" />
   <check class="org.scalastyle.scalariform.TodoCommentChecker" enabled="true" level="warning">
     <parameters>
-      <parameter default="TODO|FIXME" name="words" type="string" />
+      <parameter name="words">TODO|FIXME</parameter>
     </parameters>
   </check>
   <check class="org.scalastyle.scalariform.NumberOfTypesChecker" enabled="true" level="warning">
@@ -79,7 +79,7 @@
   </check>
   <check class="org.scalastyle.scalariform.UppercaseLChecker" enabled="true" level="warning" />
   <check class="org.scalastyle.scalariform.SimplifyBooleanExpressionChecker" enabled="true" level="warning" />
-  <check class="org.scalastyle.scalariform.IfBraceChecker" enabled="true" level="warning">
+  <check class="org.scalastyle.scalariform.IfBraceChecker" enabled="false" level="warning">
     <parameters>
       <parameter name="singleLineAllowed">true</parameter>
       <parameter name="doubleLineAllowed">true</parameter>
@@ -131,5 +131,5 @@
       <parameter name="ignoreRegex">^""$</parameter>
     </parameters>
   </check>
-  <check class="org.scalastyle.scalariform.ImportGroupingChecker" enabled="true" level="warning" />
+  <check class="org.scalastyle.scalariform.ImportGroupingChecker" enabled="false" level="warning" />
 </scalastyle>
