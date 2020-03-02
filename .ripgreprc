@@ -20,4 +20,6 @@
 --type-add=sbt:build.properties
 --type-add=sbt:{Common,Dependencies,SbtExtensions}.scala
 
+--type-add=tsv:*.tsv
+
 #--glob=!**/data-ingestion-sdk/**

@@ -26,6 +26,16 @@ path+=(
 )
 export PATH
 
+typeset -TU PYTHONPATH pythonpath
+pythonpath+=(
+  /Users/jbrouwer/work/sp/src/modules/python/pipelines/sparkpredict/customer
+)
+export PYTHONPATH
+
+# Super useful for batch file renames, eg: `zmv '*test*' '$f:gs/csv/tsv'`
+# Use -n to dry run.
+autoload -U zmv
+
 # Check is zinit is installed.
 if [[ ! -d ~/.zinit/bin/ ]]; then
   git clone https://github.com/zdharma/zinit.git ~/.zinit/bin
@@ -43,7 +53,8 @@ zinit light-mode depth'1' for \
   rupa/z \
   changyuheng/fz \
   atload'_zsh_autosuggest_start' zsh-users/zsh-autosuggestions \
-  MichaelAquilina/zsh-auto-notify
+  MichaelAquilina/zsh-auto-notify \
+  svn OMZ::plugins/pyenv
 
 # Completions
 zinit light-mode depth'1' blockf atpull'zinit creinstall -q' as'completion' for \
@@ -172,11 +183,15 @@ setopt pushd_minus # Swap the meaning of '+' and '-' in pushd.
 export THIRDPARTY="$HOME/thirdparty"
 export WORK="$HOME/work/"
 export SCF="$HOME/work/foundation"
+export SP="$HOME/work/sp"
 export CFG="$HOME/personal/configurations/"
 export CLOUDSDK_CORE_PROJECT='sparkcognition-dev'
 export HISTFILE=$HOME/.zsh_history
 export HISTSIZE=50000
 export SAVEHIST=10000
+
+# Python version installations:
+# /usr/local/Cellar/python/
 
 # Aliases
 alias sudo='sudo '
@@ -184,11 +199,10 @@ alias thirdparty="cd \$THIRDPARTY"
 alias 3p="cd \$THIRDPARTY"
 alias work="cd \$WORK"
 alias scf="cd \$SCF"
+alias sp="cd \$SP"
 alias cfg="cd \$CFG"
-alias scala="amm"
-alias python="ipython"
-alias ipyinstall="cd ~/work/test/ipython && pip install -e"
-#alias ls="ls -AlFhG"
+# alias scala="amm"
+# alias python="ipython"
 alias ls="exa -mlha --git --git-ignore --time-style long-iso"
 alias gl="git status"
 alias reboot="echo nap"

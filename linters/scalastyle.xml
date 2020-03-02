@@ -47,7 +47,7 @@
   </check>
   <check class="org.scalastyle.scalariform.MagicNumberChecker" enabled="true" level="warning">
     <parameters>
-      <parameter name="ignore">-1,0,1,2,3</parameter>
+      <parameter name="ignore">-1,0,1,2,3,24,60,100,1000,1024</parameter>
     </parameters>
   </check>
   <check class="org.scalastyle.scalariform.NoWhitespaceBeforeLeftBracketChecker" enabled="true" level="warning" />

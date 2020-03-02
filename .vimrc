@@ -312,7 +312,8 @@ augroup filetypestuff
 
   " Some python/rust bullshit. Both language plugins override the obviously superior 2 space indentation.
   au FileType rust setlocal tabstop=2 softtabstop=2 shiftwidth=2
-  au FileType python setlocal tabstop=2 softtabstop=2 shiftwidth=2
+  " Disabled for work:
+  " au FileType python setlocal tabstop=2 softtabstop=2 shiftwidth=2
 
   " The vim language plugin overrides my setting.
   au FileType vim setlocal textwidth=0
@@ -409,12 +410,16 @@ tmap <silent> <ScrollWheelUp> <c-w>:call EnterNormalMode()<CR>
 noremap - :term<CR>
 " -a to open new ammonite terminal.
 noremap -a :term ++close amm<CR>
+" -i to open new ipython terminal.
+noremap -i :term ++close ipython<CR>
 " _ to open new terminal with given command.
 noremap _ :term 
 " \ to open new vertical terminal.
 noremap <Bslash> :vert term<CR>
-" \a to open new vertical terminal.
+" \a to open new vertical ammonite terminal.
 noremap <Bslash>a :vert term ++close amm<CR>
+" \i to open new vertical ipython terminal.
+noremap <Bslash>i :vert term ++close ipython<CR>
 " | to open new vertical terminal with given command.
 noremap <Bar> :vert term 
 
@@ -595,11 +600,12 @@ Plug 'tpope/vim-rhubarb' " Github plugin for fugitive
 Plug 'zplugin/zplugin-vim-syntax' " Syntax highlighting for zplugin.
 Plug 'roman/golden-ratio' " Automatically resize windows.
 Plug 'jabrouwer82/vim-scala' " My customized version of derekwyatt/vim-scala.
+Plug 'GEverding/vim-hocon' " Syntax for lightbend/config hocon files.
 " COC:
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'neoclide/coc.nvim', {'tag': '*', 'branch': 'release'}
 " Plug 'tjdevries/coc-zsh' " This plugin is painfully unresponsive, at least on macos.
 " These are actually npm projects, they need these args to install correctly.
-let g:coc_plugin_args = {'do': 'yarn install --frozen-lockfile --no-progress'}
+let g:coc_plugin_args = {'do': 'yarn install --frozen-lockfile --silent --no-progress --no-color'}
 Plug 'scalameta/coc-metals', g:coc_plugin_args
 Plug 'iamcco/coc-vimlsp', g:coc_plugin_args
 Plug 'neoclide/coc-highlight', g:coc_plugin_args
@@ -634,7 +640,8 @@ nmap ]p <Plug>yankstack_substitute_newer_paste
 let g:indentLine_char = '▏'
 
 " Rooter:
-let g:rooter_patterns = ['version.sbt', '.git/', 'build.sc']
+let g:rooter_patterns = ['.git/']
+" let g:rooter_patterns = ['build.sbt', 'build.sc', '.git/']
 let g:rooter_silent_chdir = 1
 
 " Html5:
@@ -645,7 +652,6 @@ let g:RecoverPlugin_Delete_Unmodified_Swapfile = 1
 
 " ALE:
 "let g:ale_lint_on_text_changed = 'never'
-let g:ale_python_pylint_options = '--rcfile ~/.pylintrc'
 let g:ale_scala_scalastyle_config = '/Users/jbrouwer/personal/configurations/linters/scalastyle.xml'
 let g:ale_scala_scalastyle_options = '-w false -v true'
 let g:ale_sh_shellcheck_options = '-e SC1090,SC2207'
@@ -655,13 +661,14 @@ let g:ale_echo_msg_warning_str = 'W'
 let g:ale_echo_msg_format = 'ALE: [%linter%]%[code]%[%severity%]: %s'
 let g:ale_linters = {
   \   'scala': ['scalastyle'],
+  \   'python': [],
   \ }
 
 " The following delay the commands until after ALE loads, otherwise ALE overwrites them
 augroup aledelayed
   au!
-  autocmd VimEnter * nmap [l <Plug>(ale_previous_wrap)
-  autocmd VimEnter * nmap ]l <Plug>(ale_next_wrap)
+  autocmd VimEnter * nmap [a <Plug>(ale_previous_wrap)
+  autocmd VimEnter * nmap ]a <Plug>(ale_next_wrap)
   autocmd VimEnter * hi link ALEErrorSign LintErrorSign
 augroup end
 
@@ -722,7 +729,7 @@ noremap <leader>g :GFiles?<cr>
 noremap <leader>: :History:<CR>
 noremap <leader>// :History/<CR>
 noremap <leader>m :Maps<CR>
-noremap <leader>w :Windows<CR>
+" noremap <leader>w :Windows<CR>
 noremap <leader>?? :Commits<CR>
 noremap <leader>? :BCommits<CR>
 noremap <leader>:: :Commands<CR>
@@ -783,6 +790,8 @@ let g:airline#extensions#tabline#show_tab_count = 0
 let g:airline#extensions#tabline#show_close_button = 0
 " Switch buffers and tabs in the tabline, only works for ctrlspace, but hopefully that changes.
 let g:airline#extensions#tabline#switch_buffers_and_tabs = 0
+" Enable coc in statusline.
+let g:airline#extensions#coc#enabled = 1
 
 " Replaces the "tabs" label in the tabline with the abbreviated pwd.
 augroup tablinecwd
@@ -827,10 +836,14 @@ endfunction
 let g:coc_user_config = {
 \  'coc.preferences.colorSupport': v:true,
 \  'rust-client.rustupPath': '/Users/jbrouwer/.cargo/bin/rustup',
-\  'diagnostics.errorSign': '>',
-\  'diagnostics.warningSign': '>',
-\  'coc.preferences.rootPatterns': ['.git', 'version.sbt', 'build.sc', 'Cargo.toml'],
+\  'diagnostics.errorSign': '>>',
+\  'diagnostics.warningSign': '>=',
+\  'diagnostics.infoSign': '==',
+\  'diagnostics.hintSign': '::',
+\  'coc.preferences.rootPatterns': ['build.sbt', 'build.sc', '.env', 'setup.py', '.git'],
+\  'python.linting.pylintArgs': ['--rcfile',  '~/.pylintrc'],
 \}
+" \  'coc.preferences.rootPatterns': ['.git', 'version.sbt', 'build.sc', 'Cargo.toml'],
 
 " Use tab for trigger completion with characters ahead and navigate.
 " Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
@@ -846,7 +859,7 @@ function! s:check_back_space() abort
 endfunction
 
 " Use <c-space> to trigger completion.
-inoremap <silent><expr> <c-space> coc#refresh()
+inoremap <silent><expr> <c-tab> coc#refresh()
 
 " Use <CR> to confirm completion, `<C-g>u` means break undo chain at current position.
 " Coc only does snippet and additional edit on confirm.
@@ -857,19 +870,20 @@ nmap <silent> [c <Plug>(coc-diagnostic-prev)
 nmap <silent> ]c <Plug>(coc-diagnostic-next)
 
 " Remap keys for gotos
-nmap <leader>d <Plug>(coc-definition)
-nmap <leader>y <Plug>(coc-type-definition)
-nmap <leader>i <Plug>(coc-implementation)
-nmap <leader>r <Plug>(coc-references)
+nmap <space>d <Plug>(coc-definition)
+nmap <space>y <Plug>(coc-type-definition)
+nmap <space>i <Plug>(coc-implementation)
+nmap <space>r <Plug>(coc-references)
 
-" Remap for do codeAction of current line
-nmap <leader>ac <Plug>(coc-codeaction)
+" Remap for do codeAction of current line. This uses the fzf window rather than a list buffer like the plugin.
+" nmap <space><leader> <Plug>(coc-codeaction)
+nmap <space><leader> :CocAction<CR>
 
 " Remap for do action format
-nnoremap <silent> F :call CocAction('format')<CR>
+nnoremap <space>f :call CocAction('format')<CR>
 
 " Use K to show documentation in preview window
-nnoremap <silent> K :call <SID>show_documentation()<CR>
+nnoremap <silent> <space>k :call <SID>show_documentation()<CR>
 
 function! s:show_documentation()
   if (index(['vim','help'], &filetype) >= 0)
@@ -880,10 +894,7 @@ function! s:show_documentation()
 endfunction
 
 " Remap for rename current word
-" Unsupported by metals
-" nmap <leader>rn <Plug>(coc-rename)
-" Use this for now:
-nmap <silent> <leader>rn :call CocAction('runCommand', 'document.renameCurrentWord')<CR>
+nmap <space>n <Plug>(coc-rename)
 
 augroup coccustom
   autocmd!
@@ -902,7 +913,7 @@ nmap <leader>a  <Plug>(coc-codeaction-selected)
 " Remap for do codeAction of current line
 nmap <leader>ac  <Plug>(coc-codeaction)
 " Fix autofix problem of current line
-nmap <leader>qf  <Plug>(coc-fix-current)
+nmap <space>q  <Plug>(coc-fix-current)
 
 " Use `:Format` to format current buffer
 command! -nargs=0 Format :call CocAction('format')
@@ -927,10 +938,6 @@ nnoremap <silent> <space>c  :<C-u>CocList commands<cr>
 nnoremap <silent> <space>o  :<C-u>CocList outline<cr>
 " Search workspace symbols
 nnoremap <silent> <space>s  :<C-u>CocList -I symbols<cr>
-" Do default action for next item.
-nnoremap <silent> <space>j  :<C-u>CocNext<CR>
-" Do default action for previous item.
-nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
 " Resume latest coc list
 nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
 

@@ -41,6 +41,10 @@
       status                  # exit code of the last command
       command_execution_time  # duration of the last command
       background_jobs         # presence of background jobs
+      anaconda                # Current conda env
+      virtualenv              # Current venv
+      pyenv                   # Current pyenv
+      gcloud                  # Current gcloud account and project
       kubecontext             # current kubernetes context (https://kubernetes.io/)
       terraform               # terraform workspace (https://www.terraform.io)
       context                 # user@host
@@ -278,6 +282,37 @@
   typeset -g POWERLEVEL9K_BACKGROUND_JOBS_FOREGROUND=$jlcyan
   # Icon to show when there are background jobs.
   typeset -g POWERLEVEL9K_BACKGROUND_JOBS_VISUAL_IDENTIFIER_EXPANSION='${P9K_VISUAL_IDENTIFIER}'
+
+  ###[ virtualenv: python virtual environment (https://docs.python.org/3/library/venv.html) ]###
+  # Python virtual environment color.
+  typeset -g POWERLEVEL9K_VIRTUALENV_FOREGROUND=$jlred
+  # Don't show Python version next to the virtual environment name.
+  typeset -g POWERLEVEL9K_VIRTUALENV_SHOW_PYTHON_VERSION=true
+  # Separate environment name from Python version only with a space.
+  typeset -g POWERLEVEL9K_VIRTUALENV_{LEFT,RIGHT}_DELIMITER=
+  # Custom icon.
+  typeset -g POWERLEVEL9K_VIRTUALENV_VISUAL_IDENTIFIER_EXPANSION=''
+
+  #####################[ anaconda: conda environment (https://conda.io/) ]######################
+  # Anaconda environment color.
+  typeset -g POWERLEVEL9K_ANACONDA_FOREGROUND=37
+  # Don't show Python version next to the anaconda environment name.
+  typeset -g POWERLEVEL9K_ANACONDA_SHOW_PYTHON_VERSION=false
+  # Separate environment name from Python version only with a space.
+  typeset -g POWERLEVEL9K_ANACONDA_{LEFT,RIGHT}_DELIMITER=
+  # Custom icon.
+  # typeset -g POWERLEVEL9K_ANACONDA_VISUAL_IDENTIFIER_EXPANSION='⭐'
+
+  ################[ pyenv: python environment (https://github.com/pyenv/pyenv) ]################
+  # Pyenv color.
+  typeset -g POWERLEVEL9K_PYENV_FOREGROUND=$jlorange
+  # Hide python version if it doesn't come from one of these sources.
+  typeset -g POWERLEVEL9K_PYENV_SOURCES=(shell local global)
+  # If set to false, hide python version if it's the same as global:
+  # $(pyenv version-name) == $(pyenv global).
+  typeset -g POWERLEVEL9K_PYENV_PROMPT_ALWAYS_SHOW=false
+  # Custom icon.
+  typeset -g POWERLEVEL9K_PYENV_VISUAL_IDENTIFIER_EXPANSION=''
 
   ####################################[ context: user@host ]####################################
   # Default context color.

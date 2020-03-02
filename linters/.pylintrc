@@ -139,6 +139,7 @@ disable=print-statement,
         too-many-lines,
         no-else-return,
         too-few-public-methods,
+        wrong-import-order, # Disabled for work
 
 # Enable the message, report, category or checker with the given id(s). You can
 # either give multiple identifier separated by comma (,) or put this option
@@ -201,11 +202,13 @@ expected-line-ending-format=
 ignore-long-lines=^\s*(# )?<?https?://\S+>?$
 
 # Number of spaces of indent required inside a hanging  or continued line.
-indent-after-paren=4
+# Disabled for work
+# indent-after-paren=2
 
 # String used as indentation unit. This is usually "    " (4 spaces) or "\t" (1
 # tab).
-indent-string='  '
+# Disabled for work
+# indent-string='  '
 
 # Maximum number of characters on a single line.
 max-line-length=120

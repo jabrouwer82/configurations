@@ -6,5 +6,5 @@ hyperfine https://github.com/sharkdp/hyperfine
 pastel https://github.com/sharkdp/pastel
 ripgrep https://github.com/BurntSushi/ripgrep
 fzf https://github.com/junegunn/fzf
-
-yarn For Coc
+watchexec https://github.com/watchexec/watchexec
+yarn -- for Coc

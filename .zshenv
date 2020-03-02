@@ -1,3 +1,5 @@
+
+# FZF configuration
 export FZF_DEFAULT_COMMAND='rg --files --hidden'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 
@@ -24,10 +26,12 @@ case "$OSTYPE" in
     export HOMEBREW_NO_AUTO_UPDATE=1
     export JAVA_HOME='/Library/Java/JavaVirtualMachines/adoptopenjdk-8.jdk/Contents/Home'
     export RIPGREP_CONFIG_PATH="/Users/jbrouwer/.ripgreprc"
+    source /Users/jbrouwer/.nix-profile/etc/profile.d/nix.sh
   ;;
   linux*)
     export JAVA_HOME='/usr/lib/jvm/default/'
     export RIPGREP_CONFIG_PATH="/home/jbr/.ripgreprc"
+    source /home/jbr/.nix-profile/etc/profile.d/nix.sh
   ;;
 esac
 

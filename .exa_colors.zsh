@@ -2,9 +2,10 @@ FG='38;2;'
 BG='48;2;'
 BOLD=';1'
 UNDER=';4'
+OFF='0'
 
-TODO=$FG$jwhite2';'$BG$jlredexa
-CHECK=$FG$jlred2';'$BG$jwhiteexa
+TODO=$FG$jwhiteexa';'$BG$jlredexa
+CHECK=$FG$jlredexa';'$BG$jwhiteexa
 CODE=$FG$jlblueexa
 CONFIG=$FG$jlpurpleexa
 OTHER=$FG$jdblueexa
@@ -12,7 +13,7 @@ DATA=$FG$jgreenexa
 
 RAW_LS_COLORS=(
   'no='$TODO # Default.
-  'rs='$TODO # Reset.
+  'rs='$OFF # Reset.
 
   'di='$FG$jlgreenexa # Directories.
   'ex='$FG$jlorangeexa # Executable Files.
@@ -169,6 +170,10 @@ RAW_LS_COLORS=(
   '*.yml='$CONFIG
   'Makefile='$CONFIG
   'Vagrantfile='$CONFIG
+  '*.cfg='$CONFIG
+  '*.ini='$CONFIG
+  '*.properties='$CONFIG
+  '.python-version='$CONFIG
 
   # Code
   '*.ts='$CODE
@@ -207,6 +212,7 @@ RAW_LS_COLORS=(
   '*.parquet='$DATA
   '*.avsc='$DATA
   '*.csv='$DATA
+  '*.tsv='$DATA
   '*.xml='$DATA
   '*.txt='$DATA
 )

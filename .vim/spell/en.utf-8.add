@@ -33,6 +33,7 @@ SpellRare
 TerminalNormal
 UseKeychain
 VertSplit
+Vimplicits
 Yankstack
 api
 autocommands
@@ -68,6 +69,7 @@ deps
 dir
 eg
 eol
+faqs
 filetype
 filetypes
 forcecatchup
@@ -88,9 +90,11 @@ html5
 idk
 ie
 imap
+implicits
 incrementors
 init
 invspell
+ish
 jabrouwer
 jabrouwer82
 jacob
@@ -100,6 +104,7 @@ json
 junegunn's
 keymap
 keymaps
+lang
 lfs
 link
 lorem
@@ -123,6 +128,7 @@ rn
 saveAsCustomOutput
 sbt
 scala
+scalac
 scalastyle
 scio
 sed

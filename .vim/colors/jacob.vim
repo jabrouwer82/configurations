@@ -30,7 +30,7 @@ exe 'hi Exception guifg=' . $jlred
 
 exe 'hi PreProc guifg=' . $jlcyan
 exe 'hi Include guifg=' . $jcyan
-exe 'hi Define guifg=' . $jlcyan . ' guibg=' . $jlred
+exe 'hi Define guifg=' . $jlcyan
 exe 'hi Macro guifg=' . $jcyan
 exe 'hi PreCondit guifg=' . $jlcyan
 
