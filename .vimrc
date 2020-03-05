@@ -13,21 +13,36 @@ syntax on
 if system('uname') ==# "Darwin\n"
   " Use ligatures
   set macligatures
-  
+
   " Sets my font.
   set guifont=Hasklug\ Nerd\ Font:h11
-  
-  function! Batterypercent()
-    let g:batterypercent = system('pmset -g batt | grep -Eo "\d+%" | cut -d% -f1')[:-2]
+
+  " Always start in fullscreen.
+  augroup Fullscreen
+    au!
+    au GUIEnter * set fullscreen
+  augroup end
+
+  set fullscreen
+
+  function! CheckBatteryPercent()
+    let g:battery_percent = system('sh -c ''pmset -g batt | grep -Eo "\d+%" | cut -d% -f1'' ')[:-2]
   endfunction
 else
   " Sets my font.
   set guifont=Hasklug\ Nerd\ Font\ 11
 
-  " This should really check the existance of a battery ior something.
+  " Always start in fullscreen.
+  " This is gross and probably not the best way to do this.
+  augroup Fullscreen
+    au!
+    au GUIEnter * set lines=9999 columns=9999
+  augroup end
+
+  " This should really check the existence of a battery or something.
   " I'll worry about it when I get a linux laptop.
-  function! Batterypercent()
-    let g:batterypercent = '100'
+  function! CheckBatteryPercent()
+    let g:battery_percent = ''
   endfunction
 endif
 
@@ -126,7 +141,7 @@ set scrolloff=5
 " Persist undo changes to disk
 set undofile
 " Location of undo files.
-set undodir=$VIM_TMP_DIR/undo//
+set undodir=$HOME/.vim/tmp/undo//
 
 " Number of undos to save.
 set undolevels=10000
@@ -134,13 +149,13 @@ set undolevels=10000
 set undoreload=10000
 
 " Location of swap files.
-set directory=$VIM_TMP_DIR/dir//
+set directory=$HOME/.vim/tmp/dir//
 
 " Write a duplicate file out when overwriting a file.
 " Makes saving stupidly slow in some cases.
 set backup
 " Location of said backups.
-set backupdir=$VIM_TMP_DIR/back//
+set backupdir=$HOME/.vim/tmp/back//
 
 " Allow backspacing over everything.
 set backspace=indent,eol,start
@@ -207,7 +222,7 @@ augroup AutoWrite
   au WinLeave * silent! update
 augroup end
 
-" Clear the stupid stuck popup from coc whenever I switch windows.
+" Clear the stupid stuck pop-up from coc whenever I switch windows.
 augroup ClearPopup
   au!
   au WinEnter * call popup_clear()
@@ -220,35 +235,51 @@ augroup BufCursorCenter
 augroup end
 
 " Save the reltime that vim starts.
-augroup starttime
-  au VimEnter let g:start_time=reltime()
+augroup StartTime
+  au!
+  au VimEnter * let g:start_time=reltime()
 augroup end
 
-" Disables the swap file if the file isn't modified.
-augroup swpctrl
+" Disables the swap file for unmodified buffers.
+augroup SwpControl
   au!
-  autocmd CursorHold,BufWritePost,BufReadPost,BufLeave *
-    \ if isdirectory(expand("<amatch>:h")) | let &swapfile = &modified | endif
+  autocmd BufWritePost,BufReadPost,BufLeave *
+    \ if isdirectory(expand("<amatch>:h")) | let &l:swapfile = &modified | endif
+augroup end
+
+let g:large_fsize = 10
+augroup LargeFile 
+  au!
+  autocmd BufReadPre *
+    \ let f=getfsize(expand("<afile>")) / 1024 / 1024 | if f > g:large_fsize || f == -2 | call LargeFile() | endif
 augroup end
 
 " My backup/undo/swp files are in a git repo that gets a new commit every write.
-augroup tmpbackup
+augroup BackupTmpFiles
   au!
   au BufWritePost,FileWritePost,VimLeave * call Backup_tmp_files()
 augroup end
 
-augroup listspell
+" No need to highlight any spelling issues in lists since they're generally from plugins.
+augroup DisableListSpell
   au!
   au FileType list setlocal nospell
 augroup end
 
-augroup vimresize
+" Equally size all splits.
+augroup ResizeSplits
   au!
   au VimResized * wincmd =
 augroup end
 
+" Let the cmd line breath when it has space.
+augroup ResizeCmdline
+  au!
+  au VimResized * let &cmdheight=1 + float2nr(ceil(&lines / 64.0))
+augroup end
+
 " <leader>= will fix ts/js comparisons ie === or !== rather than == or !=
-augroup tsjsft
+augroup TsJsFiletype
   au!
   au FileType typescript,javascript nnoremap <silent><buffer> <leader>= :s/\(=\\|!\)=\([^=]\)/\1==\2/g<CR>:noh<CR>
 augroup end
@@ -328,13 +359,42 @@ augroup autocursorpos
     \ if line("'\"") >= 1 && line("'\"") <= line("$") && &ft !~# 'commit'
     \ |   exe "normal! g`\""
     \ | endif
-augroup END
+augroup end
+
 
 
 " FUNCTIONS:
 
+" These functions are horrifically fragile.
+" There can only be one background job at a time.
+" There should be a dict with names to allow multiple jobs.
+" call BgJob to get the first line of the job output placed in g:bg_result.
+function! BgCmdCb(channel)
+  let g:bg_result = readfile(g:bg_output_file, '', 1)[0]
+  unlet g:bg_output_file g:bg_job
+endfunction
+
+function! BgCmd(command)
+  if exists('g:bg_job')
+    job_stop(g:bg_job, 'kill')
+    unlet g:bg_output_file g:bg_job
+  else
+    let g:bg_output_file = tempname()
+    call job_start(a:command, {'close_cb': 'BgCmdCb', 'out_io': 'file', 'out_name': g:bg_output_file})
+  endif
+endfunction
+
+function! LargeFile()
+  " No need for the extra IO of making the swap/backup/undo files.
+  setlocal noswapfile nobackup nowritebackup noundofile
+  " Disable syntax highlighting and similar ft plugins.
+  setlocal eventignore+=FileType
+  " Display message once buffer is open.
+  autocmd ++once BufEnter *  echom "The file is larger than " . g:large_fsize . " MB, so some options are changed."
+endfunction
+
 " Prints a warning message.
-function Warn(message)
+function! Warn(message)
   echohl WarningMsg
   echom a:message
   echohl None
@@ -353,20 +413,26 @@ endfunction
 " Calls the script that backs up my backup/undo/swp.
 let g:backup_time_delta=60*15
 function! Backup_tmp_files()
-  if !exists('g:last_backup_ts') || reltimefloat(reltime(g:last_backup_ts)) > g:backup_time_delta
+  let l:now = reltime()
+  let l:since_backup = get(g:, 'last_backup_ts', get(g:, 'start_time', l:now))
+  if l:since_backup == l:now || reltimefloat(reltime(l:since_backup)) > g:backup_time_delta
     echom 'Backing up tmp files, this might take > 10 seconds...'
-    call system('sh -c ' . $VIM_TMP_DIR . '/backup.sh > ' . $VIM_TMP_DIR . '/log.txt 2>&1')
-    let g:last_backup_ts=reltime()
-    " These two lines clear the message.
-    echon "\r\r"
-    echon ''
+    call system('sh -c ' . $HOME .'/.vim/tmp/backup.sh > ' . $HOME . '.vim/tmp/log.txt 2>&1')
+    let g:last_backup_ts = reltime()
+    call ClearOneLine()
   endif
 endfunction
 
 " Allow saving of files as sudo when I forgot to start vim using sudo.
-fun SuWrite()
-  echo 'Sudo writing file' | execute 'silent write !sudo tee % > /dev/null' | edit!
-endfun
+function SuWrite()
+  echom 'Sudo writing file' | execute 'silent write !sudo tee % > /dev/null' | edit!
+endfunction
+
+" Moves the cursor to the beginning of the current line and then clears it.
+function! ClearOneLine()
+  echon "\r"
+  echon ''
+endfunction
 
 " These two functions allow me to use fzf for spell suggestions, which is much nicer than the default ui.
 function! FzfSpellSink(word)
@@ -575,7 +641,6 @@ Plug 'kshenoy/vim-signature' " Display marks in the sign column.
 Plug 'tpope/vim-unimpaired' " Lots of really nice movement mappings.
 Plug 'w0rp/ale' " Display live linter output.
 Plug 'tpope/vim-commentary' " Quick comment toggle command.
-Plug 'maxbrunsfeld/vim-yankstack' " Keeps yanked text in a stack for easy recall.
 Plug 'tpope/vim-fugitive' " Git integration.
 Plug 'chrisbra/Recover.vim'
 Plug 'gre/play2vim' " Syntax, etc for play route/conf/scala.html.
@@ -588,11 +653,11 @@ Plug 'regedarek/zoomwin' " Provides a tmux-like zoom function.
 Plug 'andrewradev/bufferize.vim' " Allows output of commands to be opened in their own normal buffer.
 Plug 'airblade/vim-rooter' " Finds the root of the project for open files.
 Plug 'tpope/vim-markdown'
-Plug 'moll/vim-bbye' " Dep for vim-symlink.
+Plug 'moll/vim-bbye' " Dependency for vim-symlink.
 Plug 'aymericbeaumet/vim-symlink' " Automatically follow symlinks.
 Plug 'tpope/vim-surround' " cs/ds/ys/css/dss/yss to change/delete/surround a word/line.
 Plug 'tpope/vim-repeat' " Allow . to work with (some) plugins.
-Plug 'glts/vim-magnum' " Numeric library, dep for radical.
+Plug 'glts/vim-magnum' " Numeric library, dependency for radical.
 Plug 'glts/vim-radical' " gA, crd/crx/cro/crb for decimal/hex/octal/binary conversions.
 Plug 'arthurxavierx/vim-caser' " Change cases.
 Plug 'tommcdo/vim-fubitive' " Bitbucket plugin for fugitive
@@ -630,11 +695,6 @@ let g:loaded_golden_ratio = 0
 " gs  space case
 " gs- kebab-case
 " gs. dot.case
-
-" Yankstack:
-" These have to use nmap rather than nnoremap.
-nmap [p <Plug>yankstack_substitute_older_paste
-nmap ]p <Plug>yankstack_substitute_newer_paste
 
 " Indentline:
 let g:indentLine_char = '▏'
@@ -755,6 +815,8 @@ let g:vim_json_syntax_conceal = 0
 " GitGutter:
 let g:gitgutter_highlight_lines = 1
 let g:gitgutter_diff_base = 'origin/HEAD'
+nmap ]g <Plug>(GitGutterNextHunk)
+nmap [g <Plug>(GitGutterPrevHunk)
 
 " Signature:
 let g:SignatureMarkTextHL = 'Marks'
@@ -764,6 +826,10 @@ let g:SignatureMarkTextHL = 'Marks'
 let g:airline_theme = 'jacob'
 " Use powerline symbols.
 let g:airline_powerline_fonts = 1
+" Create the symbols dict.
+if !exists('g:airline_symbols')
+  let g:airline_symbols = {}
+endif
 " Use a better symbol for dirty branches.
 let g:airline_symbols.dirty = ' '
 " Enable the tabline.
@@ -794,40 +860,60 @@ let g:airline#extensions#tabline#switch_buffers_and_tabs = 0
 let g:airline#extensions#coc#enabled = 1
 
 " Replaces the "tabs" label in the tabline with the abbreviated pwd.
-augroup tablinecwd
+augroup TablineCwd
   au!
   au DirChanged,VimEnter * let g:airline#extensions#tabline#tabs_label = pathshorten(fnamemodify(getcwd(), ":~"))
 augroup end
 
 " This chunk puts a clock and battery meter in the top right of the airline tabline.
-call Batterypercent()
+call CheckBatteryPercent()
 
-if exists('g:tablinetimer')
-  call timer_stop(g:tablinetimer)
+if exists('g:tabline_timer')
+  call timer_stop(g:tabline_timer)
 endif
-let g:tablinetimer = timer_start(&updatetime, 'Tablineupdate', { 'repeat': -1 })
+let g:tabline_timer = timer_start(&updatetime, 'TablineUpdate', { 'repeat': -1 })
 
-if exists('g:batterytimer')
-  call timer_stop(g:batterytimer)
+if exists('g:battery_timer')
+  call timer_stop(g:battery_timer)
 endif
-let g:batterytimer = timer_start(&updatetime, 'Updatebattery')
+let g:battery_timer = timer_start(&updatetime, 'UpdateBattery')
 
-function! Updatebattery(timer)
-  call Batterypercent()
-  if g:batterypercent < 2
-    echom 'BATTERY VERY LOW'
-    let g:batterytimer = timer_start(300, 'Updatebattery')
-  elseif g:batterypercent < 10
-    let g:batterytimer = timer_start(2000, 'Updatebattery')
-  elseif g:batterypercent < 50
-    let g:batterytimer = timer_start(60*1000, 'Updatebattery')
-  else
-    let g:batterytimer = timer_start(5*60*1000, 'Updatebattery')
+function! UpdateBattery(timer)
+
+  call CheckBatteryPercent()
+
+  let l:show_alert = 0
+
+  if g:battery_percent < 2
+    let l:show_alert = 1
+    let g:battery_timer = timer_start(10*1000, 'UpdateBattery')
+  elseif g:battery_percent < 10
+    let g:battery_timer = timer_start(60*1000, 'UpdateBattery')
+  elseif g:battery_percent < 33
+    let g:battery_timer = timer_start(5*60*1000, 'UpdateBattery')
+  elseif g:battery_percent < 66
+    let g:battery_timer = timer_start(10*60*1000, 'UpdateBattery')
+  elseif g:battery_percent < 100
+    let g:battery_timer = timer_start(20*60*1000, 'UpdateBattery')
+  elseif g:battery_percent == 100
+    let g:battery_timer = timer_start(30*60*1000, 'UpdateBattery')
   endif
+
+  if exists('g:battery_alert')
+    call popup_close(g:battery_alert)
+    unlet g:battery_alert
+  endif
+
+  if l:show_alert
+    let g:battery_alert = popup_create('BATTERY VERY LOW',
+      \ #{highlight: 'ErrorMsg', border: [], padding: [0,1,0,1],
+      \ close: 'click', borderchars: ['━', '┃', '━', '┃', '┏', '┓', '┛', '┗']})
+  endif
+
 endfunction
 
-function! Tablineupdate(timer)
-  let g:airline#extensions#tabline#buffers_label = strftime('%m/%d %T') . ' |' . g:batterypercent . '%%|'
+function! TablineUpdate(timer)
+  let g:airline#extensions#tabline#buffers_label = strftime('%m/%d %T') . ' |' . g:battery_percent . '%%|'
   call airline#util#doautocmd('BufMRUChange')
   call airline#extensions#tabline#redraw()
 endfunction
@@ -863,7 +949,7 @@ inoremap <silent><expr> <c-tab> coc#refresh()
 
 " Use <CR> to confirm completion, `<C-g>u` means break undo chain at current position.
 " Coc only does snippet and additional edit on confirm.
-inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
 
 " Use `[c` and `]c` to navigate diagnostics
 nmap <silent> [c <Plug>(coc-diagnostic-prev)

@@ -21,15 +21,17 @@ mkdir -p ~/.vim/autoload/airline/themes
 mkdir -p ~/.vim/bundle
 mkdir -p ~/.vim/colors
 mkdir -p ~/.vim/spell
-mkdir -p ~/.tmp/vim/back
-mkdir -p ~/.tmp/vim/undo
-mkdir -p ~/.tmp/vim/dir
+mkdir -p ~/.vim/tmp/back
+mkdir -p ~/.vim/tmp/undo
+mkdir -p ~/.vim/tmp/dir
 ln -sf "$(pwd)"/.vim/Dec2hex.vim ~/.vim/Dec2hex.vim
 ln -sf "$(pwd)"/.vim/autoload/airline/themes/jacob.vim ~/.vim/autoload/airline/themes/jacob.vim
 ln -sf "$(pwd)"/.vim/coc-settings.json ~/.vim/coco-settings.json
 ln -sf "$(pwd)"/.vim/colors/jacob.vim ~/.vim/colors/jacob.vim
 ln -sf "$(pwd)"/.vim/spell/en.utf-8.add ~/.vim/spell/en.utf-8.add
-ln -sf "$(pwd)"/backup.sh ~/.tmp/vim/backup.sh
+ln -sf "$(pwd)"/backup.sh ~/.vim/tmp/backup.sh
+ln -sf "$(pwd)"/.vimtmpgitignore ~/.vim/tmp/.gitignore
+git -C ~/.vim/tmp/ init -q
 
 echo -e '\033[1;36mInstalling zsh configs...\033[0m'
 mkdir -p ~/.config/fsh

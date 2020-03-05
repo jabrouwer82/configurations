@@ -2,26 +2,39 @@
 
 set -e
 
-dir=$(dirname $0)
+oldest_commit='master@{2.days.ago}'
 
 date
+dir=$(dirname "$0")
+echo "$dir"
 echo ""
 
-echo "add"
+echo "Add."
 echo ""
-git -C $dir add -A
-echo ""
-
-echo "commit"
-echo ""
-git -C $dir commit --allow-empty --allow-empty-message -m ''
+git -C "$dir" add -A
 echo ""
 
-echo "replace"
+echo "Commit."
 echo ""
-git -C $dir replace -f --graft @{2.days.ago}
+git -C "$dir" commit --allow-empty --allow-empty-message -m ''
 echo ""
 
-echo "filter-branch"
+echo "Create temp branch."
 echo ""
-git -C $dir filter-branch -f
+git -C "$dir" checkout --orphan temp "$oldest_commit"
+echo ""
+
+echo "Truncate commit."
+echo ""
+git -C "$dir" commit -m "Truncated history" -q
+echo ""
+
+echo "Rebase."
+echo ""
+git -C "$dir" rebase --onto temp "$oldest_commit" master
+echo ""
+
+echo "Delete temp branch."
+echo ""
+git -C "$dir" branch -D temp
+echo ""

@@ -3,9 +3,6 @@
 export FZF_DEFAULT_COMMAND='rg --files --hidden'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 
-# Set a root location for undo/back/swp files.
-export VIM_TMP_DIR=$HOME'/.tmp/vim'
-
 # Less doesn't do anything if there's less than one page.
 export LESS="-FRX $LESS"
 
