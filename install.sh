@@ -46,7 +46,9 @@ ln -sf "$(pwd)"/.gitconfig ~/.gitconfig
 ln -sf "$(pwd)"/.gitall.sh ~/.gitall.sh
 
 echo -e '\033[1;36mInstalling linter configs...\033[0m'
+mkdir -p ~/.config
 find "$(pwd)/linters" -type f -exec ln -sf {} ~/ \;
+ln -sf "$(pwd)"/linters/flake8 ~/.config/flake8
 
 echo -e '\033[1;36mInstalling ripgrep configs...\033[0m'
 ln -sf "$(pwd)"/.ripgreprc ~/.ripgreprc

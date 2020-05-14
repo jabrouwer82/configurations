@@ -16,7 +16,6 @@
   done = ! ~/.gitall.sh
   forcecatchup = ! git checkout -f && git clean -fd && git catchup
   repo = ! basename -s .git $(git config --get remote.origin.url)
-  undolastuncommited = reset --hard HEAD^
 [push]
   default = upstream
 [init]

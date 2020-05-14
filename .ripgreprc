@@ -22,4 +22,7 @@
 
 --type-add=tsv:*.tsv
 
+# Ignore git lfs objects
+--glob=!**/.git/lfs/**
+
 #--glob=!**/data-ingestion-sdk/**

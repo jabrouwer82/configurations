@@ -42,7 +42,6 @@ interp.configureCompiler { compiler =>
     + s.LintWarnings.TypeParameterShadow
     + s.LintWarnings.UnsoundMatch
   )
-
 }
 
 def logImplicits(value: Option[Boolean] = None) =
@@ -56,6 +55,12 @@ sparkcognition.addSparkRepo()
 
 import $ivy.`org.typelevel::simulacrum:1.0.0`
 import $ivy.`com.sparkcognition::data-ingestion-lib:latest.integration`
+// import $ivy.`com.sksamuel.pulsar4s::pulsar4s-circe:2.4.6`
+// import $ivy.`com.sksamuel.pulsar4s::pulsar4s-core:2.4.6`
+// import $ivy.`io.circe::circe-core:0.13.0`
+// import $ivy.`io.circe::circe-generic:0.13.0`
+// import $ivy.`io.circe::circe-parser:0.13.0`
+// import $ivy.`org.typelevel::mouse::0.24`
 
 import $plugin.$ivy.`org.typelevel:::kind-projector:0.11.0`
 import $plugin.$ivy.`com.olegpy::better-monadic-for:0.3.1`
@@ -101,6 +106,8 @@ object Imports {
       c.Expr(q"""
         import scala.util.{Success, Failure}
         import scala.concurrent._
+        import scala.util.control.NonFatal
+        import scala.util._
         implicit val ec = ExecutionContext.global
         ()
       """)

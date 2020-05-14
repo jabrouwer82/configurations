@@ -22,6 +22,8 @@ case "$OSTYPE" in
   darwin*)
     export HOMEBREW_NO_AUTO_UPDATE=1
     export JAVA_HOME='/Library/Java/JavaVirtualMachines/adoptopenjdk-8.jdk/Contents/Home'
+    export LDFLAGS="-L/usr/local/opt/openssl@1.1/lib"
+    export CPPFLAGS="-I/usr/local/opt/openssl@1.1/include"
     export RIPGREP_CONFIG_PATH="/Users/jbrouwer/.ripgreprc"
     source /Users/jbrouwer/.nix-profile/etc/profile.d/nix.sh
   ;;

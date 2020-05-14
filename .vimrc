@@ -592,6 +592,12 @@ noremap [t :tabp<CR>
 
 " <leader>t to create new tab.
 noremap <leader>t :tabnew<CR>
+" <leader>tt to create new terminal tab.
+noremap <leader>tt :tabnew<CR>:term ++curwin<CR>
+" <leader>tt to create new ammonite tab.
+noremap <leader>ta :tabnew<CR>:term ++curwin ++close amm<CR>
+" <leader>tt to create new ipython tab.
+noremap <leader>ti :tabnew<CR>:term ++curwin ++close ipython<CR>
 " <leader>tc to close the current tab.
 noremap <leader>tc :tabc<CR>
 
@@ -753,6 +759,17 @@ let g:fzf_preview_windows='farg={3..}; fn=${farg:s/> //}; ' . g:fzf_preview_base
 "   call fzf#vim#files(a:dir, a:000)
 " endfunction
 
+function! s:history(arg, extra, bang)
+  let bang = a:bang || a:arg[len(a:arg)-1] == '!'
+  if a:arg[0] == ':'
+    call fzf#vim#command_history(bang)
+  elseif a:arg[0] == '/'
+    call fzf#vim#search_history(bang)
+  else
+    call fzf#vim#history(a:extra, bang)
+  endif
+endfunction
+
 command! -bang -nargs=? -complete=dir Files call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
 " command! -bang -nargs=? -complete=dir Files call FzfCd(<q-args>, fzf#vim#with_preview(), <bang>0)
 command! -bar -bang -nargs=? -complete=buffer Buffers  call fzf#vim#buffers(
@@ -776,7 +793,7 @@ command! -bar -bang Windows call fzf#vim#windows(
 command! -bar -bang Commits call fzf#vim#commits(<bang>0)
 command! -bar -bang BCommits call fzf#vim#buffer_commits(<bang>0)
 command! -bar -bang Maps call fzf#vim#maps("n", <bang>0)
-command! -bang -nargs=* History call s:history(<q-args>, <bang>0)
+command! -bang -nargs=* History call s:history(<q-args>, {}, <bang>0)
 
 noremap <C-p> :FZF<cr>
 noremap <C-t> :FZF<cr>
@@ -786,6 +803,7 @@ noremap <leader><CR> :Buffers<cr>
 vnoremap <leader>rg y:Rg <C-r>"
 nnoremap <leader>rg :Rg <C-r><C-w>
 noremap <leader>g :GFiles?<cr>
+noremap <leader>h :History<CR>
 noremap <leader>: :History:<CR>
 noremap <leader>// :History/<CR>
 noremap <leader>m :Maps<CR>
@@ -927,9 +945,13 @@ let g:coc_user_config = {
 \  'diagnostics.infoSign': '==',
 \  'diagnostics.hintSign': '::',
 \  'coc.preferences.rootPatterns': ['build.sbt', 'build.sc', '.env', 'setup.py', '.git'],
+\  'python.linting.pylintUseMinimalCheckers': v:true,
 \  'python.linting.pylintArgs': ['--rcfile',  '~/.pylintrc'],
+\  'python.linting.mypyEnabled': v:true,
+\  'python.linting.flake8Enabled': v:true,
 \}
 " \  'coc.preferences.rootPatterns': ['.git', 'version.sbt', 'build.sc', 'Cargo.toml'],
+" \  'python.linting.flake8Args': ['--config',  '~/personal/linters/flake8'],
 
 " Use tab for trigger completion with characters ahead and navigate.
 " Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.

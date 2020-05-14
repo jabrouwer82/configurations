@@ -8,3 +8,4 @@ ripgrep https://github.com/BurntSushi/ripgrep
 fzf https://github.com/junegunn/fzf
 watchexec https://github.com/watchexec/watchexec
 yarn -- for Coc
+ctags -- for coc-python
