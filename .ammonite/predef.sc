@@ -3,6 +3,7 @@ interp.configureCompiler { compiler =>
   s.YpartialUnification.value = true
   s.deprecation.value = true
   s.explaintypes.value = true
+  s.Ydelambdafy.tryToSetColon(List("inline"))
   // s.fatalWarnings.value = true
   s.feature.value = true
   s.future.value = true
@@ -54,7 +55,7 @@ import $file.`sparkcognition`
 sparkcognition.addSparkRepo()
 
 import $ivy.`org.typelevel::simulacrum:1.0.0`
-import $ivy.`com.sparkcognition::data-ingestion-lib:latest.integration`
+// import $ivy.`com.sparkcognition::data-ingestion-lib:latest.integration`
 // import $ivy.`com.sksamuel.pulsar4s::pulsar4s-circe:2.4.6`
 // import $ivy.`com.sksamuel.pulsar4s::pulsar4s-core:2.4.6`
 // import $ivy.`io.circe::circe-core:0.13.0`

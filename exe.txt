@@ -2,6 +2,7 @@ trash-cli https://github.com/andreafrancia/trash-cli
 exa https://github.com/ogham/exa
 bat https://github.com/sharkdp/bat
 fd https://github.com/sharkdp/fd
+sd https://github.com/chmln/sd
 hyperfine https://github.com/sharkdp/hyperfine
 pastel https://github.com/sharkdp/pastel
 ripgrep https://github.com/BurntSushi/ripgrep

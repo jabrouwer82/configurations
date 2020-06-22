@@ -376,7 +376,7 @@ endfunction
 
 function! BgCmd(command)
   if exists('g:bg_job')
-    job_stop(g:bg_job, 'kill')
+    call job_stop(g:bg_job, 'kill')
     unlet g:bg_output_file g:bg_job
   else
     let g:bg_output_file = tempname()
@@ -718,7 +718,6 @@ let g:RecoverPlugin_Delete_Unmodified_Swapfile = 1
 
 " ALE:
 "let g:ale_lint_on_text_changed = 'never'
-let g:ale_scala_scalastyle_config = '/Users/jbrouwer/personal/configurations/linters/scalastyle.xml'
 let g:ale_scala_scalastyle_options = '-w false -v true'
 let g:ale_sh_shellcheck_options = '-e SC1090,SC2207'
 let g:ale_typescript_tslint_config_path = '/home/jbrouwer/personal/configurations/tslint.json'
@@ -760,10 +759,10 @@ let g:fzf_preview_windows='farg={3..}; fn=${farg:s/> //}; ' . g:fzf_preview_base
 " endfunction
 
 function! s:history(arg, extra, bang)
-  let bang = a:bang || a:arg[len(a:arg)-1] == '!'
-  if a:arg[0] == ':'
+  let bang = a:bang || a:arg[len(a:arg)-1] ==# '!'
+  if a:arg[0] ==# ':'
     call fzf#vim#command_history(bang)
-  elseif a:arg[0] == '/'
+  elseif a:arg[0] ==# '/'
     call fzf#vim#search_history(bang)
   else
     call fzf#vim#history(a:extra, bang)
@@ -923,9 +922,13 @@ function! UpdateBattery(timer)
   endif
 
   if l:show_alert
-    let g:battery_alert = popup_create('BATTERY VERY LOW',
-      \ #{highlight: 'ErrorMsg', border: [], padding: [0,1,0,1],
-      \ close: 'click', borderchars: ['━', '┃', '━', '┃', '┏', '┓', '┛', '┗']})
+    let g:battery_alert = popup_create('BATTERY VERY LOW', {
+    \   'highlight': 'ErrorMsg',
+    \   'border': [],
+    \   'padding': [0,1,0,1],
+    \   'close': 'click',
+    \   'borderchars': ['━', '┃', '━', '┃', '┏', '┓', '┛', '┗']
+    \ })
   endif
 
 endfunction
