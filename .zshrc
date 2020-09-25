@@ -28,7 +28,6 @@ export PATH
 
 typeset -TU PYTHONPATH pythonpath
 pythonpath+=(
-  /Users/jbrouwer/work/sp/src/modules/python/pipelines/sparkpredict/customer
 )
 export PYTHONPATH
 
@@ -182,10 +181,7 @@ setopt pushd_minus # Swap the meaning of '+' and '-' in pushd.
 # Exports
 export THIRDPARTY="$HOME/thirdparty"
 export WORK="$HOME/work/"
-export SCF="$HOME/work/foundation"
-export SP="$HOME/work/sp"
 export CFG="$HOME/personal/configurations/"
-export CLOUDSDK_CORE_PROJECT='sparkcognition-dev'
 export HISTFILE=$HOME/.zsh_history
 export HISTSIZE=50000
 export SAVEHIST=10000
@@ -198,8 +194,6 @@ alias sudo='sudo '
 alias thirdparty="cd \$THIRDPARTY"
 alias 3p="cd \$THIRDPARTY"
 alias work="cd \$WORK"
-alias scf="cd \$SCF"
-alias sp="cd \$SP"
 alias cfg="cd \$CFG"
 alias ls="exa -mlha --git --git-ignore --time-style long-iso"
 alias gl="git status"

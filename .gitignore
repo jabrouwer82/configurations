@@ -7,3 +7,5 @@ Kinesis/do_not_edit.txt
 Kinesis/version.txt
 .metals/
 hs_err*
+
+.git/
