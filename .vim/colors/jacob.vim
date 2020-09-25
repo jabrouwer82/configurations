@@ -74,10 +74,10 @@ exe 'hi LineNR guifg=' . $jdcyan . ' guibg=' . g:sign_bg
 exe 'hi SignColumn guibg=' . g:sign_bg
 exe 'hi StatusLine gui=NONE guifg=' . $jpurple . ' guibg=' . $jdgrey
 exe 'hi StatusLineTerm gui=NONE guifg=' . $jpurple . ' guibg=' . $jdgrey
-exe 'hi StatusLineTermNC guibg=' . $jlblue
+exe 'hi StatusLineTermNC guibg=' . $jdpurple
 " This should keep the vertical split highlight synced with airline, but it doesn't work for insert mode.
 " hi! link VertSplit airline_a
-exe 'hi VertSplit guibg=' . $jblue . ' guifg=' . $jblue
+exe 'hi VertSplit guibg=' . $jdpurple . ' guifg=' . $jdpurple
 exe 'hi WildMenu gui=bold guifg=' . $jlyellow . ' guibg=' . $jdgrey
 
 " Git Column:

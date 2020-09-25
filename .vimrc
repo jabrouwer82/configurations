@@ -425,7 +425,7 @@ endfunction
 
 " Allow saving of files as sudo when I forgot to start vim using sudo.
 function SuWrite()
-  echom 'Sudo writing file' | execute 'silent write !sudo tee % > /dev/null' | edit!
+  echom 'Sudo writing file' | execute 'silent write !sudo tee > /dev/null %' | edit!
 endfunction
 
 " Moves the cursor to the beginning of the current line and then clears it.
@@ -461,7 +461,8 @@ endfunction
 
 " COMMANDS:
 " :W to use sudo to write a file.
-command! W :call SuWrite()
+" I keep thinking I've fixed the function this calls, but then it never seems to work correctly.
+" command! W :call SuWrite()
 
 " :CS to print coc status.
 command! CS :call CocStatus()
@@ -471,6 +472,9 @@ let mapleader=';'
 
 " Allows scrolling up from terminal-job mode.
 tmap <silent> <ScrollWheelUp> <c-w>:call EnterNormalMode()<CR>
+
+" shift+space shows up at [[32;2u without this line.
+tnoremap <s-space> <space>
 
 " - to open new terminal.
 noremap - :term<CR>
@@ -681,10 +685,8 @@ Plug 'scalameta/coc-metals', g:coc_plugin_args
 Plug 'iamcco/coc-vimlsp', g:coc_plugin_args
 Plug 'neoclide/coc-highlight', g:coc_plugin_args
 Plug 'neoclide/coc-yaml', g:coc_plugin_args
-Plug 'neoclide/coc-rls', g:coc_plugin_args
 Plug 'neoclide/coc-python', g:coc_plugin_args
 Plug 'neoclide/coc-json', g:coc_plugin_args
-Plug 'neoclide/coc-java', g:coc_plugin_args
 call plug#end()
 
 " Golden Ratio:
@@ -985,6 +987,9 @@ nmap <space>d <Plug>(coc-definition)
 nmap <space>y <Plug>(coc-type-definition)
 nmap <space>i <Plug>(coc-implementation)
 nmap <space>r <Plug>(coc-references)
+
+" Toggle panel with Tree Views
+nnoremap <silent> <space>t :<C-u>CocCommand metals.tvp<CR>
 
 " Remap for do codeAction of current line. This uses the fzf window rather than a list buffer like the plugin.
 " nmap <space><leader> <Plug>(coc-codeaction)

@@ -50,22 +50,24 @@ def logImplicits(value: Option[Boolean] = None) =
     c => c.settings.XlogImplicits.value = value.getOrElse(!c.settings.XlogImplicits.value)
   }
 
-import $file.`sparkcognition`
+import $ivy.`org.typelevel::simulacrum:latest.release`
+import $ivy.`io.circe::circe-core:latest.release`
+import $ivy.`io.circe::circe-generic:latest.release`
+import $ivy.`io.circe::circe-parser:latest.release`
+import $ivy.`org.typelevel::mouse:latest.release`
+import $ivy.`org.typelevel::cats:latest.release`
+import $ivy.`org.typelevel::cats-effect:latest.release`
+import $ivy.`org.typelevel::cats-effect:latest.release`
 
-sparkcognition.addSparkRepo()
+import $plugin.$ivy.`org.typelevel:::kind-projector:latest.release`
+import $plugin.$ivy.`com.olegpy::better-monadic-for:latest.release`
+import $plugin.$ivy.`org.scalamacros:::paradise:latest.release`
 
-import $ivy.`org.typelevel::simulacrum:1.0.0`
-// import $ivy.`com.sparkcognition::data-ingestion-lib:latest.integration`
-// import $ivy.`com.sksamuel.pulsar4s::pulsar4s-circe:2.4.6`
-// import $ivy.`com.sksamuel.pulsar4s::pulsar4s-core:2.4.6`
-// import $ivy.`io.circe::circe-core:0.13.0`
-// import $ivy.`io.circe::circe-generic:0.13.0`
-// import $ivy.`io.circe::circe-parser:0.13.0`
-// import $ivy.`org.typelevel::mouse::0.24`
-
-import $plugin.$ivy.`org.typelevel:::kind-projector:0.11.0`
-import $plugin.$ivy.`com.olegpy::better-monadic-for:0.3.1`
-import $plugin.$ivy.`org.scalamacros:::paradise:2.1.0`
+// Stuff I just always want in scope:
+import scala.util._
+import scala.concurrent._
+import java.util.UUID
+import scala.util.control.NonFatal
 
 object Imports {
   import language.experimental.macros
@@ -90,26 +92,6 @@ object Imports {
         import cats.effect.concurrent._
         import simulacrum._
         import scala.language.higherKinds
-        import scala.language.implicitConversions
-        ()
-      """)
-    }
-  }
-
-  @compileTimeOnly("This should just always say 'compile time only annotation', why do I have to write this myself")
-  class futureimports extends StaticAnnotation {
-    def macroTransform(annottees: Any*): Any = macro futureimports.impl
-  }
-
-  object futureimports {
-    def impl(c: Context)(annottees: c.Expr[Any]*): c.Expr[Any] = {
-      import c.universe._
-      c.Expr(q"""
-        import scala.util.{Success, Failure}
-        import scala.concurrent._
-        import scala.util.control.NonFatal
-        import scala.util._
-        implicit val ec = ExecutionContext.global
         ()
       """)
     }
