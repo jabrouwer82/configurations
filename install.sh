@@ -26,7 +26,7 @@ mkdir -p ~/.vim/tmp/undo
 mkdir -p ~/.vim/tmp/dir
 ln -sf "$(pwd)"/.vim/Dec2hex.vim ~/.vim/Dec2hex.vim
 ln -sf "$(pwd)"/.vim/autoload/airline/themes/jacob.vim ~/.vim/autoload/airline/themes/jacob.vim
-ln -sf "$(pwd)"/.vim/coc-settings.json ~/.vim/coco-settings.json
+ln -sf "$(pwd)"/.vim/coc-settings.json ~/.vim/coc-settings.json
 ln -sf "$(pwd)"/.vim/colors/jacob.vim ~/.vim/colors/jacob.vim
 ln -sf "$(pwd)"/.vim/spell/en.utf-8.add ~/.vim/spell/en.utf-8.add
 ln -sf "$(pwd)"/backup.sh ~/.vim/tmp/backup.sh
