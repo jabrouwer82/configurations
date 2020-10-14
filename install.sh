@@ -4,6 +4,11 @@
 
 echo -e '\033[1;36mThis is only kind of tested, use at your own risk!\033[0m'
 
+
+echo -e '\033[1;36mCreating dirs...\033[0m'
+mkdir -p ~/work
+mkdir -p ~/thirdparty
+
 #echo -e '\033[1;36mInstalling systemd units...\033[0m'
 #sudo ln -sf "$(pwd)"/systemd/trash-empty.service /usr/lib/systemd/system/trash-empty.service
 #sudo ln -sf "$(pwd)"/systemd/trash-empty.timer /usr/lib/systemd/system/trash-empty.timer
