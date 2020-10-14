@@ -21,8 +21,6 @@ path+=(
   $HOME/bin
   /usr/local/bin
   $HOME/thirdparty/dotty/bin
-  $HOME/.cargo/bin
-  $HOME/.gcloud/bin
 )
 export PATH
 
@@ -52,22 +50,19 @@ zinit light-mode depth'1' for \
   rupa/z \
   changyuheng/fz \
   atload'_zsh_autosuggest_start' zsh-users/zsh-autosuggestions \
-  MichaelAquilina/zsh-auto-notify \
-  svn OMZ::plugins/pyenv
+  MichaelAquilina/zsh-auto-notify
 
 # Completions
 zinit light-mode depth'1' blockf atpull'zinit creinstall -q' as'completion' for \
-  svn OMZ::plugins/cargo \
   svn OMZ::plugins/fd \
-  svn OMZ::plugins/ripgrep
+  svn OMZ::plugins/ripgrep \
+  svn OMZ::plugins/docker \
+  svn OMZ::plugins/docker-compose
 
 # Completions with other functions.
 zinit light-mode depth'1' blockf atpull'zinit creinstall -q' for \
-  svn OMZ::plugins/cabal \
   svn OMZ::plugins/fzf \
-  svn OMZ::plugins/kubectl \
-  zsh-users/zsh-completions \
-  littleq0903/gcloud-zsh-completion
+  zsh-users/zsh-completions
 
 zinit ice depth'1' atload'
 typeset -g HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND='"'""bg=$jblue,fg=$jwhite,bold""'"'
@@ -93,7 +88,9 @@ export ZSH_AUTOSUGGEST_STRATEGY=(history completion)
 # Async autosuggestions.
 export ZSH_AUTOSUGGEST_USE_ASYNC=1
 
+############################
 # vv Taken from oh-my-zsh vv
+############################
 zmodload -i zsh/complist
 
 unsetopt menu_complete # Do not autoselect the first completion entry.
@@ -163,7 +160,9 @@ else
 fi
 
 bindkey "^_" copy-prev-shell-word # Ctrl-_ to copy the previous "word" in a command.
+############################
 # ^^ Taken from oh-my-zsh ^^
+############################
 
 setopt auto_pushd # Makes `cd` push to the dir stack.
 setopt extended_history # Log timestamp and duration of commands in history.
@@ -182,7 +181,7 @@ setopt pushd_minus # Swap the meaning of '+' and '-' in pushd.
 export THIRDPARTY="$HOME/thirdparty"
 export WORK="$HOME/work/"
 export CFG="$HOME/personal/configurations/"
-export HISTFILE=$HOME/.zsh_history
+export HISTFILE="$HOME/.zsh_history"
 export HISTSIZE=50000
 export SAVEHIST=10000
 
@@ -202,20 +201,9 @@ alias rm="trash-put"
 alias vi="vim"
 alias server="python3 -m http.server"
 alias extserver="sudo python3 -m http.server 80"
-alias man="~/thirdparty/bat-extras/src/batman.sh"
+alias man="batman"
 
 # Functions
-
-# Setup for docker compose nonsense.
-hostip() {
-  echo $(ifconfig en0 | awk '$1 == "inet" {print $2}')
-}
-
-#sethostip() {
-#  export HOST_IP=$(hostip)
-#}
-
-#precmd_functions+=( sethostip )
 
 # Mute "cd -", I have my pwd in my path, I don't need it again.
 cd() {
@@ -234,21 +222,3 @@ vim() {
     command vim "$@"
   fi
 }
-
-# unalias tmux
-# tmux() {
-#   if [[ -z $* ]]; then
-#     command tmux a 2&> /dev/null || command tmux
-#   else
-#     command tmux $*
-#   fi
-# }
-
-# Detaches tmux if closing the last pane in the open session, else just calls exit.
-# exit() {
-#   if [[ -z $TMUX ]] || [[ $(tmux list-panes -s | wc -l) -gt 1 ]]; then
-#     builtin exit
-#   else
-#     tmux detach
-#   fi
-# }

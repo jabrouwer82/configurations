@@ -46,6 +46,12 @@ else
   endfunction
 endif
 
+" Add TouchBar items
+if has(touchbar)
+  an icon=NSTouchBarGetInfoTemplate TouchBar.GetInfo <C-G>
+  an icon=
+endif
+
 " Crap to make 24bit color work in terminals, these need to be adjusted per terminal.
 let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
 let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
@@ -152,7 +158,7 @@ set undoreload=10000
 set directory=$HOME/.vim/tmp/dir//
 
 " Write a duplicate file out when overwriting a file.
-" Makes saving stupidly slow in some cases.
+" Makes saving stupidly slow for very large files.
 set backup
 " Location of said backups.
 set backupdir=$HOME/.vim/tmp/back//
@@ -677,10 +683,10 @@ Plug 'roman/golden-ratio' " Automatically resize windows.
 Plug 'jabrouwer82/vim-scala' " My customized version of derekwyatt/vim-scala.
 Plug 'GEverding/vim-hocon' " Syntax for lightbend/config hocon files.
 " COC:
-Plug 'neoclide/coc.nvim', {'tag': '*', 'branch': 'release'}
-" Plug 'tjdevries/coc-zsh' " This plugin is painfully unresponsive, at least on macos.
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 " These are actually npm projects, they need these args to install correctly.
 let g:coc_plugin_args = {'do': 'yarn install --frozen-lockfile --silent --no-progress --no-color'}
+" Plug 'tjdevries/coc-zsh' " This plugin is painfully unresponsive, at least on macos.
 Plug 'scalameta/coc-metals', g:coc_plugin_args
 Plug 'iamcco/coc-vimlsp', g:coc_plugin_args
 Plug 'neoclide/coc-highlight', g:coc_plugin_args
