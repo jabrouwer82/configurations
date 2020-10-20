@@ -9,7 +9,6 @@ export LESS="-FRX $LESS"
 export MANPATH="/usr/local/man:$MANPATH"
 
 export LANG=en_US.UTF-8
-export EDITOR='vim'
 export TERM=xterm-256color
 export PYTHONPATH="${PYTHONPATH}:$HOME/work/python"
 export FZF_BASE=/usr/local/bin/fzf
@@ -20,6 +19,7 @@ export FILTER_BRANCH_SQUELCH_WARNING=1
 
 case "$OSTYPE" in
   darwin*)
+    export EDITOR='mvim -f 2> /dev/null'
     export HOMEBREW_NO_AUTO_UPDATE=1
     export JAVA_HOME='/Library/Java/JavaVirtualMachines/adoptopenjdk-11.jdk/Contents/Home'
     export LDFLAGS="-L/usr/local/opt/openssl@1.1/lib"
@@ -28,6 +28,7 @@ case "$OSTYPE" in
     # source /Users/jbrouwer/.nix-profile/etc/profile.d/nix.sh
   ;;
   linux*)
+    export EDITOR='gvim'
     export JAVA_HOME='/usr/lib/jvm/default/'
     export RIPGREP_CONFIG_PATH="/home/jbr/.ripgreprc"
     # source /home/jbr/.nix-profile/etc/profile.d/nix.sh
