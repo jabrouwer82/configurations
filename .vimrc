@@ -28,6 +28,12 @@ if system('uname') ==# "Darwin\n"
   function! CheckBatteryPercent()
     let g:battery_percent = system('sh -c ''pmset -g batt | grep -Eo "\d+%" | cut -d% -f1'' ')[:-2]
   endfunction
+
+  " Add TouchBar items
+  if has('touchbar')
+    an icon=NSTouchBarGetInfoTemplate TouchBar.GetInfo <C-G>
+    an icon=
+  endif
 else
   " Sets my font.
   set guifont=Hasklug\ Nerd\ Font\ 11
@@ -44,12 +50,6 @@ else
   function! CheckBatteryPercent()
     let g:battery_percent = ''
   endfunction
-endif
-
-" Add TouchBar items
-if has(touchbar)
-  an icon=NSTouchBarGetInfoTemplate TouchBar.GetInfo <C-G>
-  an icon=
 endif
 
 " Crap to make 24bit color work in terminals, these need to be adjusted per terminal.

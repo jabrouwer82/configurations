@@ -6,7 +6,6 @@ ColorColumn
 CursorHold
 DS
 DeepAcumen
-Deserializes
 GenericRecord
 GenericRecords
 GoldenRatioToggle
@@ -17,7 +16,6 @@ IdentityFile
 IntelliJ
 Milewski
 MixedCase
-Mixins
 Odersky
 PEP8
 SCollection
@@ -80,6 +78,7 @@ deleteforce
 deps
 derekwyatt
 deserialized
+deserializes
 dir
 doobie
 eg
@@ -146,6 +145,7 @@ macos
 macvim
 millis
 mixin
+mixins
 moocs
 multiline
 nbsps

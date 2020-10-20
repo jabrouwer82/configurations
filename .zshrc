@@ -8,8 +8,6 @@ fi
 source ~/.p10k.zsh # Powerlevel10k configuration.
 source ~/.exa_colors.zsh # Customizes the color scheme of ls and exa.
 
-# source ~/.ghcup/env
-
 typeset -U fpath
 fpath+=(
   $HOME/.zsh/
@@ -17,6 +15,7 @@ fpath+=(
 
 typeset -U path
 path+=(
+  /Applications/MacVim.app/Contents/bin
   $HOME/.local/bin
   $HOME/bin
   /usr/local/bin
@@ -216,11 +215,11 @@ cd() {
   fi
 }
 
-# Fixes commands like "vi vi file".
-vim() {
-  if [[ $1 = "vi" || $1 = "vim" ]]; then
-    command vim "${@:2}"
-  else
-    command vim "$@"
-  fi
-}
+# # Fixes commands like "vi vi file".
+# vim() {
+#   if [[ $1 = "vi" || $1 = "vim" ]]; then
+#     command vim "${@:2}"
+#   else
+#     command vim "$@"
+#   fi
+# }
