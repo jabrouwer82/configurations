@@ -30,7 +30,7 @@ case "$OSTYPE" in
   linux*)
     export JAVA_HOME='/usr/lib/jvm/default/'
     export RIPGREP_CONFIG_PATH="/home/jbr/.ripgreprc"
-    source /home/jbr/.nix-profile/etc/profile.d/nix.sh
+    # source /home/jbr/.nix-profile/etc/profile.d/nix.sh
   ;;
 esac
 

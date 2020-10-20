@@ -5,6 +5,12 @@
 echo -e '\033[1;36mThis is only kind of tested, use at your own risk!\033[0m'
 
 
+echo -e '\033[1;36mCreating dirs...\033[0m'
+mkdir -p ~/work
+mkdir -p ~/thirdparty
+mkdir -p ~/personal
+
+
 echo -e '\033[1;36mInstalling vim configs...\033[0m'
 ln -sf "$(pwd)"/.vimrc ~/.vimrc
 mkdir -p ~/.vim/autoload/airline/themes
