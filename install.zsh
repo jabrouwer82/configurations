@@ -1,6 +1,6 @@
 #! /bin/zsh
 
-# TODO: Switch all this crap to gnu stow and add separation for unix and macos things
+# TODO: Switch all this crap to gnu stow and/or nix.
 
 echo -e '\033[1;36mThis is only kind of tested, use at your own risk!\033[0m'
 
@@ -8,17 +8,8 @@ echo -e '\033[1;36mThis is only kind of tested, use at your own risk!\033[0m'
 echo -e '\033[1;36mCreating dirs...\033[0m'
 mkdir -p ~/work
 mkdir -p ~/thirdparty
+mkdir -p ~/personal
 
-#echo -e '\033[1;36mInstalling systemd units...\033[0m'
-#sudo ln -sf "$(pwd)"/systemd/trash-empty.service /usr/lib/systemd/system/trash-empty.service
-#sudo ln -sf "$(pwd)"/systemd/trash-empty.timer /usr/lib/systemd/system/trash-empty.timer
-#sudo ln -sf "$(pwd)"/trash-empty.sh ~/trash-empty.sh
-#sudo ln -sf "$(pwd)"/systemd/vimplug-update.service /usr/lib/systemd/system/vimplug-update.service
-#sudo ln -sf "$(pwd)"/systemd/vimplug-update.timer /usr/lib/systemd/system/vimplug-update.timer
-#sudo ln -sf "$(pwd)"/.vimplug-update.sh ~/vimplug-update.sh
-#systemctl daemon-reload
-#systemctl reenable --now trash-empty.timer
-#systemctl reenable --now vimplug-update.timer
 
 echo -e '\033[1;36mInstalling vim configs...\033[0m'
 ln -sf "$(pwd)"/.vimrc ~/.vimrc
@@ -73,9 +64,29 @@ echo -e '\033[1;36mInstalling sbt configs...\033[0m'
 mkdir -p ~/.sbt/1.0/plugins/
 ln -sf "$(pwd)"/sbt/global.sbt ~/.sbt/1.0/plugins/global.sbt
 
-# echo -e '\033[1;36mInstalling xorg configs...\033[0m'
-# sudo ln -sf "$(pwd)"/xorg/50-marblemouse.conf /etc/X11/xorg.conf.d/50-marblemouse.conf
-# sudo ln -sf "$(pwd)"/xorg/51-m570.conf /etc/X11/xorg.conf.d/51-m570.conf
-# sudo ln -sf "$(pwd)"/xorg/51-mxergo.conf /etc/X11/xorg.conf.d/51-mxergo.conf
-# sudo ln -sf "$(pwd)"/xorg/51-trackpoint.conf /etc/X11/xorg.conf.d/51-trackpoint.conf
+case "$OSTYPE" in
+  darwin*)
+    echo -e '\033[1;36mInstalling Library key bindings...\033[0m'
+    ln -sf "$(pwd)"/macos/Library/DefaultKeyBindings.dict ~/Library/DefaultKeyBindings.dict
+  ;;
+  linux*)
+    echo -e '\033[1;36mInstalling systemd units...\033[0m'
+    sudo ln -sf "$(pwd)"/systemd/trash-empty.service /usr/lib/systemd/system/trash-empty.service
+    sudo ln -sf "$(pwd)"/systemd/trash-empty.timer /usr/lib/systemd/system/trash-empty.timer
+    sudo ln -sf "$(pwd)"/trash-empty.sh ~/trash-empty.sh
+    sudo ln -sf "$(pwd)"/systemd/vimplug-update.service /usr/lib/systemd/system/vimplug-update.service
+    sudo ln -sf "$(pwd)"/systemd/vimplug-update.timer /usr/lib/systemd/system/vimplug-update.timer
+    sudo ln -sf "$(pwd)"/.vimplug-update.sh ~/vimplug-update.sh
+    systemctl daemon-reload
+    systemctl reenable --now trash-empty.timer
+    systemctl reenable --now vimplug-update.timer
+
+    echo -e '\033[1;36mInstalling xorg configs...\033[0m'
+    sudo ln -sf "$(pwd)"/xorg/50-marblemouse.conf /etc/X11/xorg.conf.d/50-marblemouse.conf
+    sudo ln -sf "$(pwd)"/xorg/51-m570.conf /etc/X11/xorg.conf.d/51-m570.conf
+    sudo ln -sf "$(pwd)"/xorg/51-mxergo.conf /etc/X11/xorg.conf.d/51-mxergo.conf
+    sudo ln -sf "$(pwd)"/xorg/51-trackpoint.conf /etc/X11/xorg.conf.d/51-trackpoint.conf
+  ;;
+esac
+
 
