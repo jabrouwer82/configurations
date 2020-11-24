@@ -23,6 +23,12 @@ if system('uname') ==# "Darwin\n"
     au GUIEnter * set fullscreen
   augroup end
 
+  " Add TouchBar items
+  if has(touchbar)
+    an icon=NSTouchBarGetInfoTemplate TouchBar.GetInfo <C-G>
+    an icon=
+  endif
+
   set fullscreen
 
   function! CheckBatteryPercent()
@@ -42,13 +48,12 @@ else
   " This is gross and probably not the best way to do this.
   augroup Fullscreen
     au!
+    au GUIEnter * winpos 0 0
     au GUIEnter * set lines=9999 columns=9999
   augroup end
 
-  " This should really check the existence of a battery or something.
-  " I'll worry about it when I get a linux laptop.
   function! CheckBatteryPercent()
-    let g:battery_percent = ''
+    let g:battery_percent = system('sh -c ''if [[ -f /sys/class/power_supply/BAT0/capacity ]]; then cat /sys/class/power_supply/BAT0/capacity; else echo "∞"; fi'' ')[:-2]
   endfunction
 endif
 
@@ -683,7 +688,6 @@ Plug 'tpope/vim-repeat' " Allow . to work with (some) plugins.
 Plug 'glts/vim-magnum' " Numeric library, dependency for radical.
 Plug 'glts/vim-radical' " gA, crd/crx/cro/crb for decimal/hex/octal/binary conversions.
 Plug 'arthurxavierx/vim-caser' " Change cases.
-Plug 'tommcdo/vim-fubitive' " Bitbucket plugin for fugitive
 Plug 'tpope/vim-rhubarb' " Github plugin for fugitive
 Plug 'zplugin/zplugin-vim-syntax' " Syntax highlighting for zplugin.
 Plug 'roman/golden-ratio' " Automatically resize windows.
