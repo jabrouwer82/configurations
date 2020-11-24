@@ -9,3 +9,5 @@ Kinesis/version.txt
 hs_err*
 
 .git/
+
+scala-*/

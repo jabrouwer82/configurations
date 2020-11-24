@@ -6,6 +6,7 @@ ColorColumn
 CursorHold
 DS
 DeepAcumen
+ForwardAgent
 GenericRecord
 GenericRecords
 GoldenRatioToggle
@@ -34,6 +35,7 @@ api
 args
 arity
 artitionInfo
+async
 autocmds
 autocommands
 autocrlf
@@ -59,10 +61,12 @@ catchuprebase
 cd
 cmd
 coc
+coc
 codeAction
 compmax
 concat
 conf
+config
 config
 contravariant
 cr
@@ -102,8 +106,10 @@ fzf
 git
 gitall
 gitgutter
+gitgutter
 github
 gitignore
+gitlab
 gotos
 guibg
 guifg
@@ -163,6 +169,7 @@ params
 partitionInfo
 partitionKey
 pep8
+poc
 powerline
 pwd
 pycodestlye
@@ -174,6 +181,7 @@ repl
 rg
 ripgrep
 rn
+rsa
 sbt
 scala
 scalac

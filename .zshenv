@@ -1,4 +1,12 @@
 
+# Some common locations
+export THIRDPARTY="$HOME/thirdparty"
+export WORK="$HOME/work/"
+export PDS="$WORK/pds/"
+export PFP="$WORK/pfp/"
+export PERS="$HOME/personal/"
+export CFG="$PERS/configurations/"
+
 # FZF configuration
 export FZF_DEFAULT_COMMAND='rg --files --hidden'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
