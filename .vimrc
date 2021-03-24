@@ -11,6 +11,9 @@ scriptencoding=utf-8
 syntax on
 
 if system('uname') ==# "Darwin\n"
+  " Makes vim use the system clipboard for yank and paste.
+  set clipboard=unnamed
+
   " Use ligatures
   set macligatures
 
@@ -35,6 +38,9 @@ if system('uname') ==# "Darwin\n"
     let g:battery_percent = system('sh -c ''pmset -g batt | grep -Eo "\d+%" | cut -d% -f1'' ')[:-2]
   endfunction
 else
+  " Makes vim use the system clipboard for yank and paste.
+  set clipboard=unnamedplus
+
   " Sets my font.
   set guifont=Hasklug\ Nerd\ Font\ 11
 
@@ -136,9 +142,6 @@ set laststatus=2
 " This is pretty specific to some airline settings.
 " Mode > filename[edit settings]  filetype < encoding < % cursor position < ale/coc stuff
 set statusline=%#error#%a\ %*\ %<%.99f\ %h%w%#error#%m%*%#error#%r%*%y%=%-16(\ %l/%L,%c%V\ %)%P
-
-" Makes vim use the system clipboard for yank and paste.
-set clipboard=unnamed
 
 " Enforces 5 lines of space between the cursor and the top/bottom of a window.
 set scrolloff=5
@@ -543,6 +546,16 @@ noremap <leader><bslash> :wincmd v<CR>
 
 " Esc to enter terminal normal mode
 tnoremap <Esc> <C-\><C-n>
+
+" Ctrl-Shift-V to paste.
+" Terminal Mode
+tnoremap <C-A-V> <C-W>"+
+" Normal Mode.
+nnoremap <C-A-V> p
+" Insert Mode.
+inoremap <C-A-V> <C-R>+
+" Command Line Mode.
+cnoremap <C-A-V> <C-R>+
 
 " Repeat the last : command
 " noremap <leader>: @:
