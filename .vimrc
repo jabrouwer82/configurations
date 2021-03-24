@@ -37,6 +37,12 @@ if system('uname') ==# "Darwin\n"
   function! CheckBatteryPercent()
     let g:battery_percent = system('sh -c ''pmset -g batt | grep -Eo "\d+%" | cut -d% -f1'' ')[:-2]
   endfunction
+
+  " Add TouchBar items
+  if has('touchbar')
+    an icon=NSTouchBarGetInfoTemplate TouchBar.GetInfo <C-G>
+    an icon=
+  endif
 else
   " Makes vim use the system clipboard for yank and paste.
   set clipboard=unnamedplus
@@ -92,7 +98,7 @@ set cursorcolumn
 " Always display the sign column, used by coc, ale, and gitgutter to display changes, errors, and warning.
 set signcolumn=yes
 
-" Automatic filetype detection.
+" Detect filetypes, load filetype plugins, and load filetype indent files.
 filetype plugin indent on
 
 " Use syntax highlighting to inform where folds occur.
@@ -140,8 +146,8 @@ set noruler
 " Show the statusline for unfocused windows.
 set laststatus=2
 " This is pretty specific to some airline settings.
-" Mode > filename[edit settings]  filetype < encoding < % cursor position < ale/coc stuff
-set statusline=%#error#%a\ %*\ %<%.99f\ %h%w%#error#%m%*%#error#%r%*%y%=%-16(\ %l/%L,%c%V\ %)%P
+" Mode > filename[edit settings] ... filetype < encoding < % cursor position < ale/coc stuff
+set statusline=%#error#%a\ %*\ %<%.99f\ %h%w%#error#%m%*%#error#%r%*%=%Y%=%-16(\ %l/%L,%c%V\ %)%P
 
 " Enforces 5 lines of space between the cursor and the top/bottom of a window.
 set scrolloff=5
@@ -475,6 +481,13 @@ endfunction
 " :CS to print coc status.
 command! CS :call CocStatus()
 
+" Cd aliases
+command! Work :cd $WORK
+command! Pds :cd $PDS
+command! Pfp :cd $PFP
+command! Pers :cd $PERS
+
+
 " MAPPINGS:
 let mapleader=';'
 
@@ -693,6 +706,7 @@ Plug 'zplugin/zplugin-vim-syntax' " Syntax highlighting for zplugin.
 Plug 'roman/golden-ratio' " Automatically resize windows.
 Plug 'jabrouwer82/vim-scala' " My customized version of derekwyatt/vim-scala.
 Plug 'GEverding/vim-hocon' " Syntax for lightbend/config hocon files.
+Plug 'ryanoasis/vim-devicons' " Adds icons for filetypes.
 " COC:
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 " These are actually npm projects, they need these args to install correctly.
@@ -705,6 +719,27 @@ Plug 'neoclide/coc-yaml', g:coc_plugin_args
 Plug 'neoclide/coc-python', g:coc_plugin_args
 Plug 'neoclide/coc-json', g:coc_plugin_args
 call plug#end()
+
+" Dev Icons:
+" Default icon
+let g:WebDevIconsUnicodeDecorateFileNodesDefaultSymbol = ''
+
+" Custom filestypes by extension.
+if !exists('g:WebDevIconsUnicodeDecorateFileNodesExtensionSymbols')
+  let g:WebDevIconsUnicodeDecorateFileNodesExtensionSymbols = {}
+endif
+let g:WebDevIconsUnicodeDecorateFileNodesExtensionSymbols['sc'] = ''
+let g:WebDevIconsUnicodeDecorateFileNodesExtensionSymbols['scala'] = ''
+let g:WebDevIconsUnicodeDecorateFileNodesExtensionSymbols['sbt'] = ''
+let g:WebDevIconsUnicodeDecorateFileNodesExtensionSymbols['zsh'] = '𝐙'
+
+" Exact filename match overrides.
+if !exists('g:WebDevIconsUnicodeDecorateFileNodesExactSymbols')
+  let g:WebDevIconsUnicodeDecorateFileNodesExactSymbols = {}
+endif
+let g:WebDevIconsUnicodeDecorateFileNodesExactSymbols['config'] = ''
+let g:WebDevIconsUnicodeDecorateFileNodesExactSymbols['.gitconfig'] = ''
+
 
 " Golden Ratio:
 " This should disable the plugin, use :GoldenRatioToggle to reenable.
@@ -867,17 +902,35 @@ if !exists('g:airline_symbols')
   let g:airline_symbols = {}
 endif
 " Use a better symbol for dirty branches.
-let g:airline_symbols.dirty = ' '
-" Enable the tabline.
-let g:airline#extensions#tabline#enabled = 1
+let g:airline_symbols.dirty = '  '
+" Don't show the 'spell' section in the status bar.
+let g:airline_detect_spell=0
+" Override some mode display values.
+if !exists('g:airline_mode_map')
+  let g:airline_mode_map = {}
+endif
+" Normal
+let g:airline_mode_map['n'] = ''
+" Insert
+let g:airline_mode_map['i'] = ''
+" Visual
+let g:airline_mode_map['v'] = 'V'
+" Visual Line
+let g:airline_mode_map['V'] = 'VL'
+" Visual Block
+let g:airline_mode_map[''] = 'VB'
+
 " Enables detection of whitespace errors.
 let g:airline#extensions#whitespace#enabled = 0
 " Show the keymap in use (I'm pretty sure I'm not using keymaps, I'm not sure why I have this enabled)
 let g:airline#extensions#keymap#enabled = 1
-" Don't show the 'spell' section in the status bar.
-let g:airline_detect_spell=0
 " Don't show the encoding if it's what it should be.
 let g:airline#parts#ffenc#skip_expected_string='utf-8[unix]'
+" Enable coc in statusline.
+let g:airline#extensions#coc#enabled = 1
+
+" Enable the tabline.
+let g:airline#extensions#tabline#enabled = 1
 " Show visible buffers of current tab in tabline.
 let g:airline#extensions#tabline#show_splits = 1
 " Truncate buffer names in the tabline to just the filename without extension.
@@ -892,8 +945,6 @@ let g:airline#extensions#tabline#show_tab_count = 0
 let g:airline#extensions#tabline#show_close_button = 0
 " Switch buffers and tabs in the tabline, only works for ctrlspace, but hopefully that changes.
 let g:airline#extensions#tabline#switch_buffers_and_tabs = 0
-" Enable coc in statusline.
-let g:airline#extensions#coc#enabled = 1
 
 " Replaces the "tabs" label in the tabline with the abbreviated pwd.
 augroup TablineCwd

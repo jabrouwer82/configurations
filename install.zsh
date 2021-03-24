@@ -53,6 +53,8 @@ echo -e '\033[1;36mInstalling ammonite configs...\033[0m'
 mkdir -p ~/.ammonite
 ln -sf "$(pwd)"/.ammonite/predefScript.sc ~/.ammonite/predef.sc
 ln -sf "$(pwd)"/.ammonite/predef.sc ~/.ammonite/predef.sc
+ln -sf "$(pwd)"/.ammonite/spark-predef.sc ~/.ammonite/spark-predef.sc
+ln -sf "$(pwd)"/.ammonite/configure-compiler.sc ~/.ammonite/configure-compiler.sc
 
 echo -e '\033[1;36mInstalling bat configs...\033[0m'
 mkdir -p ~/.config/bat/themes

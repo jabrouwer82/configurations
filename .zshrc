@@ -8,8 +8,6 @@ fi
 source ~/.p10k.zsh # Powerlevel10k configuration.
 source ~/.exa_colors.zsh # Customizes the color scheme of ls and exa.
 
-# source ~/.ghcup/env
-
 typeset -U fpath
 fpath+=(
   $HOME/.zsh/
@@ -17,12 +15,17 @@ fpath+=(
 
 typeset -U path
 path+=(
+  /Applications/MacVim.app/Contents/bin
   $HOME/.local/bin
   $HOME/bin
   /usr/local/bin
   $HOME/thirdparty/dotty/bin
+  /usr/local/opt/openjdk@11/bin # spark
 )
 export PATH
+
+# Required by spark
+export CPPFLAGS="-I/usr/local/opt/openjdk@11/include"
 
 typeset -TU PYTHONPATH pythonpath
 pythonpath+=(
@@ -178,9 +181,6 @@ setopt pushd_ignore_dups # Don't add duplicates to the dir stack.
 setopt pushd_minus # Swap the meaning of '+' and '-' in pushd.
 
 # Exports
-export THIRDPARTY="$HOME/thirdparty"
-export WORK="$HOME/work/"
-export CFG="$HOME/personal/configurations/"
 export HISTFILE="$HOME/.zsh_history"
 export HISTSIZE=50000
 export SAVEHIST=10000
@@ -217,10 +217,15 @@ cd() {
 }
 
 # Fixes commands like "vi vi file".
-vim() {
-  if [[ $1 = "vi" || $1 = "vim" ]]; then
-    command vim "${@:2}"
-  else
-    command vim "$@"
-  fi
+# vim() {
+#   if [[ $1 = "vi" || $1 = "vim" ]]; then
+#     command vim "${@:2}"
+#   else
+#     command vim "$@"
+#   fi
+# }
+
+# Loads up a spark repl in ammonite using github.com/alexarchambault/ammonite-spark
+spark-amm() {
+  cs launch ammonite:2.1.4 --scala 2.12.11 -- --class-based --predef ~/.ammonite/spark-predef.sc --no-home-predef
 }

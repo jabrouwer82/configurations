@@ -6,7 +6,7 @@ ColorColumn
 CursorHold
 DS
 DeepAcumen
-Deserializes
+ForwardAgent
 GenericRecord
 GenericRecords
 GoldenRatioToggle
@@ -17,7 +17,6 @@ IdentityFile
 IntelliJ
 Milewski
 MixedCase
-Mixins
 Odersky
 PEP8
 SCollection
@@ -36,6 +35,7 @@ api
 args
 arity
 artitionInfo
+async
 autocmds
 autocommands
 autocrlf
@@ -61,10 +61,12 @@ catchuprebase
 cd
 cmd
 coc
+coc
 codeAction
 compmax
 concat
 conf
+config
 config
 contravariant
 cr
@@ -80,6 +82,7 @@ deleteforce
 deps
 derekwyatt
 deserialized
+deserializes
 dir
 doobie
 eg
@@ -103,8 +106,10 @@ fzf
 git
 gitall
 gitgutter
+gitgutter
 github
 gitignore
+gitlab
 gotos
 guibg
 guifg
@@ -146,6 +151,7 @@ macos
 macvim
 millis
 mixin
+mixins
 moocs
 multiline
 nbsps
@@ -163,6 +169,7 @@ params
 partitionInfo
 partitionKey
 pep8
+poc
 powerline
 pwd
 pycodestlye
@@ -174,6 +181,7 @@ repl
 rg
 ripgrep
 rn
+rsa
 sbt
 scala
 scalac
