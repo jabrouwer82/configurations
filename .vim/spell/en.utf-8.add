@@ -139,6 +139,7 @@ json5
 junegunn
 keymap
 keymaps
+keyspace
 lang
 lfs
 lightbend
@@ -146,6 +147,7 @@ link
 linter
 linux
 localhost
+log4j
 lorem
 macos
 macvim
@@ -181,6 +183,7 @@ repl
 rg
 ripgrep
 rn
+rootLogger
 rsa
 sbt
 scala

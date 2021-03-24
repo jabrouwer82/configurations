@@ -10,7 +10,12 @@ scriptencoding=utf-8
 " Turns syntax highlighting on.
 syntax on
 
-if system('uname') ==# "Darwin\n"
+let g:uname = trim(system('uname'))
+
+if g:uname ==# "Darwin"
+  " Mac stuff
+
+
   " Use ligatures
   set macligatures
 
@@ -23,24 +28,16 @@ if system('uname') ==# "Darwin\n"
     au GUIEnter * set fullscreen
   augroup end
 
-  " Add TouchBar items
-  if has(touchbar)
-    an icon=NSTouchBarGetInfoTemplate TouchBar.GetInfo <C-G>
-    an icon=
-  endif
-
   set fullscreen
 
-  function! CheckBatteryPercent()
-    let g:battery_percent = system('sh -c ''pmset -g batt | grep -Eo "\d+%" | cut -d% -f1'' ')[:-2]
-  endfunction
-
-  " Add TouchBar items
   if has('touchbar')
     an icon=NSTouchBarGetInfoTemplate TouchBar.GetInfo <C-G>
     an icon=
   endif
 else
+  " Linux stuff
+
+
   " Sets my font.
   set guifont=Hasklug\ Nerd\ Font\ 11
 
@@ -51,10 +48,6 @@ else
     au GUIEnter * winpos 0 0
     au GUIEnter * set lines=9999 columns=9999
   augroup end
-
-  function! CheckBatteryPercent()
-    let g:battery_percent = system('sh -c ''if [[ -f /sys/class/power_supply/BAT0/capacity ]]; then cat /sys/class/power_supply/BAT0/capacity; else echo "∞"; fi'' ')[:-2]
-  endfunction
 endif
 
 " Crap to make 24bit color work in terminals, these need to be adjusted per terminal.
@@ -277,6 +270,12 @@ augroup DisableListSpell
   au FileType list setlocal nospell
 augroup end
 
+" Spell check doesn't make sense for java properties files.
+augroup DisableJPropsSpell
+  au!
+  au FileType jproperties setlocal nospell
+augroup end
+
 " Equally size all splits.
 augroup ResizeSplits
   au!
@@ -402,6 +401,19 @@ function! LargeFile()
   setlocal eventignore+=FileType
   " Display message once buffer is open.
   autocmd ++once BufEnter *  echom "The file is larger than " . g:large_fsize . " MB, so some options are changed."
+endfunction
+
+
+function! CheckBatteryPercent()
+  let l:unknown = "unknown"
+  let l:uname = get(g:, "uname", l:unknown)
+  if l:uname ==# "Darwin"
+    let g:battery_percent = trim(system('sh -c ''pmset -g batt | grep -Eo "\d+%" | cut -d% -f1'' '))
+  elseif l:uname ==# l:unknown
+    let g:battery_percent = "??"
+  else
+    let g:battery_percent = system('sh -c ''if [[ -f /sys/class/power_supply/BAT0/capacity ]]; then cat /sys/class/power_supply/BAT0/capacity; else echo "∞"; fi'' ')[:-2]
+  endif
 endfunction
 
 " Prints a warning message.
@@ -657,7 +669,7 @@ if empty(glob('~/.vim/autoload/plug.vim'))
 endif
 
 call plug#begin('~/.vim/plugged')
-Plug '/usr/local/opt/fzf'
+Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
 Plug 'yggdroot/indentline'
 Plug 'vim-airline/vim-airline' " Pretty ui.
@@ -694,6 +706,7 @@ Plug 'roman/golden-ratio' " Automatically resize windows.
 Plug 'jabrouwer82/vim-scala' " My customized version of derekwyatt/vim-scala.
 Plug 'GEverding/vim-hocon' " Syntax for lightbend/config hocon files.
 Plug 'ryanoasis/vim-devicons' " Adds icons for filetypes.
+Plug 'chlorophyllin/jproperties.vim' " Add syntax support for java properties files.
 " COC:
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 " These are actually npm projects, they need these args to install correctly.
@@ -940,6 +953,7 @@ augroup TablineCwd
 augroup end
 
 " This chunk puts a clock and battery meter in the top right of the airline tabline.
+let g:battery_percent = "--"
 call CheckBatteryPercent()
 
 if exists('g:tabline_timer')
@@ -958,7 +972,10 @@ function! UpdateBattery(timer)
 
   let l:show_alert = 0
 
-  if g:battery_percent < 2
+  if g:battery_percent < 0
+    " This handles when the battery function didn't work correctly.
+    let g:battery_timer = timer_start(5*1000, 'UpdateBattery')
+  elseif g:battery_percent < 2
     let l:show_alert = 1
     let g:battery_timer = timer_start(10*1000, 'UpdateBattery')
   elseif g:battery_percent < 10

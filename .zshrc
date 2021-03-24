@@ -7,6 +7,7 @@ fi
 
 source ~/.p10k.zsh # Powerlevel10k configuration.
 source ~/.exa_colors.zsh # Customizes the color scheme of ls and exa.
+source ~/.github_token.sh # Github token for downloading packages.
 
 typeset -U fpath
 fpath+=(
@@ -21,6 +22,7 @@ path+=(
   /usr/local/bin
   $HOME/thirdparty/dotty/bin
   /usr/local/opt/openjdk@11/bin # spark
+  /usr/local/anaconda3/bin
 )
 export PATH
 
@@ -60,7 +62,8 @@ zinit light-mode depth'1' blockf atpull'zinit creinstall -q' as'completion' for 
   svn OMZ::plugins/fd \
   svn OMZ::plugins/ripgrep \
   svn OMZ::plugins/docker \
-  svn OMZ::plugins/docker-compose
+  svn OMZ::plugins/docker-compose \
+  esc/conda-zsh-completion
 
 # Completions with other functions.
 zinit light-mode depth'1' blockf atpull'zinit creinstall -q' for \
@@ -229,3 +232,19 @@ cd() {
 spark-amm() {
   cs launch ammonite:2.1.4 --scala 2.12.11 -- --class-based --predef ~/.ammonite/spark-predef.sc --no-home-predef
 }
+
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/usr/local/anaconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/usr/local/anaconda3/etc/profile.d/conda.sh" ]; then
+        . "/usr/local/anaconda3/etc/profile.d/conda.sh"
+#    else
+#        export PATH="/usr/local/anaconda3/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# <<< conda initialize <<<
+

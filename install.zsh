@@ -27,6 +27,8 @@ ln -sf "$(pwd)"/.vim/colors/jacob.vim ~/.vim/colors/jacob.vim
 ln -sf "$(pwd)"/.vim/spell/en.utf-8.add ~/.vim/spell/en.utf-8.add
 ln -sf "$(pwd)"/backup.sh ~/.vim/tmp/backup.sh
 ln -sf "$(pwd)"/.vimtmpgitignore ~/.vim/tmp/.gitignore
+touch ~/.viminfo
+chown $USER ~/.viminfo
 git -C ~/.vim/tmp/ init -q
 
 echo -e '\033[1;36mInstalling zsh configs...\033[0m'

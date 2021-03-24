@@ -41,7 +41,7 @@
       status                  # exit code of the last command
       command_execution_time  # duration of the last command
       background_jobs         # presence of background jobs
-      anaconda                # Current conda env
+      # anaconda                # Current conda env
       virtualenv              # Current venv
       pyenv                   # Current pyenv
       gcloud                  # Current gcloud account and project
