@@ -39,14 +39,18 @@ interp.configureCompiler { compiler =>
     + s.LintWarnings.TypeParameterShadow
   )
 
-  s.processArgumentString("""
-    -Ypartial-unification
-    -Yno-adapted-args
-    -Ymacro-annotations
-    -Xlint:by-name-right-associative
-    -Xlint:nullary-override
-    -Xlint:unsound-match
-  """)
+  s.source.value match {
+    case scala.tools.nsc.settings.SpecificScalaVersion(2, 12, _, _) =>
+      s.processArgumentString("""
+        -Ypartial-unification
+        -Yno-adapted-args
+        -Xlint:by-name-right-associative
+        -Xlint:nullary-override
+        -Xlint:unsound-match
+      """)
+    case scala.tools.nsc.settings.SpecificScalaVersion(2, 13, _, _) =>
+      s.processArgumentString("-Ymacro-annotations")
+  }
 }
 
 def logImplicits(value: Option[Boolean] = None) =
