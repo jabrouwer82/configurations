@@ -7,216 +7,877 @@
     <key>settings</key> <array>
       <dict>
         <key>settings</key> <dict>
-          <key>background</key> <string>#00080A</string>
-          <key>foreground</key> <string>#B1CBD7</string>
-          <key>invisibles</key> <string>#280400</string>
+          <key>foreground</key> <string>#C4D1D9</string>
+          <!-- <key>foreground</key> <string>#1F2426</string> -->
+          <key>invisibles</key> <string>#343C41</string>
+        </dict>
+      </dict>
+
+
+      <!-- Scala specific stuff, because I care more about it -->
+      <dict>
+        <key>name</key> <string>Scala!</string>
+        <key>scope</key> <string>source.scala</string>
+        <key>settings</key> <dict>
+          <key>foreground</key> <string>#C4D1D9</string>
+          <key>fontStyle</key> <string></string>
+        </dict>
+      </dict>
+
+
+      <!-- Comment._ -->
+      <dict>
+        <key>name</key> <string>Comment Catchall</string>
+        <key>scope</key> <string>source.scala comment</string>
+        <key>settings</key> <dict>
+          <key>foreground</key> <string>#FF0000</string>
+          <key>fontStyle</key> <string>bold</string>
         </dict>
       </dict>
       <dict>
-        <key>name</key> <string>Text</string>
-        <key>scope</key> <string>variable.parameter.function</string>
-        <key>settings</key> <dict><key>foreground</key> <string>#B1CBD7</string></dict>
+        <key>name</key> <string>Comment Line</string>
+        <key>scope</key> <string>source.scala comment.line</string>
+        <key>settings</key> <dict>
+          <key>foreground</key> <string>#677881</string>
+          <key>fontStyle</key> <string></string>
+        </dict>
       </dict>
       <dict>
-        <key>name</key> <string>Comments</string>
-        <key>scope</key> <string>comment, punctuation.definition.comment</string>
-        <key>settings</key> <dict><key>foreground</key> <string>#6B7A82</string></dict>
+        <key>name</key> <string>Comment Block</string>
+        <key>scope</key> <string>source.scala comment.block</string>
+        <key>settings</key> <dict>
+          <key>foreground</key> <string>#677881</string>
+          <key>fontStyle</key> <string></string>
+        </dict>
+      </dict>
+
+
+      <!-- Constant._ -->
+      <dict>
+        <key>name</key> <string>Constant Catchall</string>
+        <key>scope</key> <string>source.scala constant</string>
+        <key>settings</key> <dict>
+          <key>foreground</key> <string>#FF0000</string>
+          <key>fontStyle</key> <string>bold</string>
+        </dict>
       </dict>
       <dict>
-        <key>name</key> <string>Delimiters</string>
-        <key>scope</key> <string>none</string>
-        <key>settings</key> <dict><key>foreground</key> <string>#6B7A82</string></dict>
+        <!-- Scala: literal int, long, double, etc -->
+        <key>name</key> <string>Numeric</string>
+        <key>scope</key> <string>source.scala constant.numeric</string>
+        <key>settings</key> <dict>
+          <key>foreground</key> <string>#AA7FFF</string>
+          <key>fontStyle</key> <string></string>
+        </dict>
       </dict>
       <dict>
-        <key>name</key> <string>Operators</string>
-        <key>scope</key> <string>keyword.operator</string>
-        <key>settings</key> <dict><key>foreground</key> <string>#FFD54F</string></dict>
+        <!-- Scala: literal char -->
+        <key>name</key> <string>Char</string>
+        <key>scope</key> <string>source.scala constant.character</string>
+        <key>settings</key> <dict>
+          <key>foreground</key> <string>#B83232</string>
+          <key>fontStyle</key> <string></string>
+        </dict>
       </dict>
       <dict>
-        <key>name</key> <string>Keywords</string>
-        <key>scope</key> <string>keyword</string>
-        <key>settings</key> <dict><key>foreground</key> <string>#FFD54F</string></dict>
+        <!-- Scala: \uXXXX, \t, \n, etc in strings -->
+        <key>name</key> <string>Escape Chars</string>
+        <key>scope</key> <string>source.scala constant.character.escape</string>
+        <key>settings</key> <dict>
+          <key>foreground</key> <string>#677881</string>
+          <key>fontStyle</key> <string></string>
+        </dict>
       </dict>
       <dict>
-        <key>name</key> <string>Variables</string>
-        <key>scope</key> <string>variable</string>
-        <key>settings</key> <dict><key>foreground</key> <string>#1A7DAA</string></dict>
-      </dict>
-      <dict>
-        <key>name</key> <string>Functions</string>
-        <key>scope</key> <string>entity.name.function, meta.require, support.function.any-method</string>
-        <key>settings</key> <dict><key>foreground</key> <string>#28B8FF</string></dict>
-      </dict>
-      <dict>
-        <key>name</key> <string>Classes</string>
-        <key>scope</key> <string>support.class, entity.name.class, entity.name.type.class, meta.class</string>
-        <key>settings</key> <dict><key>foreground</key> <string>#5AAA75</string></dict>
-      </dict>
-      <dict>
-        <key>name</key> <string>Methods</string>
-        <key>scope</key> <string>keyword.other.special-method</string>
-        <key>settings</key> <dict><key>foreground</key> <string>#28B8FF</string></dict>
-      </dict>
-      <dict>
-        <key>name</key> <string>Storage</string>
-        <key>scope</key> <string>storage</string>
-        <key>settings</key> <dict><key>foreground</key> <string>#5AAA75</string></dict>
-      </dict>
-      <dict>
-        <key>name</key> <string>Support</string>
-        <key>scope</key> <string>support.function</string>
-        <key>settings</key> <dict><key>foreground</key> <string>#28B8FF</string></dict>
-      </dict>
-      <dict>
-        <key>name</key> <string>Strings</string>
-        <key>scope</key> <string>string, constant.other.symbol</string>
-        <key>settings</key> <dict><key>foreground</key> <string>#AA557B</string></dict>
-      </dict>
-      <dict>
-        <key>name</key> <string>Inherited Class</string>
-        <key>scope</key> <string>entity.other.inherited-class</string>
-        <key>settings</key> <dict><key>foreground</key> <string>#87FFAF</string></dict>
-      </dict>
-      <dict>
-        <key>name</key> <string>Integers</string>
-        <key>scope</key> <string>constant.numeric</string>
-        <key>settings</key> <dict><key>foreground</key> <string>#AD84FF</string></dict>
-      </dict>
-      <dict>
-        <key>name</key> <string>Floats</string>
-        <key>scope</key> <string>none</string>
-        <key>settings</key> <dict><key>foreground</key> <string>#AD84FF</string></dict>
-      </dict>
-      <dict>
+        <!-- Scala: literal boolean, null, unit -->
         <key>name</key> <string>Boolean</string>
-        <key>scope</key> <string>none</string>
-        <key>settings</key> <dict><key>foreground</key> <string>#7358AA</string></dict>
+        <key>scope</key> <string>source.scala constant.language</string>
+        <key>settings</key> <dict>
+          <key>foreground</key> <string>#7054A8</string>
+          <key>fontStyle</key> <string></string>
+        </dict>
+      </dict>
+
+
+      <!-- Entity._ -->
+      <dict>
+        <key>name</key> <string>Entity Catchall</string>
+        <key>scope</key> <string>source.scala entity</string>
+        <key>settings</key> <dict>
+          <key>foreground</key> <string>#FF0000</string>
+          <key>fontStyle</key> <string>bold</string>
+        </dict>
       </dict>
       <dict>
-        <key>name</key> <string>Constants</string>
-        <key>scope</key> <string>constant</string>
-        <key>settings</key> <dict><key>foreground</key> <string>#7358AA</string></dict>
+        <!-- Scala: object, class, trait -->
+        <key>name</key> <string>Class Declaration Name</string>
+        <key>scope</key> <string>source.scala entity.name.class</string>
+        <key>settings</key> <dict>
+          <key>foreground</key> <string>#54A870</string>
+          <key>fontStyle</key> <string></string>
+        </dict>
       </dict>
       <dict>
-        <key>name</key> <string>Tags</string>
+        <!-- Scala: type -->
+        <key>name</key> <string>Struct Declaration Name</string>
+        <key>scope</key> <string>source.scala entity.name.type</string>
+        <key>settings</key> <dict>
+          <key>foreground</key> <string>#54A870</string>
+          <key>fontStyle</key> <string></string>
+        </dict>
+      </dict>
+      <dict>
+        <!-- Scala: def Names -->
+        <key>name</key> <string>Function Declaration Name</string>
+        <key>scope</key> <string>source.scala entity.name.function</string>
+        <key>settings</key> <dict>
+          <key>foreground</key> <string>#26B7FF</string>
+          <key>fontStyle</key> <string></string>
+        </dict>
+      </dict>
+      <dict>
+        <!-- Scala: package declaration -->
+        <key>name</key> <string>Function Declaration Name</string>
+        <key>scope</key> <string>source.scala entity.name.namespace</string>
+        <key>settings</key> <dict>
+          <key>foreground</key> <string>#C4D1D9</string>
+          <key>fontStyle</key> <string></string>
+        </dict>
+      </dict>
+      <dict>
+        <!-- Scala: extends and with -->
+        <key>name</key> <string>Inherited Class</string>
+        <key>scope</key> <string>source.scala entity.other.inherited-class</string>
+        <key>settings</key> <dict>
+          <key>foreground</key> <string>#54A870</string>
+          <key>fontStyle</key> <string></string>
+        </dict>
+      </dict>
+
+
+
+      <!-- Keyword._ -->
+      <dict>
+        <key>name</key> <string>Keyword Catchall</string>
+        <key>scope</key> <string>source.scala keyword</string>
+        <key>settings</key> <dict>
+          <key>foreground</key> <string>#FF0000</string>
+          <key>fontStyle</key> <string>bold</string>
+        </dict>
+      </dict>
+      <dict>
+        <!-- Scala: package -->
+        <key>name</key> <string>Keywords</string>
+        <key>scope</key> <string>source.scala keyword.control</string>
+        <key>settings</key> <dict>
+          <key>foreground</key> <string>#19A89C</string>
+          <key>fontStyle</key> <string></string>
+        </dict>
+      </dict>
+      <dict>
+        <!-- Scala: try, if, else, match, catch, for, yield, throw -->
+        <key>name</key> <string>Keywords</string>
+        <key>scope</key> <string>source.scala keyword.control.flow</string>
+        <key>settings</key> <dict>
+          <key>foreground</key> <string>#FF9326</string>
+          <key>fontStyle</key> <string></string>
+        </dict>
+      </dict>
+      <dict>
+        <!-- Scala: throw, return -->
+        <key>name</key> <string>Jump Keywords</string>
+        <key>scope</key> <string>source.scala keyword.control.flow.jump.scala</string>
+        <key>settings</key> <dict>
+          <key>foreground</key> <string>#FF4C4C</string>
+          <key>fontStyle</key> <string></string>
+        </dict>
+      </dict>
+      <dict>
+        <!-- Scala: try, catch, finally -->
+        <key>name</key> <string>Jump Keywords</string>
+        <key>scope</key> <string>source.scala keyword.control.exception.scala</string>
+        <key>settings</key> <dict>
+          <key>foreground</key> <string>#FF4C4C</string>
+          <key>fontStyle</key> <string></string>
+        </dict>
+      </dict>
+      <dict>
+        <!-- Scala: case, ???, new -->
+        <key>name</key> <string>Other Keywords</string>
+        <key>scope</key> <string>source.scala keyword.other</string>
+        <key>settings</key> <dict>
+          <key>foreground</key> <string>#FFD24C</string>
+          <key>fontStyle</key> <string></string>
+        </dict>
+      </dict>
+      <dict>
+        <!-- Scala: @param, @return, @constructor -->
+        <key>name</key> <string>Other Keywords</string>
+        <key>scope</key> <string>source.scala comment keyword.other</string>
+        <key>settings</key> <dict>
+          <key>foreground</key> <string>#19A89C</string>
+          <key>fontStyle</key> <string></string>
+        </dict>
+      </dict>
+      <dict>
+        <!-- Scala: import -->
+        <key>name</key> <string>Import Keywords</string>
+        <key>scope</key> <string>source.scala keyword.other.import</string>
+        <key>settings</key> <dict>
+          <key>foreground</key> <string>#19A89C</string>
+          <key>fontStyle</key> <string></string>
+        </dict>
+      </dict>
+      <dict>
+        <!-- Scala: =, <-, =>, _* -->
+        <key>name</key> <string>Operators</string>
+        <key>scope</key> <string>source.scala keyword.operator</string>
+        <key>settings</key> <dict>
+          <key>foreground</key> <string>#FF9326</string>
+          <key>fontStyle</key> <string></string>
+        </dict>
+      </dict>
+      <dict>
+        <!-- Scala: extends, with -->
+        <key>name</key> <string>Operators</string>
+        <key>scope</key> <string>source.scala keyword.declaration</string>
+        <key>settings</key> <dict>
+          <key>foreground</key> <string>#FFD24C</string>
+          <key>fontStyle</key> <string></string>
+        </dict>
+      </dict>
+
+
+      <!-- Meta._ -->
+      <dict>
+        <!-- Scala: Annotations -->
+        <key>name</key> <string>Annotation</string>
+        <key>scope</key> <string>source.scala meta.annotation.identifier</string>
+        <key>settings</key> <dict>
+          <key>foreground</key> <string>#19A89C</string>
+          <key>fontStyle</key> <string></string>
+        </dict>
+      </dict>
+      <dict>
+        <!-- Scala: Generics -->
+        <key>name</key> <string>Generic</string>
+        <key>scope</key> <string>source.scala meta.generic</string>
+        <key>settings</key> <dict>
+          <key>foreground</key> <string>#7FFFAA</string>
+          <key>fontStyle</key> <string></string>
+        </dict>
+      </dict>
+      <dict>
+        <!-- Scala: Generic wildcards -->
+        <key>name</key> <string>Generic</string>
+        <key>scope</key> <string>source.scala meta.generic variable.language.underscore.scala</string>
+        <key>settings</key> <dict>
+          <key>foreground</key> <string>#7FFFAA</string>
+          <key>fontStyle</key> <string></string>
+        </dict>
+      </dict>
+      <dict>
+        <!-- Scala: object, trait, class, case class -->
+        <key>name</key> <string>Class Identifier</string>
+        <key>scope</key> <string>source.scala meta.class.identifier</string>
+        <key>settings</key> <dict>
+          <key>foreground</key> <string>#FFD24C</string>
+          <key>fontStyle</key> <string></string>
+        </dict>
+      </dict>
+      <dict>
+        <!-- Scala: import text -->
+        <key>name</key> <string>Import text</string>
+        <key>scope</key> <string>source.scala meta.import</string>
+        <key>settings</key> <dict>
+          <key>foreground</key> <string>#C4D1D9</string>
+          <key>fontStyle</key> <string></string>
+        </dict>
+      </dict>
+
+
+
+      <!-- Punctuation._ -->
+      <dict>
+        <key>name</key> <string>Punctuation</string>
+        <key>scope</key> <string>source.scala punctuation</string>
+        <key>settings</key> <dict>
+          <key>foreground</key> <string>#C4D1D9</string>
+          <key>fontStyle</key> <string></string>
+        </dict>
+      </dict>
+      <dict>
+        <key>name</key> <string>Annotation Punctuation</string>
+        <key>scope</key> <string>source.scala punctuation.definition.annotation</string>
+        <key>settings</key> <dict>
+          <key>foreground</key> <string>#19A89C</string>
+          <key>fontStyle</key> <string></string>
+        </dict>
+      </dict>
+      <dict>
+        <key>name</key> <string>Comment Punctuation</string>
+        <key>scope</key> <string>source.scala punctuation.definition.comment</string>
+        <key>settings</key> <dict>
+          <key>foreground</key> <string>#677881</string>
+          <key>fontStyle</key> <string></string>
+        </dict>
+      </dict>
+      <dict>
+        <key>name</key> <string>String Punctuation</string>
+        <key>scope</key> <string>source.scala punctuation.definition.string</string>
+        <key>settings</key> <dict>
+          <key>foreground</key> <string>#A8547A</string>
+          <key>fontStyle</key> <string></string>
+        </dict>
+      </dict>
+      <dict>
+        <key>name</key> <string>Curlies</string>
+        <key>scope</key> <string>source.scala punctuation.section.block.begin.scala</string>
+        <key>settings</key> <dict>
+          <key>foreground</key> <string>#677881</string>
+          <key>fontStyle</key> <string></string>
+        </dict>
+      </dict>
+      <dict>
+        <key>name</key> <string>Curlies</string>
+        <key>scope</key> <string>source.scala punctuation.section.block.end.scala</string>
+        <key>settings</key> <dict>
+          <key>foreground</key> <string>#677881</string>
+          <key>fontStyle</key> <string></string>
+        </dict>
+      </dict>
+      <dict>
+        <key>name</key> <string>Curlies</string>
+        <key>scope</key> <string>source.scala punctuation.section.braces.begin.scala</string>
+        <key>settings</key> <dict>
+          <key>foreground</key> <string>#677881</string>
+          <key>fontStyle</key> <string></string>
+        </dict>
+      </dict>
+      <dict>
+        <key>name</key> <string>Curlies</string>
+        <key>scope</key> <string>source.scala punctuation.section.braces.end.scala</string>
+        <key>settings</key> <dict>
+          <key>foreground</key> <string>#677881</string>
+          <key>fontStyle</key> <string></string>
+        </dict>
+      </dict>
+
+      <!-- Storage._ -->
+      <dict>
+        <key>name</key> <string>Storage Catchall</string>
+        <key>scope</key> <string>source.scala storage</string>
+        <key>settings</key> <dict>
+          <key>foreground</key> <string>#FF0000</string>
+          <key>fontStyle</key> <string></string>
+        </dict>
+      </dict>
+      <dict>
+        <key>name</key> <string>Storage Type</string>
+        <key>scope</key> <string>source.scala storage.type</string>
+        <key>settings</key> <dict>
+          <key>foreground</key> <string>#FFD24C</string>
+          <key>fontStyle</key> <string></string>
+        </dict>
+      </dict>
+      <dict>
+        <key>name</key> <string>Numeric Storage Type</string>
+        <key>scope</key> <string>source.scala storage.type.numeric</string>
+        <key>settings</key> <dict>
+          <key>foreground</key> <string>#7054A8</string>
+          <key>fontStyle</key> <string></string>
+        </dict>
+      </dict>
+      <dict>
+        <!-- Scala: var -->
+        <key>name</key> <string>Storage Type Volatile</string>
+        <key>scope</key> <string>source.scala storage.type.volatile</string>
+        <key>settings</key> <dict>
+          <key>foreground</key> <string>#FF4C4C</string>
+          <key>fontStyle</key> <string></string>
+        </dict>
+      </dict>
+      <dict>
+        <!-- Scala: def -->
+        <key>name</key> <string>Function Storage</string>
+        <key>scope</key> <string>source.scala storage.type.function</string>
+        <key>settings</key> <dict>
+          <key>foreground</key> <string>#FFD24C</string>
+          <key>fontStyle</key> <string></string>
+        </dict>
+      </dict>
+      <dict>
+        <!-- Scala: def -->
+        <key>name</key> <string>Function Arrow Storage</string>
+        <key>scope</key> <string>source.scala storage.type.function.arrow</string>
+        <key>settings</key> <dict>
+          <key>foreground</key> <string>#FF9326</string>
+          <key>fontStyle</key> <string></string>
+        </dict>
+      </dict>
+      <dict>
+        <!-- Scala: override, private, final, ect -->
+        <key>name</key> <string>Storage Modifier</string>
+        <key>scope</key> <string>source.scala storage.modifier</string>
+        <key>settings</key> <dict>
+          <key>foreground</key> <string>#A88B32</string>
+          <key>fontStyle</key> <string></string>
+        </dict>
+      </dict>
+      <dict>
+        <!-- Scala: Int, Unit, Long, etc -->
+        <key>name</key> <string>Funtion Storage</string>
+        <key>scope</key> <string>source.scala storage.type.primitive</string>
+        <key>settings</key> <dict>
+          <key>foreground</key> <string>#7FFFAA</string>
+          <key>fontStyle</key> <string></string>
+        </dict>
+      </dict>
+      <dict>
+        <key>name</key> <string>Case Arrow</string>
+        <key>scope</key> <string>source.scala storage.type.function.arrow.case</string>
+        <key>settings</key> <dict>
+          <key>foreground</key> <string>#FF9326</string>
+          <key>fontStyle</key> <string></string>
+        </dict>
+      </dict>
+
+
+      <!-- String._ -->
+      <dict>
+        <key>name</key> <string>String</string>
+        <key>scope</key> <string>source.scala string</string>
+        <key>settings</key> <dict>
+          <key>foreground</key> <string>#A8547A</string>
+          <key>fontStyle</key> <string></string>
+        </dict>
+      </dict>
+      <dict>
+        <key>name</key> <string>Triple Quote String</string>
+        <key>scope</key> <string>source.scala string.quoted.triple punctuation.definition.string.end.scala</string>
+        <key>settings</key> <dict>
+          <key>foreground</key> <string>#A83232</string>
+          <key>fontStyle</key> <string></string>
+        </dict>
+      </dict>
+      <dict>
+        <key>name</key> <string>Triple Quote String</string>
+        <key>scope</key> <string>source.scala string.quoted.triple punctuation.definition.string.begin.scala</string>
+        <key>settings</key> <dict>
+          <key>foreground</key> <string>#A83232</string>
+          <key>fontStyle</key> <string></string>
+        </dict>
+      </dict>
+      <dict>
+        <key>name</key> <string>Triple Quote String</string>
+        <key>scope</key> <string>source.scala string.quoted.triple support.function</string>
+        <key>settings</key> <dict>
+          <key>foreground</key> <string>#A83232</string>
+          <key>fontStyle</key> <string></string>
+        </dict>
+      </dict>
+
+
+      <!-- Support._ -->
+      <dict>
+        <key>name</key> <string>Support Catchall</string>
+        <key>scope</key> <string>source.scala support</string>
+        <key>settings</key> <dict>
+          <key>foreground</key> <string>#FF0000</string>
+          <key>fontStyle</key> <string></string>
+        </dict>
+      </dict>
+      <dict>
+        <key>name</key> <string>Support Catchall</string>
+        <key>scope</key> <string>source.scala support.function</string>
+        <key>settings</key> <dict>
+          <key>foreground</key> <string>#A83232</string>
+          <key>fontStyle</key> <string></string>
+        </dict>
+      </dict>
+      <dict>
+        <key>name</key> <string>Support Class</string>
+        <key>scope</key> <string>source.scala support.class</string>
+        <key>settings</key> <dict>
+          <key>foreground</key> <string>#7FFFAA</string>
+          <key>fontStyle</key> <string></string>
+        </dict>
+      </dict>
+      <dict>
+        <key>name</key> <string>Support Type</string>
+        <key>scope</key> <string>source.scala support.type</string>
+        <key>settings</key> <dict>
+          <key>foreground</key> <string>#C4D1D9</string>
+          <key>fontStyle</key> <string></string>
+        </dict>
+      </dict>
+      <dict>
+        <key>name</key> <string>Support Constant</string>
+        <key>scope</key> <string>source.scala support.constant</string>
+        <key>settings</key> <dict>
+          <key>foreground</key> <string>#54A870</string>
+          <key>fontStyle</key> <string></string>
+        </dict>
+      </dict>
+
+
+      <!-- Variable._ -->
+      <dict>
+        <key>name</key> <string>Variable Catchall</string>
+        <key>scope</key> <string>source.scala variable</string>
+        <key>settings</key> <dict>
+          <key>foreground</key> <string>#FF0000</string>
+          <key>fontStyle</key> <string>bold</string>
+        </dict>
+      </dict>
+      <dict>
+        <key>name</key> <string>Variable Parameter</string>
+        <key>scope</key> <string>source.scala variable.parameter</string>
+        <key>settings</key> <dict>
+          <key>foreground</key> <string>#C4D1D9</string>
+          <key>fontStyle</key> <string></string>
+        </dict>
+      </dict>
+      <dict>
+        <!-- Scala: interpolation references -->
+        <key>name</key> <string>Variables</string>
+        <key>scope</key> <string>source.scala variable.other</string>
+        <key>settings</key> <dict>
+          <key>foreground</key> <string>#C4D1D9</string>
+          <key>fontStyle</key> <string></string>
+        </dict>
+      </dict>
+      <dict>
+        <!-- Scala: val names -->
+        <key>name</key> <string>Variables</string>
+        <key>scope</key> <string>source.scala variable.other.constant</string>
+        <key>settings</key> <dict>
+          <key>foreground</key> <string>#1979A8</string>
+          <key>fontStyle</key> <string></string>
+        </dict>
+      </dict>
+      <dict>
+        <!-- Scala: var names -->
+        <key>name</key> <string>Variables</string>
+        <key>scope</key> <string>source.scala variable.other.readwrite</string>
+        <key>settings</key> <dict>
+          <key>foreground</key> <string>#1979A8</string>
+          <key>fontStyle</key> <string></string>
+        </dict>
+      </dict>
+      <dict>
+        <!-- Scala: Annotations -->
+        <key>name</key> <string>Annotation</string>
+        <key>scope</key> <string>source.scala variable.annotation</string>
+        <key>settings</key> <dict>
+          <key>foreground</key> <string>#19A89C</string>
+          <key>fontStyle</key> <string></string>
+        </dict>
+      </dict>
+      <dict>
+        <!-- Scala: this, super -->
+        <key>name</key> <string>Scala Variables</string>
+        <key>scope</key> <string>source.scala variable.language</string>
+        <key>settings</key> <dict>
+          <key>foreground</key> <string>#FFD24C</string>
+          <key>fontStyle</key> <string></string>
+        </dict>
+      </dict>
+      <dict>
+        <!-- Scala: _ -->
+        <key>name</key> <string>Underscore</string>
+        <key>scope</key> <string>source.scala variable.language.underscore.scala</string>
+        <key>settings</key> <dict>
+          <key>foreground</key> <string>#C4D1D9</string>
+          <key>fontStyle</key> <string></string>
+        </dict>
+      </dict>
+
+      <!-- The rest of it i guess -->
+
+
+      <dict>
+        <key>name</key> <string>entity.name</string>
+        <key>scope</key> <string>entity.name</string>
+        <key>settings</key> <dict>
+          <key>foreground</key> <string>#54A870</string>
+          <key>fontStyle</key> <string></string>
+        </dict>
+      </dict>
+      <dict>
+        <key>name</key> <string>entity.name</string>
+        <key>scope</key> <string>support.class, entity.name.class, entity.name.type.class</string>
+        <key>settings</key> <dict>
+          <key>foreground</key> <string>#54A870</string>
+          <key>fontStyle</key> <string></string>
+        </dict>
+      </dict>
+      <dict>
+        <key>name</key> <string>entity.name.function</string>
+        <key>scope</key> <string>entity.name.function, meta.require, support.function.any-method</string>
+        <key>settings</key> <dict>
+          <key>foreground</key> <string>#26B7FF</string>
+          <key>fontStyle</key> <string></string>
+        </dict>
+      </dict>
+      <dict>
+        <key>name</key> <string>entity.other.inherited-class</string>
+        <key>scope</key> <string>entity.other.inherited-class</string>
+        <key>settings</key> <dict>
+          <key>foreground</key> <string>#54A870</string>
+          <key>fontStyle</key> <string></string>
+        </dict>
+      </dict>
+      <dict>
+        <key>name</key> <string>entity.name.section</string>
+        <key>scope</key> <string>entity.name.section</string>
+        <key>settings</key> <dict>
+          <key>foreground</key> <string>#A2BDCB</string>
+          <key>fontStyle</key> <string>bold</string>
+        </dict>
+      </dict>
+      <dict>
+        <key>name</key> <string>entity.name.tag</string>
         <key>scope</key> <string>entity.name.tag</string>
-        <key>settings</key> <dict><key>foreground</key> <string>#1A7DAA</string></dict>
+        <key>settings</key> <dict>
+          <key>foreground</key> <string>#54A870</string>
+          <key>fontStyle</key> <string></string>
+        </dict>
       </dict>
       <dict>
-        <key>name</key> <string>Attributes</string>
+        <key>name</key> <string>entity.other.attribute-name</string>
         <key>scope</key> <string>entity.other.attribute-name</string>
-        <key>settings</key> <dict><key>foreground</key> <string>#AA557B</string></dict>
+        <key>settings</key> <dict>
+          <key>foreground</key> <string>#FFD24C</string>
+          <key>fontStyle</key> <string></string>
+        </dict>
       </dict>
       <dict>
-        <key>name</key> <string>Attribute IDs</string>
-        <key>scope</key> <string>entity.other.attribute-name.id, punctuation.definition.entity</string>
-        <key>settings</key> <dict><key>foreground</key> <string>#87FFAF</string></dict>
+        <key>name</key> <string>variable</string>
+        <key>scope</key> <string>variable</string>
+        <key>settings</key> <dict>
+          <key>foreground</key> <string>#C4D1D9</string>
+          <key>fontStyle</key> <string></string>
+        </dict>
       </dict>
       <dict>
-        <key>name</key> <string>Selector</string>
-        <key>scope</key> <string>meta.selector</string>
-        <key>settings</key> <dict><key>foreground</key> <string>#FF80B9</string></dict>
+        <key>name</key> <string>variable.language</string>
+        <key>scope</key> <string>variable.language</string>
+        <key>settings</key> <dict>
+          <key>foreground</key> <string>#1979A8</string>
+          <key>fontStyle</key> <string></string>
+        </dict>
       </dict>
       <dict>
-        <key>name</key> <string>Values</string>
-        <key>scope</key> <string>none</string>
-        <key>settings</key> <dict><key>foreground</key> <string>#AA8D34</string></dict>
+        <key>name</key> <string>variable.parameter</string>
+        <key>scope</key> <string>variable.parameter</string>
+        <key>settings</key> <dict>
+          <key>foreground</key> <string>#C4D1D9</string>
+          <key>fontStyle</key> <string></string>
+        </dict>
+      </dict>
+      <dict>
+        <key>name</key> <string>constant</string>
+        <key>scope</key> <string>constant</string>
+        <key>settings</key> <dict>
+          <key>foreground</key> <string>#1979A8</string>
+          <key>fontStyle</key> <string></string>
+        </dict>
+      </dict>
+      <dict>
+        <key>name</key> <string>constant.numeric</string>
+        <key>scope</key> <string>constant.numeric</string>
+        <key>settings</key> <dict>
+          <key>foreground</key> <string>#AA7FFF</string>
+          <key>fontStyle</key> <string></string>
+        </dict>
+      </dict>
+      <dict>
+        <key>name</key> <string>constant.language</string>
+        <key>scope</key> <string>constant.language</string>
+        <key>settings</key> <dict>
+          <key>foreground</key> <string>#7054A8</string>
+          <key>fontStyle</key> <string></string>
+        </dict>
+      </dict>
+      <dict>
+        <key>name</key> <string>constant.character.escape</string>
+        <key>scope</key> <string>constant.character.escape</string>
+        <key>settings</key> <dict>
+          <key>foreground</key> <string>#677881</string>
+          <key>fontStyle</key> <string></string>
+        </dict>
+      </dict>
+      <dict>
+        <key>name</key> <string>storage.type</string>
+        <key>scope</key> <string>storage.type</string>
+        <key>settings</key> <dict>
+          <key>foreground</key> <string>#7FFFAA</string>
+          <key>fontStyle</key> <string></string>
+        </dict>
+      </dict>
+      <dict>
+        <key>name</key> <string>storage.type</string>
+        <key>scope</key> <string>storage.type.function</string>
+        <key>settings</key> <dict>
+          <key>foreground</key> <string>#FFD24C</string>
+          <key>fontStyle</key> <string></string>
+        </dict>
+      </dict>
+      <dict>
+        <key>name</key> <string>storage.modifier</string>
+        <key>scope</key> <string>storage.modifier</string>
+        <key>settings</key> <dict>
+          <key>foreground</key> <string>#A88B32</string>
+          <key>fontStyle</key> <string></string>
+        </dict>
+      </dict>
+      <dict>
+        <key>name</key> <string>support</string>
+        <key>scope</key> <string>support</string>
+        <key>settings</key> <dict>
+          <key>foreground</key> <string>#1979A8</string>
+          <key>fontStyle</key> <string></string>
+        </dict>
+      </dict>
+      <dict>
+        <key>name</key> <string>keyword</string>
+        <key>scope</key> <string>keyword</string>
+        <key>settings</key> <dict>
+          <key>foreground</key> <string>#FFD24C</string>
+          <key>fontStyle</key> <string></string>
+        </dict>
+      </dict>
+      <dict>
+        <key>name</key> <string>Import Keywords</string>
+        <key>scope</key> <string>keyword.control.import</string>
+        <key>settings</key> <dict>
+          <key>foreground</key> <string>#19A89C</string>
+          <key>fontStyle</key> <string></string>
+        </dict>
+      </dict>
+      <dict>
+        <key>name</key> <string>keyword.control</string>
+        <key>scope</key> <string>keyword.control</string>
+        <key>settings</key> <dict>
+          <key>foreground</key> <string>#FF9326</string>
+          <key>fontStyle</key> <string></string>
+        </dict>
+      </dict>
+      <dict>
+        <key>name</key> <string>keyword.operator</string>
+        <key>scope</key> <string>keyword.operator</string>
+        <key>settings</key> <dict>
+          <key>foreground</key> <string>#FF9326</string>
+          <key>fontStyle</key> <string></string>
+        </dict>
+      </dict>
+      <dict>
+        <key>name</key> <string>keyword.declaration</string>
+        <key>scope</key> <string>keyword.declaration</string>
+        <key>settings</key> <dict>
+          <key>foreground</key> <string>#FFD24C</string>
+          <key>fontStyle</key> <string></string>
+        </dict>
+      </dict>
+      <dict>
+        <key>name</key> <string>string</string>
+        <key>scope</key> <string>string</string>
+        <key>settings</key> <dict>
+          <key>foreground</key> <string>#A8547A</string>
+          <key>fontStyle</key> <string></string>
+        </dict>
+      </dict>
+      <dict>
+        <key>name</key> <string>comment</string>
+        <key>scope</key> <string>comment</string>
+        <key>settings</key> <dict>
+          <key>foreground</key> <string>#677881</string>
+          <key>fontStyle</key> <string></string>
+        </dict>
+      </dict>
+      <dict>
+        <key>name</key> <string>invalid</string>
+        <key>scope</key> <string>invalid</string>
+        <key>settings</key> <dict>
+          <key>foreground</key> <string>#FF4C4C</string>
+          <key>fontStyle</key> <string></string>
+        </dict>
+      </dict>
+      <dict>
+        <key>name</key> <string>invalid.deprecated</string>
+        <key>scope</key> <string>invalid.deprecated</string>
+        <key>settings</key> <dict>
+          <key>foreground</key> <string>#FF4C4C</string>
+          <key>fontStyle</key> <string></string>
+        </dict>
       </dict>
       <dict>
         <key>name</key> <string>Headings</string>
         <key>scope</key> <string>markup.heading punctuation.definition.heading, entity.name.section</string>
-        <key>settings</key> <dict><key>foreground</key> <string>#42FFF0</string></dict>
+        <key>settings</key> <dict><key>foreground</key> <string>#26FFED</string></dict>
       </dict>
       <dict>
         <key>name</key> <string>Units</string>
         <key>scope</key> <string>keyword.other.unit</string>
-        <key>settings</key> <dict><key>foreground</key> <string>#6B7A82</string></dict>
+        <key>settings</key> <dict><key>foreground</key> <string>#677881</string></dict>
       </dict>
       <dict>
         <key>name</key> <string>Bold</string>
         <key>scope</key> <string>markup.bold, punctuation.definition.bold</string>
-        <key>settings</key> <dict><key>foreground</key> <string>#B1CBD7</string></dict>
+        <key>settings</key> <dict><key>foreground</key> <string>#A2BDCB</string></dict>
       </dict>
       <dict>
         <key>name</key> <string>Italic</string>
         <key>scope</key> <string>markup.italic, punctuation.definition.italic</string>
-        <key>settings</key> <dict><key>foreground</key> <string>#E4FDFD</string></dict>
+        <key>settings</key> <dict><key>foreground</key> <string>#C4D1D9</string></dict>
       </dict>
       <dict>
         <key>name</key> <string>Code</string>
         <key>scope</key> <string>markup.raw.inline</string>
-        <key>settings</key> <dict><key>foreground</key> <string>#B1CBD7</string></dict>
+        <key>settings</key> <dict><key>foreground</key> <string>#A2BDCB</string></dict>
       </dict>
       <dict>
         <key>name</key> <string>Link Text</string>
         <key>scope</key> <string>string.other.link, punctuation.definition.string.end.markdown</string>
-        <key>settings</key> <dict><key>foreground</key> <string>#6B7A82</string></dict>
+        <key>settings</key> <dict><key>foreground</key> <string>#677881</string></dict>
       </dict>
       <dict>
         <key>name</key> <string>Link Url</string>
         <key>scope</key> <string>meta.link</string>
-        <key>settings</key> <dict><key>foreground</key> <string>#6B7A82</string></dict>
+        <key>settings</key> <dict><key>foreground</key> <string>#677881</string></dict>
       </dict>
       <dict>
         <key>name</key> <string>Lists</string>
         <key>scope</key> <string>markup.list</string>
-        <key>settings</key> <dict><key>foreground</key> <string>#B1CBD7</string></dict>
+        <key>settings</key> <dict><key>foreground</key> <string>#A2BDCB</string></dict>
       </dict>
       <dict>
         <key>name</key> <string>Quotes</string>
         <key>scope</key> <string>markup.quote</string>
-        <key>settings</key> <dict><key>foreground</key> <string>#AA557B</string></dict>
+        <key>settings</key> <dict><key>foreground</key> <string>#A8547A</string></dict>
       </dict>
       <dict>
         <key>name</key> <string>Inserted</string>
         <key>scope</key> <string>markup.inserted</string>
-        <key>settings</key> <dict><key>foreground</key> <string>#5AAA75</string></dict>
+        <key>settings</key> <dict><key>foreground</key> <string>#54A870</string></dict>
       </dict>
       <dict>
         <key>name</key> <string>Deleted</string>
         <key>scope</key> <string>markup.deleted</string>
-        <key>settings</key> <dict><key>foreground</key> <string>#AA3535</string></dict>
+        <key>settings</key> <dict><key>foreground</key> <string>#FF4C4C</string></dict>
       </dict>
       <dict>
         <key>name</key> <string>Changed</string>
         <key>scope</key> <string>markup.changed</string>
-        <key>settings</key> <dict><key>foreground</key> <string>#7358AA</string></dict>
+        <key>settings</key> <dict><key>foreground</key> <string>#AA7FFF</string></dict>
       </dict>
       <dict>
         <key>name</key> <string>Regular Expressions</string>
         <key>scope</key> <string>string.regexp</string>
-        <key>settings</key> <dict><key>foreground</key> <string>#AA557B</string></dict>
+        <key>settings</key> <dict><key>foreground</key> <string>#A8547A</string></dict>
       </dict>
-      <dict>
-        <key>name</key> <string>Escape Characters</string>
-        <key>scope</key> <string>constant.character.escape</string>
-        <key>settings</key> <dict><key>foreground</key> <string>#6B7A82</string></dict>
-      </dict>
-      <dict>
-        <key>name</key> <string>Embedded</string>
-        <key>scope</key> <string>punctuation.section.embedded, variable.interpolation</string>
-        <key>settings</key> <dict><key>foreground</key> <string>#6B7A82</string></dict>
-      </dict>
-      <dict>
-        <key>name</key> <string>Illegal</string>
-        <key>scope</key> <string>invalid.illegal</string>
-        <key>settings</key> <dict><key>foreground</key> <string>#FF5050</string></dict>
-      </dict>
-      <dict>
-        <key>name</key> <string>Broken</string>
-        <key>scope</key> <string>invalid.broken</string>
-        <key>settings</key> <dict><key>foreground</key> <string>#FF5050</string></dict>
-      </dict>
-      <dict>
-        <key>name</key> <string>Deprecated</string>
-        <key>scope</key> <string>invalid.deprecated</string>
-        <key>settings</key> <dict><key>foreground</key> <string>#AA3535</string></dict>
-      </dict>
-      <dict>
-        <key>name</key> <string>Unimplemented</string>
-        <key>scope</key> <string>invalid.unimplemented</string>
-        <key>settings</key> <dict><key>foreground</key> <string>#FF5050</string></dict>
-      </dict>
+
     </array>
   </dict>
 </plist>
