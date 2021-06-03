@@ -36,10 +36,10 @@ import $ivy.`com.github.pureconfig::pureconfig:latest.release`
 // import $ivy.`org.typelevel::cats-tagless:latest.release`
 
 // Database stuff
-// import $ivy.`com.oracle.database.jdbc:ojdbc8:18.3.0.0`
-// import $ivy.`org.tpolecat::doobie-core:latest.release`
-// import $ivy.`org.tpolecat::doobie-h2:latest.release`
-// import $ivy.`org.tpolecat::doobie-quill:latest.release`
+import $ivy.`com.oracle.database.jdbc:ojdbc8:19.3.0.0`
+import $ivy.`org.tpolecat::doobie-core:latest.release`
+import $ivy.`org.tpolecat::doobie-h2:latest.release`
+import $ivy.`org.tpolecat::doobie-quill:latest.release`
 
 // Alternative IOs
 // import $ivy.`dev.zio" %% "zio:latest.release`
@@ -53,12 +53,16 @@ import $ivy.`com.github.pureconfig::pureconfig:latest.release`
 import $plugin.$ivy.`org.typelevel:::kind-projector:latest.release`
 import $plugin.$ivy.`com.olegpy::better-monadic-for:latest.release`
 
+// import $file.`heb`
+
 import cats._
 import cats.data._
 import cats.effect._
 import cats.effect.concurrent._
 import cats.effect.implicits._
 import cats.implicits._
+import doobie._
+import doobie.implicits._
 import java.time._
 import java.util.UUID
 import java.util.concurrent.Executors
@@ -72,7 +76,7 @@ import simulacrum._
 
 import java.util.concurrent.Executors
 import scala.concurrent.ExecutionContext
-import cats.effect.IO
+
 // Inspired by djspiewak's gist: https://gist.github.com/djspiewak/46b543800958cf61af6efa8e072bfd5c
 // Use this instead of the global context.
 implicit val cpuEc = ExecutionContext.fromExecutor(Executors.newFixedThreadPool(Runtime.getRuntime.availableProcessors))
@@ -83,6 +87,9 @@ val blockingCs = IO.contextShift(blockingEc)
 // This is unlikely to be used in repl, it's more of a POC for an Async IO EC.
 val dispatchEc = ExecutionContext.fromExecutor(Executors.newFixedThreadPool(4))
 val dispatchCs = IO.contextShift(dispatchEc)
+
+// A hasic log handler for doobie.
+implicit val logHandler: LogHandler = LogHandler(e => println(s"Sql: ${e.sql}\nArgs: ${e.args}"))
 
 
 // import $plugin.$ivy.`org.scalamacros:::paradise:latest.release`

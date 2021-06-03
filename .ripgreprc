@@ -22,6 +22,8 @@
 
 --type-add=tsv:*.tsv
 
+--type-add=out:out
+
 # Ignore git lfs objects
 --glob=!**/.git/lfs/**
 
