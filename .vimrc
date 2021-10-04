@@ -18,19 +18,22 @@ if g:uname ==# "Darwin"
   " Makes vim use the system clipboard for yank and paste.
   set clipboard=unnamed
 
-  " Use ligatures
-  set macligatures
+  if has("gui_macvim")
+    " Use ligatures
+    set macligatures
+
+    " Always start in fullscreen.
+    augroup Fullscreen
+      au!
+      au GUIEnter * set fullscreen
+    augroup end
+
+    set fullscreen
+  endif
 
   " Sets my font.
-  set guifont=Hasklug\ Nerd\ Font:h11
+  set guifont=HasklugNerdFontComplete-Regular:h11
 
-  " Always start in fullscreen.
-  augroup Fullscreen
-    au!
-    au GUIEnter * set fullscreen
-  augroup end
-
-  set fullscreen
 
   if has('touchbar')
     an icon=NSTouchBarGetInfoTemplate TouchBar.GetInfo <C-G>
@@ -297,7 +300,7 @@ augroup end
 
 " Make terminal-mode not wrap lines, because it does it wrong: https://github.com/vim/vim/issues/2865
 " Also disable spell checking because it highlights stupid stuff like powerline glyphs.
-" Suspend job output when leaving the buffer or window, so that the window fades correctly.
+" Disabled - Suspend job output when leaving the buffer or window, so that the window fades correctly.
 augroup termft
   au!
   au BufEnter,BufWinEnter *
@@ -803,26 +806,32 @@ augroup aledelayed
 augroup end
 
 " FZF:
-let g:fzf_preview_base='bat --terminal-width $FZF_PREVIEW_COLUMNS --style full --color always'
-let g:fzf_preview_range=' --line-range :$((FZF_PREVIEW_LINES-2)) '
-let g:fzf_preview_sed=" | sed '1d;$d'"
+noremap <C-p> :FZF<cr>
+noremap <C-t> :FZF<cr>
+noremap <leader><Space> :Files<CR>
+noremap <leader><S-Space> :Files 
+noremap <leader><CR> :Buffers<cr>
+vnoremap <leader>rg y:Rg <C-r>"
+nnoremap <leader>rg :Rg <C-r><C-w>
+noremap <leader>g :GFiles?<cr>
+" Recently opened files.
+noremap <leader>h :JHistory<CR>
+" Recently run : commands
+noremap <leader>: :JHistory:<CR>
+" Search history
+noremap <leader>// :JHistory/<CR>
+noremap <leader>m :Maps<CR>
+" noremap <leader>w :Windows<CR>
+noremap <leader>?? :Commits<CR>
+noremap <leader>? :BCommits<CR>
+noremap <leader>:: :Commands<CR>
 
-let $FZF_PREVIEW_COMMAND=g:fzf_preview_base . g:fzf_preview_range . ' {} ' . g:fzf_preview_sed
-let g:fzf_preview_buffers='farg={2}; ' . g:fzf_preview_base . g:fzf_preview_range . ' ${farg:s/~/$HOME} ' . g:fzf_preview_sed
-" let g:fzf_preview_marks="l='{3}'; f='{4}'; fn=${f:s/~/$HOME}; fl=$(echo $(wc -l $fn) | cut -d' ' -f1); sl=$((0 < line-lines/2 ? line-lines/2 : 0)); el=$((fl < (sl + $FZF_PREVIEW_LINES) ? fl : (sl + $FZF_PREVIEW_LINES))); sl=$((endl-lines)); " . g:fzf_preview_base . '--line-range $((sl)):$((el)) --highlight-line $l $fn'
-let g:fzf_preview_windows='farg={3..}; fn=${farg:s/> //}; ' . g:fzf_preview_base . g:fzf_preview_range . ' ${fn:s/~/$HOME} ' . g:fzf_preview_sed
+" [Buffers] Jump to the existing window if possible
+let g:fzf_buffers_jump = 1
 
-" function! FzfCd(dir, ...)
-"   if !empty(a:dir)
-"     if !isdirectory(expand(a:dir))
-"       Warn("Invalid directory")
-"       return 0
-"     endif
-"     exe 'cd' fnameescape(a:dir)
-"   endif
-"   call fzf#vim#files(a:dir, a:000)
-" endfunction
+command! -bang -nargs=* JHistory call s:history(<q-args>, {}, <bang>0)
 
+" Applies the appropriate history if the command ends in :, /, or nothing.
 function! s:history(arg, extra, bang)
   let bang = a:bang || a:arg[len(a:arg)-1] ==# '!'
   if a:arg[0] ==# ':'
@@ -833,48 +842,6 @@ function! s:history(arg, extra, bang)
     call fzf#vim#history(a:extra, bang)
   endif
 endfunction
-
-command! -bang -nargs=? -complete=dir Files call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
-" command! -bang -nargs=? -complete=dir Files call FzfCd(<q-args>, fzf#vim#with_preview(), <bang>0)
-command! -bar -bang -nargs=? -complete=buffer Buffers  call fzf#vim#buffers(
-  \ <q-args>,
-  \ {'options': ['--preview',  g:fzf_preview_buffers]},
-  \ <bang>0
-  \)
-command! -bang -nargs=? GFiles call fzf#vim#gitfiles(<q-args>, fzf#vim#with_preview(), <bang>0)
-command! -bang -nargs=* Rg call fzf#vim#grep(
-  \ "rg --column --line-number --no-heading --color=always ".shellescape(<q-args>),
-  \ 1,
-  \ fzf#vim#with_preview(),
-  \ <bang>0
-  \)
-command! -bar -bang Commands call fzf#vim#commands(<bang>0)
-command! -bar -bang Marks call fzf#vim#marks(<bang>0)
-command! -bar -bang Windows call fzf#vim#windows(
-  \ {'options': ['--preview',  g:fzf_preview_windows]},
-  \ <bang>0
-  \)
-command! -bar -bang Commits call fzf#vim#commits(<bang>0)
-command! -bar -bang BCommits call fzf#vim#buffer_commits(<bang>0)
-command! -bar -bang Maps call fzf#vim#maps("n", <bang>0)
-command! -bang -nargs=* History call s:history(<q-args>, {}, <bang>0)
-
-noremap <C-p> :FZF<cr>
-noremap <C-t> :FZF<cr>
-noremap <leader><Space> :Files<CR>
-noremap <leader><S-Space> :Files 
-noremap <leader><CR> :Buffers<cr>
-vnoremap <leader>rg y:Rg <C-r>"
-nnoremap <leader>rg :Rg <C-r><C-w>
-noremap <leader>g :GFiles?<cr>
-noremap <leader>h :History<CR>
-noremap <leader>: :History:<CR>
-noremap <leader>// :History/<CR>
-noremap <leader>m :Maps<CR>
-" noremap <leader>w :Windows<CR>
-noremap <leader>?? :Commits<CR>
-noremap <leader>? :BCommits<CR>
-noremap <leader>:: :Commands<CR>
 
 let g:fzf_colors =
 \ { 'fg':      ['fg', 'Normal'],
@@ -890,6 +857,52 @@ let g:fzf_colors =
   \ 'marker':  ['fg', 'Keyword'],
   \ 'spinner': ['fg', 'Label'],
   \ 'header':  ['fg', 'Comment'] }
+
+
+" let g:fzf_preview_base='bat --terminal-width $FZF_PREVIEW_COLUMNS --style full --color always'
+" let g:fzf_preview_range=' --line-range :$((FZF_PREVIEW_LINES-2)) '
+" let g:fzf_preview_sed=" | sed '1d;$d'"
+
+" let $FZF_PREVIEW_COMMAND=g:fzf_preview_base . g:fzf_preview_range . ' {} ' . g:fzf_preview_sed
+" let g:fzf_preview_buffers='farg={2}; ' . g:fzf_preview_base . g:fzf_preview_range . ' ${farg:s/~/$HOME} ' . g:fzf_preview_sed
+" let g:fzf_preview_marks="l='{3}'; f='{4}'; fn=${f:s/~/$HOME}; fl=$(echo $(wc -l $fn) | cut -d' ' -f1); sl=$((0 < line-lines/2 ? line-lines/2 : 0)); el=$((fl < (sl + $FZF_PREVIEW_LINES) ? fl : (sl + $FZF_PREVIEW_LINES))); sl=$((endl-lines)); " . g:fzf_preview_base . '--line-range $((sl)):$((el)) --highlight-line $l $fn'
+" let g:fzf_preview_windows='farg={3..}; fn=${farg:s/> //}; ' . g:fzf_preview_base . g:fzf_preview_range . ' ${fn:s/~/$HOME} ' . g:fzf_preview_sed
+
+" function! FzfCd(dir, ...)
+"   if !empty(a:dir)
+"     if !isdirectory(expand(a:dir))
+"       Warn("Invalid directory")
+"       return 0
+"     endif
+"     exe 'cd' fnameescape(a:dir)
+"   endif
+"   call fzf#vim#files(a:dir, a:000)
+" endfunction
+
+" command! -bang -nargs=? -complete=dir Files call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
+" command! -bang -nargs=? -complete=dir Files call FzfCd(<q-args>, fzf#vim#with_preview(), <bang>0)
+" command! -bar -bang -nargs=? -complete=buffer Buffers  call fzf#vim#buffers(
+  " \ <q-args>,
+  " \ {'options': ['--preview',  g:fzf_preview_buffers]},
+  " \ <bang>0
+  " \)
+" command! -bang -nargs=? GFiles call fzf#vim#gitfiles(<q-args>, fzf#vim#with_preview(), <bang>0)
+" command! -bang -nargs=* Rg call fzf#vim#grep(
+  " \ "rg --column --line-number --no-heading --color=always ".shellescape(<q-args>),
+  " \ 1,
+  " \ fzf#vim#with_preview(),
+  " \ <bang>0
+  " \)
+" command! -bar -bang Commands call fzf#vim#commands(<bang>0)
+" command! -bar -bang Marks call fzf#vim#marks(<bang>0)
+" command! -bar -bang Windows call fzf#vim#windows(
+  " \ {'options': ['--preview',  g:fzf_preview_windows]},
+  " \ <bang>0
+  " \)
+" command! -bar -bang Commits call fzf#vim#commits(<bang>0)
+" command! -bar -bang BCommits call fzf#vim#buffer_commits(<bang>0)
+" command! -bar -bang Maps call fzf#vim#maps("n", <bang>0)
+
 
 " Json:
 let g:vim_json_syntax_conceal = 0
