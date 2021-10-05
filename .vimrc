@@ -29,11 +29,10 @@ if g:uname ==# "Darwin"
     augroup end
 
     set fullscreen
+
+    " Sets my font.
+    set guifont=HasklugNerdFontComplete-Regular:h11
   endif
-
-  " Sets my font.
-  set guifont=HasklugNerdFontComplete-Regular:h11
-
 
   if has('touchbar')
     an icon=NSTouchBarGetInfoTemplate TouchBar.GetInfo <C-G>
@@ -58,6 +57,7 @@ else
 endif
 
 " Crap to make 24bit color work in terminals, these need to be adjusted per terminal.
+" I don't think these are necessary anymore, especially in nvim, but I'm keeping them just in case.
 let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
 let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 
@@ -231,10 +231,12 @@ augroup AutoWrite
 augroup end
 
 " Clear the stupid stuck pop-up from coc whenever I switch windows.
-augroup ClearPopup
-  au!
-  au WinEnter * call popup_clear()
-augroup end
+if !has('nvim')
+  augroup ClearPopup
+    au!
+    au WinEnter * call popup_clear()
+  augroup end
+endif
 
 " Center the cursor when switching to a buffer.
 augroup BufCursorCenter
@@ -375,7 +377,22 @@ augroup autocursorpos
     \ | endif
 augroup end
 
+if has('nvim')
+  " Make using the neovim terminal a little easier.
+  augroup terminalsettings
+    au!
 
+    au TermOpen * startinsert
+    au TermLeave * stopinsert
+
+    " Ignore various filetypes as those will close terminal automatically
+    " Ignore fzf, ranger, coc
+    au TermClose *
+    \ if (expand('<afile>') !~ "fzf") && (expand('<afile>') !~ "coc") |
+    \   call nvim_input('<CR>')  |
+    \ endif
+  augroup end
+endif
 
 " FUNCTIONS:
 
@@ -504,28 +521,47 @@ command! Pers :cd $PERS
 " MAPPINGS:
 let mapleader=';'
 
-" Allows scrolling up from terminal-job mode.
-tmap <silent> <ScrollWheelUp> <c-w>:call EnterNormalMode()<CR>
-
 " shift+space shows up at [[32;2u without this line.
 tnoremap <s-space> <space>
 
-" - to open new terminal.
-noremap - :term<CR>
-" -a to open new ammonite terminal.
-noremap -a :term ++close amm<CR>
-" -i to open new ipython terminal.
-noremap -i :term ++close ipython<CR>
-" _ to open new terminal with given command.
-noremap _ :term 
-" \ to open new vertical terminal.
-noremap <Bslash> :vert term<CR>
-" \a to open new vertical ammonite terminal.
-noremap <Bslash>a :vert term ++close amm<CR>
-" \i to open new vertical ipython terminal.
-noremap <Bslash>i :vert term ++close ipython<CR>
-" | to open new vertical terminal with given command.
-noremap <Bar> :vert term 
+if has('nvim')
+  " - to open new terminal.
+  noremap - :split term://zsh<CR>
+  " -a to open new ammonite terminal.
+  noremap -a :split term://amm212<CR>
+  " -i to open new ipython terminal.
+  noremap -i :split term://ipython<CR>
+  " _ to open new terminal with given command.
+  noremap _ :split term://
+  " \ to open new vertical terminal.
+  noremap <Bslash> :vsplit term://zsh<CR>
+  " \a to open new vertical ammonite terminal.
+  noremap <Bslash>a :vsplit term://amm212<CR>
+  " \i to open new vertical ipython terminal.
+  noremap <Bslash>i :vsplit term://ipython<CR>
+  " | to open new vertical terminal with given command.
+  noremap <Bar> :vsplit term://
+else
+  " Allows scrolling up from terminal-job mode.
+  tmap <silent> <ScrollWheelUp> <c-w>:call EnterNormalMode()<CR>
+
+  " - to open new terminal.
+  noremap - :term<CR>
+  " -a to open new ammonite terminal.
+  noremap -a :term ++close amm212<CR>
+  " -i to open new ipython terminal.
+  noremap -i :term ++close ipython<CR>
+  " _ to open new terminal with given command.
+  noremap _ :term 
+  " \ to open new vertical terminal.
+  noremap <Bslash> :vert term<CR>
+  " \a to open new vertical ammonite terminal.
+  noremap <Bslash>a :vert term ++close amm212<CR>
+  " \i to open new vertical ipython terminal.
+  noremap <Bslash>i :vert term ++close ipython<CR>
+  " | to open new vertical terminal with given command.
+  noremap <Bar> :vert term 
+endif
 
 " <leader># or <leader>3 to go to alt buffer.
 noremap <leader># <C-^>
@@ -640,12 +676,21 @@ noremap [t :tabp<CR>
 
 " <leader>t to create new tab.
 noremap <leader>t :tabnew<CR>
-" <leader>tt to create new terminal tab.
-noremap <leader>tt :tabnew<CR>:term ++curwin<CR>
-" <leader>tt to create new ammonite tab.
-noremap <leader>ta :tabnew<CR>:term ++curwin ++close amm<CR>
-" <leader>tt to create new ipython tab.
-noremap <leader>ti :tabnew<CR>:term ++curwin ++close ipython<CR>
+if has('nvim')
+  " <leader>tt to create new terminal tab.
+  noremap <leader>tt :tabnew<CR>:term<CR>
+  " <leader>tt to create new ammonite tab.
+  noremap <leader>ta :tabnew<CR>:term amm212<CR>
+  " <leader>tt to create new ipython tab.
+  noremap <leader>ti :tabnew<CR>:term ipython<CR>
+else
+  " <leader>tt to create new terminal tab.
+  noremap <leader>tt :tabnew<CR>:term ++curwin<CR>
+  " <leader>tt to create new ammonite tab.
+  noremap <leader>ta :tabnew<CR>:term ++curwin ++close amm212<CR>
+  " <leader>tt to create new ipython tab.
+  noremap <leader>ti :tabnew<CR>:term ++curwin ++close ipython<CR>
+endif
 " <leader>tc to close the current tab.
 noremap <leader>tc :tabc<CR>
 
@@ -701,7 +746,7 @@ Plug 'gre/play2vim' " Syntax, etc for play route/conf/scala.html.
 Plug 'sheerun/vim-polyglot' " All the syntax plugins I could ever need.
 Plug 'markonm/traces.vim' " Preview for substitute commands.
 Plug 'jeffkreeftmeijer/vim-numbertoggle' " Toggle rnu/nu on insert vs normal modes.
-Plug 'TaDaa/vimade' " Fades inactive buffers.
+" Plug 'TaDaa/vimade' " Fades inactive buffers.
 Plug 'qpkorr/vim-bufkill' " Provides a command to close a buffer but keep its window.
 Plug 'regedarek/zoomwin' " Provides a tmux-like zoom function.
 Plug 'andrewradev/bufferize.vim' " Allows output of commands to be opened in their own normal buffer.

@@ -18,6 +18,7 @@ export MANPATH="/usr/local/man:$MANPATH"
 
 export LANG=en_US.UTF-8
 export TERM=xterm-256color
+export COLORTERM=truecolor
 export PYTHONPATH="${PYTHONPATH}:$HOME/work/python"
 export FZF_BASE=/usr/local/bin/fzf
 

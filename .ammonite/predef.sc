@@ -111,7 +111,7 @@ implicit val logHandler: LogHandler = LogHandler(e => println(s"Sql: ${e.sql}\nA
 //         import cats._
 //         import cats.data._
 //         import cats.implicits._
-//         import cats.effect._
+//         importruecolor_
 //         import cats.effect.implicits._
 //         import cats.effect.concurrent._
 //         import simulacrum._
