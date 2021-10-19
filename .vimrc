@@ -979,6 +979,16 @@ let g:gitgutter_diff_base = 'origin/HEAD'
 nmap ]g <Plug>(GitGutterNextHunk)
 nmap [g <Plug>(GitGutterPrevHunk)
 
+augroup GitGutterBase
+  au!
+  au DirChanged,VimEnter * 
+  \| let g:gitgutter_diff_base = system('git defaultname')
+  \| if v:shell_error != 0
+  \|   let g:gitgutter_diff_base = 'origin/HEAD'
+  \| endif
+augroup end
+
+
 " Signature:
 let g:SignatureMarkTextHL = 'Marks'
 
