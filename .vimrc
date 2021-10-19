@@ -44,17 +44,25 @@ else
   " Makes vim use the system clipboard for yank and paste.
   set clipboard=unnamedplus
 
-  " Sets my font.
-  set guifont=Hasklug\ Nerd\ Font\ 11
+  if !has('nvim')
+    " Sets my font.
+    set guifont=Hasklug\ Nerd\ Font\ 11
 
-  " Always start in fullscreen.
-  " This is gross and probably not the best way to do this.
-  augroup Fullscreen
-    au!
-    au GUIEnter * winpos 0 0
-    au GUIEnter * set lines=9999 columns=9999
-  augroup end
+    " Always start in fullscreen.
+    " This is gross and probably not the best way to do this.
+    augroup Fullscreen
+      au!
+      au GUIEnter * winpos 0 0
+      au GUIEnter * set lines=9999 columns=9999
+    augroup end
+  endif
 endif
+
+if has('nvim')
+  " Allow the sign column to expand to up to 9 characters wide.
+  set signcolumn=auto:9
+endif
+
 
 " Crap to make 24bit color work in terminals, these need to be adjusted per terminal.
 " I don't think these are necessary anymore, especially in nvim, but I'm keeping them just in case.
@@ -230,8 +238,14 @@ augroup AutoWrite
   au WinLeave * silent! update
 augroup end
 
-" Clear the stupid stuck pop-up from coc whenever I switch windows.
-if !has('nvim')
+if has('nvim')
+  " Neovim doesn't register file changes from term windows, this forces a recheck when I switch back to a window.
+  augroup AutoRead
+    au!
+    au WinEnter * silent! checktime
+  augroup end
+else
+  " Clear the stupid stuck pop-up from coc whenever I switch windows.
   augroup ClearPopup
     au!
     au WinEnter * call popup_clear()
@@ -383,7 +397,10 @@ if has('nvim')
     au!
 
     au TermOpen * startinsert
-    au TermLeave * stopinsert
+    au TermOpen * nnoremap <buffer><LeftRelease> <LeftRelease>i
+    au TermOpen * nnoremap <buffer><LeftRelease> <LeftRelease>i
+    au BufEnter term://* startinsert
+    " au TermLeave * stopinsert
 
     " Ignore various filetypes as those will close terminal automatically
     " Ignore fzf, ranger, coc
@@ -954,6 +971,7 @@ let g:vim_json_syntax_conceal = 0
 
 " GitGutter:
 let g:gitgutter_highlight_lines = 1
+let g:gitgutter_highlight_linenrs = 1
 let g:gitgutter_diff_base = 'origin/HEAD'
 nmap ]g <Plug>(GitGutterNextHunk)
 nmap [g <Plug>(GitGutterPrevHunk)

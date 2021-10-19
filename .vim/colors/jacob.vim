@@ -110,18 +110,40 @@ exe 'hi Marks guifg=' . $jlmagenta . ' guibg=' . g:sign_bg
 
 " GitGutter:
 hi link GitGutterAdd GitAddSign
+hi link GitGutterAddLineNr GitAddSign
 exe 'hi GitGutterAddLine guibg=' . $jvdgreen
 hi link GitGutterChange GitChangeSign
+hi link GitGutterChangeLineNr GitChangeSign
 exe 'hi GitGutterChangeLine guibg=' . $jvdblue
 hi link GitGutterDelete GitDeleteSign
+hi link GitGutterDeleteLineNr GitDeleteSign
 exe 'hi GitGutterDeleteLine guibg=' . $jvdred
 hi link GitGutterChangeDelete GitChangeDeleteSign
+hi link GitGutterChangeDeleteLineNr GitChangeDeleteSign
 exe 'hi GitGutterChangeDeleteLine guibg=' . $jvdpurple
 
 " Terminal Ansi Colors:
+let g:terminal_color_0 = $jblack
+let g:terminal_color_1 = $jred
+let g:terminal_color_2 = $jgreen
+let g:terminal_color_3 = $jyellow
+let g:terminal_color_4 = $jblue
+let g:terminal_color_5 = $jpurple
+let g:terminal_color_6 = $jcyan
+let g:terminal_color_7 = $jlgrey
+let g:terminal_color_8 = $jgrey
+let g:terminal_color_9 = $jlred
+let g:terminal_color_10 = $jlgreen
+let g:terminal_color_11 = $jlyellow
+let g:terminal_color_12 = $jlblue
+let g:terminal_color_13 = $jlpurple
+let g:terminal_color_14 = $jlcyan
+let g:terminal_color_15 = $jwhite
 let g:terminal_ansi_colors = [
-  \ $jblack, $jred, $jgreen, $jyellow, $jblue, $jpurple, $jcyan, $jlgrey,
-  \ $jgrey, $jlred, $jlgreen, $jlyellow, $jlblue, $jlpurple, $jlcyan, $jwhite,
+  \ g:terminal_color_0, g:terminal_color_1, g:terminal_color_2, g:terminal_color_3,
+  \ g:terminal_color_4, g:terminal_color_5, g:terminal_color_6, g:terminal_color_7,
+  \ g:terminal_color_8, g:terminal_color_9, g:terminal_color_10, g:terminal_color_11,
+  \ g:terminal_color_12, g:terminal_color_13, g:terminal_color_14, g:terminal_color_15,
   \]
 
 " Space Display And Highlighting:

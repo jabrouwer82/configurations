@@ -62,8 +62,7 @@ zinit light-mode depth'1' blockf atpull'zinit creinstall -q' as'completion' for 
   svn OMZ::plugins/fd \
   svn OMZ::plugins/ripgrep \
   svn OMZ::plugins/docker \
-  svn OMZ::plugins/docker-compose \
-  esc/conda-zsh-completion
+  svn OMZ::plugins/docker-compose
 
 # Completions with other functions.
 zinit light-mode depth'1' blockf atpull'zinit creinstall -q' for \
