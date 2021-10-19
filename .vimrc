@@ -227,6 +227,9 @@ set spell
 " This makes it easy to do :term man <cmd>, less gets weird.
 let $MANPAGER='cat'
 
+" This should let me configure what ammonite get opened
+let g:amm='amm212'
+
 
 
 " AUTOCMDS:
@@ -543,17 +546,17 @@ tnoremap <s-space> <space>
 
 if has('nvim')
   " - to open new terminal.
-  noremap - :split term://zsh<CR>
+  noremap - :exe 'split term://' . &shell <CR>
   " -a to open new ammonite terminal.
-  noremap -a :split term://amm212<CR>
+  noremap -a :exe 'split term://' . g:amm <CR>
   " -i to open new ipython terminal.
   noremap -i :split term://ipython<CR>
   " _ to open new terminal with given command.
   noremap _ :split term://
   " \ to open new vertical terminal.
-  noremap <Bslash> :vsplit term://zsh<CR>
+  noremap <Bslash> :exe 'vsplit term://' . &shell <CR>
   " \a to open new vertical ammonite terminal.
-  noremap <Bslash>a :vsplit term://amm212<CR>
+  noremap <Bslash>a :exe 'vsplit term://' . g:amm <CR>
   " \i to open new vertical ipython terminal.
   noremap <Bslash>i :vsplit term://ipython<CR>
   " | to open new vertical terminal with given command.
@@ -565,7 +568,7 @@ else
   " - to open new terminal.
   noremap - :term<CR>
   " -a to open new ammonite terminal.
-  noremap -a :term ++close amm212<CR>
+  noremap -a :exe 'term ++close ' g:amm <CR>
   " -i to open new ipython terminal.
   noremap -i :term ++close ipython<CR>
   " _ to open new terminal with given command.
@@ -573,7 +576,7 @@ else
   " \ to open new vertical terminal.
   noremap <Bslash> :vert term<CR>
   " \a to open new vertical ammonite terminal.
-  noremap <Bslash>a :vert term ++close amm212<CR>
+  noremap <Bslash>a :exe 'vert term ++close ' . g:amm <CR>
   " \i to open new vertical ipython terminal.
   noremap <Bslash>i :vert term ++close ipython<CR>
   " | to open new vertical terminal with given command.
@@ -697,14 +700,14 @@ if has('nvim')
   " <leader>tt to create new terminal tab.
   noremap <leader>tt :tabnew<CR>:term<CR>
   " <leader>tt to create new ammonite tab.
-  noremap <leader>ta :tabnew<CR>:term amm212<CR>
+  noremap <leader>ta :exe 'tabnew \| term ' . g:amm <CR>
   " <leader>tt to create new ipython tab.
   noremap <leader>ti :tabnew<CR>:term ipython<CR>
 else
   " <leader>tt to create new terminal tab.
   noremap <leader>tt :tabnew<CR>:term ++curwin<CR>
   " <leader>tt to create new ammonite tab.
-  noremap <leader>ta :tabnew<CR>:term ++curwin ++close amm212<CR>
+  noremap <leader>ta :exe 'tabnew \| term ++curwin ++close ' . g:amm <CR>
   " <leader>tt to create new ipython tab.
   noremap <leader>ti :tabnew<CR>:term ++curwin ++close ipython<CR>
 endif
