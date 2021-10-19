@@ -3,9 +3,11 @@
 " but some magic has been lost to search history on computers I haven't owned for years.
 
 " Display files as utf-8.
+
 set encoding=utf-8
 " Sets this file to be read as utf-8.
 scriptencoding=utf-8
+
 
 " Turns syntax highlighting on.
 syntax on
@@ -884,7 +886,7 @@ noremap <leader>h :JHistory<CR>
 " Recently run : commands
 noremap <leader>: :JHistory:<CR>
 " Search history
-noremap <leader>// :JHistory/<CR>
+noremap <leader>// :History/<CR>
 noremap <leader>m :Maps<CR>
 " noremap <leader>w :Windows<CR>
 noremap <leader>?? :Commits<CR>
@@ -893,8 +895,6 @@ noremap <leader>:: :Commands<CR>
 
 " [Buffers] Jump to the existing window if possible
 let g:fzf_buffers_jump = 1
-
-command! -bang -nargs=* JHistory call s:history(<q-args>, {}, <bang>0)
 
 " Applies the appropriate history if the command ends in :, /, or nothing.
 function! s:history(arg, extra, bang)
@@ -923,10 +923,6 @@ let g:fzf_colors =
   \ 'spinner': ['fg', 'Label'],
   \ 'header':  ['fg', 'Comment'] }
 
-
-" let g:fzf_preview_base='bat --terminal-width $FZF_PREVIEW_COLUMNS --style full --color always'
-" let g:fzf_preview_range=' --line-range :$((FZF_PREVIEW_LINES-2)) '
-" let g:fzf_preview_sed=" | sed '1d;$d'"
 
 " let $FZF_PREVIEW_COMMAND=g:fzf_preview_base . g:fzf_preview_range . ' {} ' . g:fzf_preview_sed
 " let g:fzf_preview_buffers='farg={2}; ' . g:fzf_preview_base . g:fzf_preview_range . ' ${farg:s/~/$HOME} ' . g:fzf_preview_sed
@@ -979,14 +975,14 @@ let g:gitgutter_diff_base = 'origin/HEAD'
 nmap ]g <Plug>(GitGutterNextHunk)
 nmap [g <Plug>(GitGutterPrevHunk)
 
-augroup GitGutterBase
-  au!
-  au DirChanged,VimEnter * 
-  \| let g:gitgutter_diff_base = system('git defaultname')
-  \| if v:shell_error != 0
-  \|   let g:gitgutter_diff_base = 'origin/HEAD'
-  \| endif
-augroup end
+" augroup GitGutterBase
+"   au!
+"   au DirChanged * 
+"   \| let g:gitgutter_diff_base = system('git defaultname')
+"   \| if v:shell_error != 0
+"   \|   let g:gitgutter_diff_base = 'origin/HEAD'
+"   \| endif
+" augroup end
 
 
 " Signature:

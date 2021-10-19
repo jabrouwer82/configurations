@@ -9,6 +9,8 @@ source ~/.p10k.zsh # Powerlevel10k configuration.
 source ~/.exa_colors.zsh # Customizes the color scheme of ls and exa.
 source ~/.github_token.sh # Github token for downloading packages.
 
+unset BAT_STYLE
+
 typeset -U fpath
 fpath+=(
   $HOME/.zsh/

@@ -21,6 +21,7 @@ export TERM=xterm-256color
 export COLORTERM=truecolor
 export PYTHONPATH="${PYTHONPATH}:$HOME/work/python"
 export FZF_BASE=/usr/local/bin/fzf
+export BAT_STYLE=changes,numbers
 
 # This blocks the 10 second delay on git filter-branch, which is used by my backup script.
 # It probably makes more sense to set this only in that script instead.
