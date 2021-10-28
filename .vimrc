@@ -637,7 +637,7 @@ tnoremap <C-A-V> <C-W>"+
 " Normal Mode.
 nnoremap <C-A-V> p
 " Insert Mode.
-inoremap <C-A-V> <C-R>+
+inoremap <C-A-V> <C-R><C-O>+
 " Command Line Mode.
 cnoremap <C-A-V> <C-R>+
 

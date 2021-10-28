@@ -23,7 +23,7 @@ if exists(':Gui')
   if g:uname ==# "Darwin"
     " Command copy/paste shortcuts
     nnoremap <D-v> <c-\><c-n>p
-    inoremap <D-v> <c-r>+
+    inoremap <D-v> <c-r><c-o>+
     tnoremap <D-v> <c-\><c-n>"+i
     cnoremap <D-v> <c-r>+
   endif
