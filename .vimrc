@@ -839,7 +839,7 @@ nnoremap <silent> <space>a :<C-u>Clap coc_diagnostics<cr>
 " Default icon
 let g:WebDevIconsUnicodeDecorateFileNodesDefaultSymbol = ''
 
-" Custom filestypes by extension.
+" Custom file type icons by extension.
 if !exists('g:WebDevIconsUnicodeDecorateFileNodesExtensionSymbols')
   let g:WebDevIconsUnicodeDecorateFileNodesExtensionSymbols = {}
 endif
@@ -1112,7 +1112,7 @@ let g:coc_user_config = {
 \  'diagnostic.floatConfig': {'maxWidth': 240},
 \  'hover.floatConfig': {'maxWidth': 240},
 \  'metals.statusBarEnabled': v:true,
-\  'metals.showInferredTpe': v:true,
+\  'metals.showInferredType': v:true,
 \  'python.linting.flake8Enabled': v:true,
 \  'python.linting.mypyEnabled': v:true,
 \  'python.linting.pylintArgs': ['--rcfile',  '~/.pylintrc'],

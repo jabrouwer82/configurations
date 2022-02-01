@@ -40,9 +40,6 @@ esac
 
 export PATH
 
-# Required by spark
-export CPPFLAGS="-I/usr/local/opt/openjdk@11/include"
-
 typeset -TU PYTHONPATH pythonpath
 pythonpath+=(
 )
