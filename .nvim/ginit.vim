@@ -9,7 +9,7 @@ if exists(':Gui')
   endfunction
 
   let g:jfont = 'Hasklug Nerd Font:h11'
-  function~ ResetFont()
+  function! ResetFont()
     execute 'GuiFont' g:jfont
   endfunction
 
@@ -37,8 +37,26 @@ if exists(':Gui')
     " Command copy/paste shortcuts
     nnoremap <D-v> <c-\><c-n>p
     inoremap <D-v> <c-r><c-o>+
-    tnoremap <D-v> <c-\><c-n>"+i
+    tnoremap <D-v> <c-\><c-n>p:startinsert:<CR>
     cnoremap <D-v> <c-r>+
+    " CMD-+ to increment font size.
+    nnoremap <D-=> :call AdjustFontSize(1)<CR>
+    inoremap <D-=> <ESC>:call AdjustFontSize(1)<CR>a
+    xnoremap <D-=> :call AdjustFontSize(1)<CR>gv
+    snoremap <D-=> <ESC>:call AdjustFontSize(1)<CR>gv
+    tnoremap <D-=> <C-\><C-n>:call AdjustFontSize(1)<CR>:startinsert:<CR>
+    " CMD-- to increment font size.
+    nnoremap <D-=> :call AdjustFontSize(-1)<CR>
+    inoremap <D-=> <ESC>:call AdjustFontSize(-1)<CR>a
+    xnoremap <D-=> :call AdjustFontSize(-1)<CR>gv
+    snoremap <D-=> <ESC>:call AdjustFontSize(-1)<CR>gv
+    tnoremap <D-=> <C-\><C-n>:call AdjustFontSize(-1)<CR>:startinsert:<CR>
+    " CMD-0 to increment font size.
+    nnoremap <D-=> :call ResetFont()<CR>
+    inoremap <D-=> <ESC>:call ResetFont()<CR>a
+    xnoremap <D-=> :call ResetFont()<CR>gv
+    snoremap <D-=> <ESC>:call ResetFont()<CR>gv
+    tnoremap <D-=> <C-\><C-n>:call ResetFont()<CR>:startinsert:<CR>
   endif
 endif
 

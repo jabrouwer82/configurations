@@ -18,14 +18,26 @@ fpath+=(
 
 typeset -U path
 path+=(
-  /Applications/MacVim.app/Contents/bin
   $HOME/.local/bin
   $HOME/bin
   /usr/local/bin
   $HOME/thirdparty/dotty/bin
-  /usr/local/opt/openjdk@11/bin # spark
-  /usr/local/anaconda3/bin
 )
+
+case "$OSTYPE" in
+  darwin*)
+    path+=(
+      $HOME/Library/Application\ Support/Coursier/bin
+    )
+  ;;
+  linux*)
+    # ...
+    path+=(
+      $HOME/.local/share/coursier/bin
+    )
+  ;;
+esac
+
 export PATH
 
 # Required by spark
@@ -166,7 +178,14 @@ else
   bindkey "\e[3~" delete-char
 fi
 
-bindkey "^_" copy-prev-shell-word # Ctrl-_ to copy the previous "word" in a command.
+case "$OSTYPE" in
+  darwin*)
+    bindkey "^[[45;5u" copy-prev-shell-word # Ctrl-_ to copy the previous "word" in a command.
+  ;;
+  linux*)
+    bindkey "^_" copy-prev-shell-word # Ctrl-_ to copy the previous "word" in a command.
+  ;;
+esac
 ############################
 # ^^ Taken from oh-my-zsh ^^
 ############################
@@ -219,33 +238,3 @@ cd() {
     builtin cd "$@"
   fi
 }
-
-# Fixes commands like "vi vi file".
-# vim() {
-#   if [[ $1 = "vi" || $1 = "vim" ]]; then
-#     command vim "${@:2}"
-#   else
-#     command vim "$@"
-#   fi
-# }
-
-# Loads up a spark repl in ammonite using github.com/alexarchambault/ammonite-spark
-spark-amm() {
-  cs launch ammonite:2.1.4 --scala 2.12.11 -- --class-based --predef ~/.ammonite/spark-predef.sc --no-home-predef
-}
-
-# >>> conda initialize >>>
-# !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/usr/local/anaconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
-if [ $? -eq 0 ]; then
-    eval "$__conda_setup"
-else
-    if [ -f "/usr/local/anaconda3/etc/profile.d/conda.sh" ]; then
-        . "/usr/local/anaconda3/etc/profile.d/conda.sh"
-#    else
-#        export PATH="/usr/local/anaconda3/bin:$PATH"
-    fi
-fi
-unset __conda_setup
-# <<< conda initialize <<<
-

@@ -106,9 +106,9 @@ set signcolumn=yes
 filetype plugin indent on
 
 " Use syntax highlighting to inform where folds occur.
-set foldmethod=syntax
+" set foldmethod=syntax
 " Starts with everything unfolded
-set foldlevel=99
+" set foldlevel=99
 
 " Pressing <Tab> in Insert mode will insert literal spaces instead of a tab character.
 set expandtab
@@ -230,7 +230,7 @@ set spell
 let $MANPAGER='cat'
 
 " This should let me configure what ammonite get opened
-let g:amm='amm212'
+let g:amm='amm'
 
 
 
@@ -373,8 +373,13 @@ augroup filetypestuff
   " sbt files are just scala.
   au BufRead,BufNewFile *.sbt setf scala
 
+  " Prefer metals to fold than anything vim does.
+  au filetype scala setlocal foldmethod=manual
+
   " There's not a language plugin for JSON5 (json with comments).
   au FileType json syntax match Comment +\/\/.\+$+
+  " No point in checking speling in json.
+  au filetype json setlocal nospell
 
   " Some python/rust bullshit. Both language plugins override the obviously superior 2 space indentation.
   au FileType rust setlocal tabstop=2 softtabstop=2 shiftwidth=2
@@ -401,11 +406,12 @@ if has('nvim')
   augroup terminalsettings
     au!
 
+    " Automtically start terminals in insert mode.
     au TermOpen * startinsert
-    au TermOpen * nnoremap <buffer><LeftRelease> <LeftRelease>i
-    au TermOpen * nnoremap <buffer><LeftRelease> <LeftRelease>i
-    au BufEnter term://* startinsert
-    " au TermLeave * stopinsert
+    " I would like to have double click to enter insert mode, or something similar,
+    " but neovim terminals do weird things on left click. LeftRelease works,
+    " but there's no double left release.
+    " au TermOpen * nnoremap <buffer><2-LeftMouse> startinsert
 
     " Ignore various filetypes as those will close terminal automatically
     " Ignore fzf, ranger, coc
@@ -414,7 +420,15 @@ if has('nvim')
     \   call nvim_input('<CR>')  |
     \ endif
   augroup end
+
+  " augroup coc_window
+  "   au!
+  "   autocmd User CocOpenFloat call nvim_win_set_config(g:coc_lasst_float_win, {'relative': 'editor', 'row': 0, 'col': 0})
+  "   autocmd User CocOpenFloat call nvim_win_set_width(g:coc_last_float_win, 9999)
+  " augroup end
 endif
+
+
 
 " FUNCTIONS:
 
@@ -672,11 +686,11 @@ nnoremap <leader>c :Commentary<CR>
 vnoremap <leader>c :Commentary<CR>
 
 " Lazy indentation decrementors.
-vnoremap <leader>, <
-nnoremap <leader>, <<
+" vnoremap <leader>, <
+" nnoremap <leader>, <<
 " Lazy indentation incrementors
-nnoremap <leader>. >>
-vnoremap <leader>. >
+" nnoremap <leader>. >>
+" vnoremap <leader>. >
 
 " <leader>== auto indents the whole file.
 " Save current cursor location: 'mqHmw'
@@ -782,7 +796,7 @@ Plug 'glts/vim-magnum' " Numeric library, dependency for radical.
 Plug 'glts/vim-radical' " gA, crd/crx/cro/crb for decimal/hex/octal/binary conversions.
 Plug 'arthurxavierx/vim-caser' " Change cases.
 Plug 'tpope/vim-rhubarb' " Github plugin for fugitive
-Plug 'zplugin/zplugin-vim-syntax' " Syntax highlighting for zplugin.
+Plug 'zdharma-continuum/zinit-vim-syntax' " Syntax highlighting for zinit.
 Plug 'roman/golden-ratio' " Automatically resize windows.
 Plug 'jabrouwer82/vim-scala' " My customized version of derekwyatt/vim-scala.
 Plug 'GEverding/vim-hocon' " Syntax for lightbend/config hocon files.
@@ -799,7 +813,27 @@ Plug 'neoclide/coc-highlight', g:coc_plugin_args
 Plug 'neoclide/coc-yaml', g:coc_plugin_args
 Plug 'neoclide/coc-python', g:coc_plugin_args
 Plug 'neoclide/coc-json', g:coc_plugin_args
+Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary!' }
+Plug 'vn-ki/coc-clap' " This gives floating windows with better search feedback for some coc functionality.
 call plug#end()
+
+
+" Clap:
+" Use 67% of the editor window instead of the buffer window.
+let g:clap_layout = { 'relative': 'editor', 'width': '75%', 'col': '12%', 'height': '55%', 'row': '15%' }
+let g:clap_preview_direction = 'up'
+
+" Search workspace symbols
+nnoremap <silent> <space>s :<C-u>Clap coc_symbols<cr>
+" Show all diagnostics
+nnoremap <silent> <space>a :<C-u>Clap coc_diagnostics<cr>
+
+" augroup Clap_Ensure_All_Closed
+"   autocmd!
+"   autocmd User ClapOnExit * call clap#floating_win#close()
+" augroup END
+
+
 
 " Dev Icons:
 " Default icon
@@ -882,9 +916,9 @@ vnoremap <leader>rg y:Rg <C-r>"
 nnoremap <leader>rg :Rg <C-r><C-w>
 noremap <leader>g :GFiles?<cr>
 " Recently opened files.
-noremap <leader>h :JHistory<CR>
+noremap <leader>h :History<CR>
 " Recently run : commands
-noremap <leader>: :JHistory:<CR>
+noremap <leader>: :History:<CR>
 " Search history
 noremap <leader>// :History/<CR>
 noremap <leader>m :Maps<CR>
@@ -895,18 +929,6 @@ noremap <leader>:: :Commands<CR>
 
 " [Buffers] Jump to the existing window if possible
 let g:fzf_buffers_jump = 1
-
-" Applies the appropriate history if the command ends in :, /, or nothing.
-function! s:history(arg, extra, bang)
-  let bang = a:bang || a:arg[len(a:arg)-1] ==# '!'
-  if a:arg[0] ==# ':'
-    call fzf#vim#command_history(bang)
-  elseif a:arg[0] ==# '/'
-    call fzf#vim#search_history(bang)
-  else
-    call fzf#vim#history(a:extra, bang)
-  endif
-endfunction
 
 let g:fzf_colors =
 \ { 'fg':      ['fg', 'Normal'],
@@ -924,47 +946,6 @@ let g:fzf_colors =
   \ 'header':  ['fg', 'Comment'] }
 
 
-" let $FZF_PREVIEW_COMMAND=g:fzf_preview_base . g:fzf_preview_range . ' {} ' . g:fzf_preview_sed
-" let g:fzf_preview_buffers='farg={2}; ' . g:fzf_preview_base . g:fzf_preview_range . ' ${farg:s/~/$HOME} ' . g:fzf_preview_sed
-" let g:fzf_preview_marks="l='{3}'; f='{4}'; fn=${f:s/~/$HOME}; fl=$(echo $(wc -l $fn) | cut -d' ' -f1); sl=$((0 < line-lines/2 ? line-lines/2 : 0)); el=$((fl < (sl + $FZF_PREVIEW_LINES) ? fl : (sl + $FZF_PREVIEW_LINES))); sl=$((endl-lines)); " . g:fzf_preview_base . '--line-range $((sl)):$((el)) --highlight-line $l $fn'
-" let g:fzf_preview_windows='farg={3..}; fn=${farg:s/> //}; ' . g:fzf_preview_base . g:fzf_preview_range . ' ${fn:s/~/$HOME} ' . g:fzf_preview_sed
-
-" function! FzfCd(dir, ...)
-"   if !empty(a:dir)
-"     if !isdirectory(expand(a:dir))
-"       Warn("Invalid directory")
-"       return 0
-"     endif
-"     exe 'cd' fnameescape(a:dir)
-"   endif
-"   call fzf#vim#files(a:dir, a:000)
-" endfunction
-
-" command! -bang -nargs=? -complete=dir Files call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
-" command! -bang -nargs=? -complete=dir Files call FzfCd(<q-args>, fzf#vim#with_preview(), <bang>0)
-" command! -bar -bang -nargs=? -complete=buffer Buffers  call fzf#vim#buffers(
-  " \ <q-args>,
-  " \ {'options': ['--preview',  g:fzf_preview_buffers]},
-  " \ <bang>0
-  " \)
-" command! -bang -nargs=? GFiles call fzf#vim#gitfiles(<q-args>, fzf#vim#with_preview(), <bang>0)
-" command! -bang -nargs=* Rg call fzf#vim#grep(
-  " \ "rg --column --line-number --no-heading --color=always ".shellescape(<q-args>),
-  " \ 1,
-  " \ fzf#vim#with_preview(),
-  " \ <bang>0
-  " \)
-" command! -bar -bang Commands call fzf#vim#commands(<bang>0)
-" command! -bar -bang Marks call fzf#vim#marks(<bang>0)
-" command! -bar -bang Windows call fzf#vim#windows(
-  " \ {'options': ['--preview',  g:fzf_preview_windows]},
-  " \ <bang>0
-  " \)
-" command! -bar -bang Commits call fzf#vim#commits(<bang>0)
-" command! -bar -bang BCommits call fzf#vim#buffer_commits(<bang>0)
-" command! -bar -bang Maps call fzf#vim#maps("n", <bang>0)
-
-
 " Json:
 let g:vim_json_syntax_conceal = 0
 
@@ -975,7 +956,7 @@ let g:gitgutter_diff_base = 'origin/HEAD'
 nmap ]g <Plug>(GitGutterNextHunk)
 nmap [g <Plug>(GitGutterPrevHunk)
 
-" augroup GitGutterBase
+" augroup Git_Gutter_Base
 "   au!
 "   au DirChanged * 
 "   \| let g:gitgutter_diff_base = system('git defaultname')
@@ -1005,25 +986,33 @@ let g:airline_detect_spell=0
 if !exists('g:airline_mode_map')
   let g:airline_mode_map = {}
 endif
+" Can't use fancy unicode here, it breaks the terminal airline.
+" Inactive
+" let g:airline_mode_map['__'] = '? '
 " Normal
-let g:airline_mode_map['n'] = ''
+" let g:airline_mode_map['n'] = ' '
 " Insert
-let g:airline_mode_map['i'] = ''
+" let g:airline_mode_map['i'] = '? '
 " Visual
-let g:airline_mode_map['v'] = 'V'
+" let g:airline_mode_map['v'] = '? '
 " Visual Line
-let g:airline_mode_map['V'] = 'VL'
+" let g:airline_mode_map['V'] = '? '
 " Visual Block
-let g:airline_mode_map[''] = 'VB'
+" let g:airline_mode_map[''] = '? '
+" Terminal
+" let g:airline_mode_map['t'] = '? '
+" Command
+" let g:airline_mode_map['c'] = '? '
+" Replace
+" let g:airline_mode_map['R'] = ' '
 
 " Enables detection of whitespace errors.
 let g:airline#extensions#whitespace#enabled = 0
-" Show the keymap in use (I'm pretty sure I'm not using keymaps, I'm not sure why I have this enabled)
-let g:airline#extensions#keymap#enabled = 1
 " Don't show the encoding if it's what it should be.
 let g:airline#parts#ffenc#skip_expected_string='utf-8[unix]'
 " Enable coc in statusline.
 let g:airline#extensions#coc#enabled = 1
+let g:airline#extensions#coc#show_coc_status = 1
 
 " Enable the tabline.
 let g:airline#extensions#tabline#enabled = 1
@@ -1112,16 +1101,25 @@ endfunction
 " Coc:
 let g:coc_user_config = {
 \  'coc.preferences.colorSupport': v:true,
-\  'rust-client.rustupPath': '/Users/jbrouwer/.cargo/bin/rustup',
-\  'diagnostics.errorSign': '>>',
-\  'diagnostics.warningSign': '>=',
-\  'diagnostics.infoSign': '==',
-\  'diagnostics.hintSign': '::',
+\  'coc.preferences.formatOnType': v:true,
 \  'coc.preferences.rootPatterns': ['build.sbt', 'build.sc', '.env', 'setup.py', '.git'],
-\  'python.linting.pylintUseMinimalCheckers': v:true,
-\  'python.linting.pylintArgs': ['--rcfile',  '~/.pylintrc'],
-\  'python.linting.mypyEnabled': v:true,
+\  'codeLens.enable': v:true,
+\  'diagnostic.virtualText': v:true,
+\  'diagnostics.errorSign': '>>',
+\  'diagnostics.hintSign': '::',
+\  'diagnostics.infoSign': '==',
+\  'diagnostics.warningSign': '>=',
+\  'diagnostic.floatConfig': {'maxWidth': 240},
+\  'hover.floatConfig': {'maxWidth': 240},
+\  'metals.statusBarEnabled': v:true,
+\  'metals.showInferredTpe': v:true,
 \  'python.linting.flake8Enabled': v:true,
+\  'python.linting.mypyEnabled': v:true,
+\  'python.linting.pylintArgs': ['--rcfile',  '~/.pylintrc'],
+\  'python.linting.pylintUseMinimalCheckers': v:true,
+\  'rust-client.rustupPath': '/Users/jbrouwer/.cargo/bin/rustup',
+\  'signature.floatConfig': {'maxWidth': 240},
+\  'suggest.floatConfig': {'maxWidth': 240}
 \}
 " \  'coc.preferences.rootPatterns': ['.git', 'version.sbt', 'build.sc', 'Cargo.toml'],
 " \  'python.linting.flake8Args': ['--config',  '~/personal/linters/flake8'],
@@ -1213,7 +1211,8 @@ command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organize
 
 " Using CocList
 " Show all diagnostics
-nnoremap <silent> <space>a  :<C-u>CocList diagnostics<cr>
+" Use clap instead
+" nnoremap <silent> <space>a  :<C-u>CocList diagnostics<cr>
 " Manage extensions
 nnoremap <silent> <space>e  :<C-u>CocList extensions<cr>
 " Show commands
@@ -1221,7 +1220,8 @@ nnoremap <silent> <space>c  :<C-u>CocList commands<cr>
 " Find symbol of current document
 nnoremap <silent> <space>o  :<C-u>CocList outline<cr>
 " Search workspace symbols
-nnoremap <silent> <space>s  :<C-u>CocList -I symbols<cr>
+" Use clap instead
+" nnoremap <silent> <space>s  :<C-u>CocList -I symbols<cr>
 " Resume latest coc list
 nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
 

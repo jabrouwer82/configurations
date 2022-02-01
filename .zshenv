@@ -1,4 +1,6 @@
 
+source ~/.github_token.sh # Github access token, makes brew auth easier.
+
 # Some common locations
 export THIRDPARTY="$HOME/thirdparty"
 export WORK="$HOME/work/"
@@ -27,18 +29,17 @@ export BAT_STYLE=changes,numbers
 # It probably makes more sense to set this only in that script instead.
 export FILTER_BRANCH_SQUELCH_WARNING=1
 
+  export EDITOR='nvim'
 case "$OSTYPE" in
   darwin*)
-    export EDITOR='mvim -f 2> /dev/null'
     export HOMEBREW_NO_AUTO_UPDATE=1
-    export JAVA_HOME='/Library/Java/JavaVirtualMachines/adoptopenjdk-8.jdk/Contents/Home'
+    export JAVA_HOME='/Library/Java/JavaVirtualMachines/amazon-corretto-8.jdk/Contents/Home'
     export LDFLAGS="-L/usr/local/opt/openssl@1.1/lib"
     export CPPFLAGS="-I/usr/local/opt/openssl@1.1/include"
     export RIPGREP_CONFIG_PATH="$HOME/.ripgreprc"
     # source /Users/jbrouwer/.nix-profile/etc/profile.d/nix.sh
   ;;
   linux*)
-    export EDITOR='gvim'
     export JAVA_HOME='/usr/lib/jvm/default/'
     export RIPGREP_CONFIG_PATH="/home/jbr/.ripgreprc"
     # source /home/jbr/.nix-profile/etc/profile.d/nix.sh
