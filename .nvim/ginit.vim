@@ -59,8 +59,3 @@ if exists(':Gui')
     tnoremap <D-0> <C-\><C-n>:call ResetFont()<CR>:startinsert<CR>
   endif
 endif
-
-" VimR settings.
-if has('gui_vimr')
-  VimRSetFontAndSize "HasklugNerdFontComplete-Regular", 11
-endif
