@@ -1,7 +1,20 @@
 " Neovim-qt settings.
 if exists(':Gui')
+  " Add/subtract a whole number to/from the font size.
+  function! AdjustFontSize(amount)
+    redir => tmpfont | GuiFont
+    redir END
+    let newfont = substitute(tmpfont, ':h\(\d\+\)', '/=":h".(submatch(1)+a:amount)', '')
+    execute 'GuiFont' trim(newfont)
+  endfunction
+
+  let g:jfont = 'Hasklug Nerd Font:h11'
+  function~ ResetFont()
+    execute 'GuiFont' g:jfont
+  endfunction
+
   " Set font in editor.
-  GuiFont Hasklug Nerd Font:h11
+  :call ResetFont()
   " Set font in gui to match the editor font.
   GuiAdaptiveFont 1
   " Render ligatures.

@@ -42,7 +42,7 @@ autoload -U zmv
 
 # Check is zinit is installed.
 if [[ ! -d ~/.zinit/bin/ ]]; then
-  git clone https://github.com/zdharma/zinit.git ~/.zinit/bin
+  git clone https://github.com/zdharma-continuum/zinit ~/.zinit/bin
   source ~/.zinit/bin/zinit.zsh && zinit self-update
 fi
 source ~/.zinit/bin/zinit.zsh
@@ -78,7 +78,7 @@ typeset -g HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_NOT_FOUND='"'""bg=$jlred,fg=$jwhit
 zinit light zsh-users/zsh-history-substring-search
 
 zinit ice depth'1' atload'fast-theme XDG:jacob > /dev/null; zicompinit; zicdreplay' nocd
-zinit light zdharma/fast-syntax-highlighting
+zinit light zdharma-continuum/fast-syntax-highlighting
 
 # MichaelAquilina/zsh-auto-notify:
 # Don't get notifications for these commands.
