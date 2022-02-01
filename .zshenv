@@ -29,7 +29,7 @@ export BAT_STYLE=changes,numbers
 # It probably makes more sense to set this only in that script instead.
 export FILTER_BRANCH_SQUELCH_WARNING=1
 
-  export EDITOR='nvim'
+export EDITOR='nvim'
 case "$OSTYPE" in
   darwin*)
     export HOMEBREW_NO_AUTO_UPDATE=1

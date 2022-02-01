@@ -54,7 +54,7 @@ autoload -U zmv
 
 # Check is zinit is installed.
 if [[ ! -d ~/.zinit/bin/ ]]; then
-  git clone https://github.com/zdharma-continuum/zinit ~/.zinit/bin
+  git clone https://github.com/zdharma-continuum/zinit.git ~/.zinit/bin
   source ~/.zinit/bin/zinit.zsh && zinit self-update
 fi
 source ~/.zinit/bin/zinit.zsh

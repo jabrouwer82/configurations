@@ -374,12 +374,12 @@ augroup filetypestuff
   au BufRead,BufNewFile *.sbt setf scala
 
   " Prefer metals to fold than anything vim does.
-  au filetype scala setlocal foldmethod=manual
+  au FileType scala setlocal foldmethod=manual
 
   " There's not a language plugin for JSON5 (json with comments).
   au FileType json syntax match Comment +\/\/.\+$+
-  " No point in checking speling in json.
-  au filetype json setlocal nospell
+  " No point in checking spelling in json.
+  au FileType json setlocal nospell
 
   " Some python/rust bullshit. Both language plugins override the obviously superior 2 space indentation.
   au FileType rust setlocal tabstop=2 softtabstop=2 shiftwidth=2
@@ -406,7 +406,7 @@ if has('nvim')
   augroup terminalsettings
     au!
 
-    " Automtically start terminals in insert mode.
+    " Automatically start terminals in insert mode.
     au TermOpen * startinsert
     " I would like to have double click to enter insert mode, or something similar,
     " but neovim terminals do weird things on left click. LeftRelease works,
@@ -423,7 +423,7 @@ if has('nvim')
 
   " augroup coc_window
   "   au!
-  "   autocmd User CocOpenFloat call nvim_win_set_config(g:coc_lasst_float_win, {'relative': 'editor', 'row': 0, 'col': 0})
+  "   autocmd User CocOpenFloat call nvim_win_set_config(g:coc_last_float_win, {'relative': 'editor', 'row': 0, 'col': 0})
   "   autocmd User CocOpenFloat call nvim_win_set_width(g:coc_last_float_win, 9999)
   " augroup end
 endif
@@ -821,7 +821,7 @@ call plug#end()
 " Clap:
 " Use 67% of the editor window instead of the buffer window.
 let g:clap_layout = { 'relative': 'editor', 'width': '75%', 'col': '12%', 'height': '55%', 'row': '15%' }
-let g:clap_preview_direction = 'up'
+let g:clap_preview_direction = 'UD'
 
 " Search workspace symbols
 nnoremap <silent> <space>s :<C-u>Clap coc_symbols<cr>
@@ -1105,10 +1105,10 @@ let g:coc_user_config = {
 \  'coc.preferences.rootPatterns': ['build.sbt', 'build.sc', '.env', 'setup.py', '.git'],
 \  'codeLens.enable': v:true,
 \  'diagnostic.virtualText': v:true,
-\  'diagnostics.errorSign': '>>',
-\  'diagnostics.hintSign': '::',
-\  'diagnostics.infoSign': '==',
-\  'diagnostics.warningSign': '>=',
+\  'diagnostic.errorSign': '>>',
+\  'diagnostic.hintSign': '::',
+\  'diagnostic.infoSign': '==',
+\  'diagnostic.warningSign': '>=',
 \  'diagnostic.floatConfig': {'maxWidth': 240},
 \  'hover.floatConfig': {'maxWidth': 240},
 \  'metals.statusBarEnabled': v:true,

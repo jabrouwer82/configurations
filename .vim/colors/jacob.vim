@@ -117,21 +117,21 @@ exe 'hi JacobCursorLine gui=bold guibg=' . $jdgrey
 hi! link CursorLine JacobCursorLine
 exe 'hi JacobCursorLineNR gui=bold guifg=' . $jlblue . ' guibg=' . g:sign_bg
 exe 'hi JacobNormalCursorLineNR gui=bold guifg=' . $jlblue . ' guibg=' . g:sign_bg
-exe 'hi JacobInsertCursorLineNR gui=bold guifg=' . $jlgreen . ' guibg=' . g:sign_bg
+exe 'hi JacobInsertCursorLineNR gui=bold guifg=' . $jgreen . ' guibg=' . g:sign_bg
 exe 'hi JacobCmdLineCursorLineNR gui=bold guifg=' . $jmagenta . ' guibg=' . g:sign_bg
 exe 'hi JacobTermCursorLineNR gui=bold guifg=' . $jyellow . ' guibg=' . g:sign_bg
-hi! link CursorLineNr JacobCursorLineNR
+hi! link CursorLineNR JacobCursorLineNR
 augroup cursorlinenumber
   au!
-  au InsertEnter * :hi! link CursorLineNr JacobInsertCursorLineNR
+  au InsertEnter * :hi! link CursorLineNR JacobInsertCursorLineNR
 
-  au CmdLineEnter * :hi! link CursorLineNr JacobCmdLineCursorLineNR
+  au CmdLineEnter * :hi! link CursorLineNR JacobCmdLineCursorLineNR | redraw
 
-  au TermEnter * :hi! link CursorLineNr JacobTermCursorLineNR
+  au TermEnter * :hi! link CursorLineNR JacobTermCursorLineNR
 
-  au InsertLeave,CmdLineLeave,TermLeave * hi! link CursorLineNR JacobNormalCursorLineNR
+  au InsertLeave,CmdLineLeave,TermLeave * :hi! link CursorLineNR JacobNormalCursorLineNR
 augroup end
-hi! link CursorLineNr JacobCursorLineNR
+hi! link CursorLineNR JacobCursorLineNR
 exe 'hi JacobLineNR guifg=' . $jdcyan . ' guibg=' . g:sign_bg
 hi! link LineNR JacobLineNR
 exe 'hi JacobSignColumn guibg=' . g:sign_bg
@@ -226,10 +226,10 @@ exe 'hi JacobClapSearchText guibg=' . $jvdblue . ' guifg=' . $jcyan
 hi! link ClapSearchText JacobClapSearchText
 hi! link ClapCurrentSelection PmenuSel
 hi! link ClapCurrentSelectionSign PmenuSel
-exe 'hi JacobClapSelected guibg=' . $jdblue . ' guifg=' . $jcyan . 'gui=underline guisp=' . $jcyan
+exe 'hi JacobClapSelected guibg=' . $jdblue . ' guifg=' . $jcyan . ' gui=underline guisp=' . $jcyan
 hi! link ClapSelected JacobClapSelected
 exe 'hi JacobClapSelectedSign guifg=' . $jcyan
-hi! link ClapSelectedSign JacobSlapSelectedSign
+hi! link ClapSelectedSign JacobClapSelectedSign
 hi! link ClapDisplay Pmenu
 exe 'hi JacobClapPreview guibg=' . $jvdblue . ' guifg=' . $jlgrey
 hi! link ClapPreview JacobClapPreview

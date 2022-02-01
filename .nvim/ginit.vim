@@ -4,7 +4,7 @@ if exists(':Gui')
   function! AdjustFontSize(amount)
     redir => tmpfont | GuiFont
     redir END
-    let newfont = substitute(tmpfont, ':h\(\d\+\)', '/=":h".(submatch(1)+a:amount)', '')
+    let newfont = substitute(tmpfont, ':h\(\d\+\)', '\=":h".(submatch(1)+a:amount)', '')
     execute 'GuiFont' trim(newfont)
   endfunction
 
@@ -37,7 +37,7 @@ if exists(':Gui')
     " Command copy/paste shortcuts
     nnoremap <D-v> <c-\><c-n>p
     inoremap <D-v> <c-r><c-o>+
-    tnoremap <D-v> <c-\><c-n>p:startinsert:<CR>
+    tnoremap <D-v> <c-\><c-n>p:startinsert<CR>
     cnoremap <D-v> <c-r>+
     " CMD-+ to increment font size.
     nnoremap <D-=> :call AdjustFontSize(1)<CR>
@@ -46,17 +46,17 @@ if exists(':Gui')
     snoremap <D-=> <ESC>:call AdjustFontSize(1)<CR>gv
     tnoremap <D-=> <C-\><C-n>:call AdjustFontSize(1)<CR>:startinsert:<CR>
     " CMD-- to increment font size.
-    nnoremap <D-=> :call AdjustFontSize(-1)<CR>
-    inoremap <D-=> <ESC>:call AdjustFontSize(-1)<CR>a
-    xnoremap <D-=> :call AdjustFontSize(-1)<CR>gv
-    snoremap <D-=> <ESC>:call AdjustFontSize(-1)<CR>gv
-    tnoremap <D-=> <C-\><C-n>:call AdjustFontSize(-1)<CR>:startinsert:<CR>
-    " CMD-0 to increment font size.
-    nnoremap <D-=> :call ResetFont()<CR>
-    inoremap <D-=> <ESC>:call ResetFont()<CR>a
-    xnoremap <D-=> :call ResetFont()<CR>gv
-    snoremap <D-=> <ESC>:call ResetFont()<CR>gv
-    tnoremap <D-=> <C-\><C-n>:call ResetFont()<CR>:startinsert:<CR>
+    nnoremap <D--> :call AdjustFontSize(-1)<CR>
+    inoremap <D--> <ESC>:call AdjustFontSize(-1)<CR>a
+    xnoremap <D--> :call AdjustFontSize(-1)<CR>gv
+    snoremap <D--> <ESC>:call AdjustFontSize(-1)<CR>gv
+    tnoremap <D--> <C-\><C-n>:call AdjustFontSize(-1)<CR>:startinsert:<CR>
+    " CMD-0 to reset font size to my default.
+    nnoremap <D-0> :call ResetFont()<CR>
+    inoremap <D-0> <ESC>:call ResetFont()<CR>a
+    xnoremap <D-0> :call ResetFont()<CR>gv
+    snoremap <D-0> <ESC>:call ResetFont()<CR>gv
+    tnoremap <D-0> <C-\><C-n>:call ResetFont()<CR>:startinsert:<CR>
   endif
 endif
 
