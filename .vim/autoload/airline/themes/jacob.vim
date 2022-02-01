@@ -19,7 +19,7 @@ let s:WARNING = [$jblack, $jlorange, '', '']
 let s:N_A = [$jblack, s:NORMAL, '', '']
 let g:airline#themes#jacob#palette.normal = airline#themes#generate_color_map(s:N_A, s:ALL_B, s:ALL_C)
 let g:airline#themes#jacob#palette.normal_modified = {
-  \ 'airline_c': [s:MODIFIED, $jblack, '', ''],
+  \ 'airline_c': [s:MODIFIED, $jblack, '', '', ''],
   \ }
 let g:airline#themes#jacob#palette.normal.airline_warning = s:WARNING
 let g:airline#themes#jacob#palette.normal.airline_error = s:ERROR
@@ -52,14 +52,14 @@ let g:airline#themes#jacob#palette.visual.airline_error = s:ERROR
 let g:airline#themes#jacob#palette.visual.airline_term = s:ALL_C
 
 
-let s:IA_A  = [s:INACTIVE, $jdgrey, '' , '']
+let s:IA_A  = [s:INACTIVE, $jdgrey, '', '']
 let s:IA_B = [$jgrey, $jblack, '', '']
 let s:IA_C = [$jlgrey, $jdpurple, '', '']
 let g:airline#themes#jacob#palette.inactive = airline#themes#generate_color_map(s:IA_A, s:IA_B, s:IA_C)
 let g:airline#themes#jacob#palette.inactive_modified = copy(g:airline#themes#jacob#palette.normal_modified)
 let g:airline#themes#jacob#palette.inactive.airline_warning = s:WARNING
 let g:airline#themes#jacob#palette.inactive.airline_error = s:ERROR
-let g:airline#themes#jacob#palette.inactive.airline_term = s:ALL_C
+let g:airline#themes#jacob#palette.inactive.airline_term = s:IA_C
 
 
 let s:C_A = [$jblack, s:COMMAND, '', '']
@@ -70,7 +70,7 @@ let g:airline#themes#jacob#palette.commandline.airline_error = s:ERROR
 let g:airline#themes#jacob#palette.commandline.airline_term = s:ALL_C
 
 
-let s:T_A  = [$jblack, s:TERMINAL, '' , '']
+let s:T_A = [$jblack, s:TERMINAL, '', '']
 let s:T_B = [s:TERMINAL, $jdgrey, '', '']
 let g:airline#themes#jacob#palette.terminal = airline#themes#generate_color_map(s:T_A, s:T_B, s:ALL_C)
 let g:airline#themes#jacob#palette.terminal.airline_term = s:ALL_C
