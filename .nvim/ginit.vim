@@ -44,19 +44,19 @@ if exists(':Gui')
     inoremap <D-=> <ESC>:call AdjustFontSize(1)<CR>a
     xnoremap <D-=> :call AdjustFontSize(1)<CR>gv
     snoremap <D-=> <ESC>:call AdjustFontSize(1)<CR>gv
-    tnoremap <D-=> <C-\><C-n>:call AdjustFontSize(1)<CR>:startinsert:<CR>
+    tnoremap <D-=> <C-\><C-n>:call AdjustFontSize(1)<CR>:startinsert<CR>
     " CMD-- to increment font size.
     nnoremap <D--> :call AdjustFontSize(-1)<CR>
     inoremap <D--> <ESC>:call AdjustFontSize(-1)<CR>a
     xnoremap <D--> :call AdjustFontSize(-1)<CR>gv
     snoremap <D--> <ESC>:call AdjustFontSize(-1)<CR>gv
-    tnoremap <D--> <C-\><C-n>:call AdjustFontSize(-1)<CR>:startinsert:<CR>
+    tnoremap <D--> <C-\><C-n>:call AdjustFontSize(-1)<CR>:startinsert<CR>
     " CMD-0 to reset font size to my default.
     nnoremap <D-0> :call ResetFont()<CR>
     inoremap <D-0> <ESC>:call ResetFont()<CR>a
     xnoremap <D-0> :call ResetFont()<CR>gv
     snoremap <D-0> <ESC>:call ResetFont()<CR>gv
-    tnoremap <D-0> <C-\><C-n>:call ResetFont()<CR>:startinsert:<CR>
+    tnoremap <D-0> <C-\><C-n>:call ResetFont()<CR>:startinsert<CR>
   endif
 endif
 
