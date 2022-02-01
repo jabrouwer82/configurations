@@ -13,9 +13,10 @@ mkdir -p ~/personal
 
 echo -e '\033[1;36mInstalling vim configs...\033[0m'
 ln -sf "$(pwd)"/.vimrc ~/.vimrc
-mkdir -p ~/.config/nvim
+mkdir -p ~/.config/nvim/lua
 ln -sf "$(pwd)"/.nvim/init.vim ~/.config/nvim/init.vim
 ln -sf "$(pwd)"/.nvim/ginit.vim ~/.config/nvim/ginit.vim
+ln -sf "$(pwd)"/.nvim/lua/plugins.lua ~/.config/nvim/lua/plugins.lua
 mkdir -p ~/.vim/autoload/airline/themes
 mkdir -p ~/.vim/bundle
 mkdir -p ~/.vim/colors

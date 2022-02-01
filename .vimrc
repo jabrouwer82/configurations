@@ -8,10 +8,11 @@ set encoding=utf-8
 " Sets this file to be read as utf-8.
 scriptencoding=utf-8
 
-
 " Turns syntax highlighting on.
 syntax on
+" syntax off
 
+" Cache system type, not like it can change.
 let g:uname = trim(system('uname'))
 
 if g:uname ==# "Darwin"
@@ -62,7 +63,10 @@ endif
 
 if has('nvim')
   " Allow the sign column to expand to up to 9 characters wide.
-  set signcolumn=auto:9
+  set signcolumn=auto:1-9
+else
+  " Always display the sign column, used by coc, ale, and gitgutter to display changes, errors, and warning.
+  set signcolumn=yes
 endif
 
 
@@ -99,12 +103,6 @@ set autoread
 set cursorline
 set cursorcolumn
 
-" Always display the sign column, used by coc, ale, and gitgutter to display changes, errors, and warning.
-set signcolumn=yes
-
-" Detect filetypes, load filetype plugins, and load filetype indent files.
-filetype plugin indent on
-
 " Use syntax highlighting to inform where folds occur.
 " set foldmethod=syntax
 " Starts with everything unfolded
@@ -120,6 +118,35 @@ set shiftwidth=2
 " Also sets tabs to be inserted as 2 spaces.
 set softtabstop=2
 
+" Autoindent by default, let individual language plugins override.
+set autoindent
+
+" Automatically insert whitespace when pressing <TAB> at the beginning of a line.
+set smarttab
+
+" Don't search 'included' files for completion, can be slow and provide irrelevant results.
+set complete-=i
+
+" Don't consider octals to be numbers (or, allow leading zeros on decimal numbers).
+set nrformats-=octal
+
+" Auto add comment leader on <ENTER>
+set formatoptions+=r
+" Auto add comment leader on 'o' or 'O'
+set formatoptions+=o
+" Don't auto break long lines
+set formatoptions+=l
+set formatoptions-=t
+
+" Keep up to 500 files in history and allow them to be up to 3x the normal size.
+set viminfo=!,'500,<50,s30,h
+
+" Don't save local options and mappings on mksession.
+set sessionoptions-=options
+
+" Don't save local options and mappings on mkview.
+set viewoptions-=options
+
 " Sets vim to not automatically insert newlines in long lines.
 " This is the default value.
 set textwidth=0
@@ -133,8 +160,8 @@ set timeoutlen=300
 " Make this as low as you want/can?
 set ttimeoutlen=100
 
-" Shows '@@@' in the number column if the last line is truncated.
-set display=truncate
+" Shows '@@@' at the end of of truncated lines.
+set display=lastline
 
 " Shows searches in real time.
 set incsearch
@@ -222,6 +249,13 @@ set fillchars+=vert:\
 
 " Turn on spellchecker. Use zg to add word to dictionary.
 set spell
+
+" Sets completion menu to show up, even for one option, and don't auto-select anything.
+" Consider also settinp review and noinsert?
+set completeopt=menu,menuone,noselect
+
+" Limit size of autocomplete menu
+set pumheight=15
 
 
 
@@ -316,7 +350,13 @@ augroup end
 " <leader>= will fix ts/js comparisons ie === or !== rather than == or !=
 augroup TsJsFiletype
   au!
-  au FileType typescript,javascript nnoremap <silent><buffer> <leader>= :s/\(=\\|!\)=\([^=]\)/\1==\2/g<CR>:noh<CR>
+  au FileType typescript,javascript nnoremap <silent><buffer> <leader>= :s/\(=\\|!\)=\([^=]\)/\1==\2/g<CR>:noh<CR>      
+augroup end
+
+" Remove the tab display character.
+augroup GoFileType
+  au!
+  au FileType go setlocal noexpandtab list listchars=tab:\▏\ ,nbsp:·,trail:·
 augroup end
 
 " Make terminal-mode not wrap lines, because it does it wrong: https://github.com/vim/vim/issues/2865
@@ -354,6 +394,12 @@ augroup bufferizeft
   au FileType bufferize noremap <buffer> q :q<CR>
 augroup end
 
+" Easier closing of metals doctor windows.
+augroup MetalsDoctor
+  au!
+  au FileType metalsdoctor noremap <buffer> q :q<CR>
+augroup end
+
 " Automatically write any updates in the current file when focus is lost.
 augroup focuslost
   au!
@@ -383,8 +429,7 @@ augroup filetypestuff
 
   " Some python/rust bullshit. Both language plugins override the obviously superior 2 space indentation.
   au FileType rust setlocal tabstop=2 softtabstop=2 shiftwidth=2
-  " Disabled for work:
-  " au FileType python setlocal tabstop=2 softtabstop=2 shiftwidth=2
+  au FileType python setlocal tabstop=2 softtabstop=2 shiftwidth=2
 
   " The vim language plugin overrides my setting.
   au FileType vim setlocal textwidth=0
@@ -515,14 +560,14 @@ function! ClearOneLine()
 endfunction
 
 " These two functions allow me to use fzf for spell suggestions, which is much nicer than the default ui.
-function! FzfSpellSink(word)
-  exe 'normal! "_ciw'.a:word
-endfunction
+" function! FzfSpellSink(word)
+"   exe 'normal! "_ciw'.a:word
+" endfunction
 
-function! FzfSpell()
-  let suggestions = spellsuggest(expand('<cword>'))
-  return fzf#run({'source': suggestions, 'sink': function('FzfSpellSink'), 'down': 10 })
-endfunction
+" function! FzfSpell()
+"   let suggestions = spellsuggest(expand('<cword>'))
+"   return fzf#run({'source': suggestions, 'sink': function('FzfSpellSink'), 'down': 10 })
+" endfunction
 
 " Creates a new window that will be at least 120 chars wide, no guarantee about height.
 function! NewWindow()
@@ -556,6 +601,10 @@ command! Pers :cd $PERS
 
 " MAPPINGS:
 let mapleader=';'
+
+" Stops <C-U> from deleting text in an unrecoverable way.
+inoremap <C-U> <C-G>u<C-U>
+inoremap <C-W> <C-G>u<C-W>
 
 " shift+space shows up at [[32;2u without this line.
 tnoremap <s-space> <space>
@@ -734,12 +783,13 @@ noremap <leader>tc :tabc<CR>
 noremap <leader>b :Bufferize 
 
 " Use <leader><tab> in to get fzf spell suggestions.
-nnoremap <leader><Tab> :call FzfSpell()<CR>
+" nnoremap <leader><Tab> :call FzfSpell()<CR>
 
 " Highlight debugging.
-noremap <leader>` :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
-  \ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
-  \ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
+" noremap <leader>` :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
+"   \ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
+"   \ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
+noremap <leader>` :TSHighlightCapturesUnderCursor<cr>
 
   " For shenanigans.
 " noremap <leader>r ggg?G``:set invspell<CR>
@@ -750,7 +800,9 @@ imap <Home> <C-O><Home>
 
 
 " Vim-polyglot:
-let g:polyglot_disabled = ['scala']
+" I've forked vim-scala with some highlighting customizations.
+" I want the full golang plugin, not just the ftdetect/syntax/indent of polyglot.
+let g:polyglot_disabled = ['scala', 'go', 'sensible']
 
 " PLUGINS:
 " Auto-install vim-plug. This places probably too much trust in junegunn's github.
@@ -802,19 +854,24 @@ Plug 'jabrouwer82/vim-scala' " My customized version of derekwyatt/vim-scala.
 Plug 'GEverding/vim-hocon' " Syntax for lightbend/config hocon files.
 Plug 'ryanoasis/vim-devicons' " Adds icons for filetypes.
 Plug 'chlorophyllin/jproperties.vim' " Add syntax support for java properties files.
+Plug 'fatih/vim-go' " Add full go support.
+Plug 'jesseleite/vim-agriculture' " Adds :RgRaw, which can pass flags to ripgrep.
+Plug 'tpope/vim-endwise' " Helps end structures like if/endif
+
 " COC:
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
+" Plug 'neoclide/coc.nvim', {'branch': 'release'}
 " These are actually npm projects, they need these args to install correctly.
-let g:coc_plugin_args = {'do': 'yarn install --frozen-lockfile --silent --no-progress --no-color'}
+" let g:coc_plugin_args = {'do': 'yarn install --frozen-lockfile --silent --no-progress --no-color'}
 " Plug 'tjdevries/coc-zsh' " This plugin is painfully unresponsive, at least on macos.
-Plug 'scalameta/coc-metals', g:coc_plugin_args
-Plug 'iamcco/coc-vimlsp', g:coc_plugin_args
-Plug 'neoclide/coc-highlight', g:coc_plugin_args
-Plug 'neoclide/coc-yaml', g:coc_plugin_args
-Plug 'neoclide/coc-python', g:coc_plugin_args
-Plug 'neoclide/coc-json', g:coc_plugin_args
-Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary!' }
-Plug 'vn-ki/coc-clap' " This gives floating windows with better search feedback for some coc functionality.
+" Plug 'scalameta/coc-metals', g:coc_plugin_args
+" Plug 'iamcco/coc-vimlsp', g:coc_plugin_args
+" Plug 'neoclide/coc-highlight', g:coc_plugin_args
+" Plug 'neoclide/coc-yaml', g:coc_plugin_args
+" Plug 'neoclide/coc-python', g:coc_plugin_args
+" Plug 'neoclide/coc-json', g:coc_plugin_args
+" Plug 'josa42/coc-go', g:coc_plugin_args
+" Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary!' }
+" Plug 'vn-ki/coc-clap' " This gives floating windows with better search feedback for some coc functionality.
 call plug#end()
 
 
@@ -824,9 +881,9 @@ let g:clap_layout = { 'relative': 'editor', 'width': '75%', 'col': '12%', 'heigh
 let g:clap_preview_direction = 'UD'
 
 " Search workspace symbols
-nnoremap <silent> <space>s :<C-u>Clap coc_symbols<cr>
+" nnoremap <silent> <space>s :<C-u>Clap coc_symbols<cr>
 " Show all diagnostics
-nnoremap <silent> <space>a :<C-u>Clap coc_diagnostics<cr>
+" nnoremap <silent> <space>a :<C-u>Clap coc_diagnostics<cr>
 
 " augroup Clap_Ensure_All_Closed
 "   autocmd!
@@ -875,7 +932,9 @@ let g:loaded_golden_ratio = 0
 let g:indentLine_char = '▏'
 
 " Rooter:
-let g:rooter_patterns = ['.git/']
+" .jacob is a dummy file to mark my home dir, so I don't end up in root when
+" not in a git directory.
+let g:rooter_patterns = ['.git/', '.jacob']
 " let g:rooter_patterns = ['build.sbt', 'build.sc', '.git/']
 let g:rooter_silent_chdir = 1
 
@@ -909,26 +968,24 @@ augroup end
 " FZF:
 noremap <C-p> :FZF<cr>
 noremap <C-t> :FZF<cr>
-noremap <leader><Space> :Files<CR>
+" noremap <leader><Space> :Files<CR>
 noremap <leader><S-Space> :Files 
-noremap <leader><CR> :Buffers<cr>
-vnoremap <leader>rg y:Rg <C-r>"
-nnoremap <leader>rg :Rg <C-r><C-w>
-noremap <leader>g :GFiles?<cr>
+" noremap <leader><CR> :Buffers<cr>
+" noremap <leader>g :GFiles?<cr>
 " Recently opened files.
-noremap <leader>h :History<CR>
+" noremap <leader>h :History<CR>
 " Recently run : commands
-noremap <leader>: :History:<CR>
+" noremap <leader>: :History:<CR>
 " Search history
-noremap <leader>// :History/<CR>
-noremap <leader>m :Maps<CR>
+" noremap <leader>// :History/<CR>
+" noremap <leader>m :Maps<CR>
 " noremap <leader>w :Windows<CR>
-noremap <leader>?? :Commits<CR>
-noremap <leader>? :BCommits<CR>
-noremap <leader>:: :Commands<CR>
+" noremap <leader>?? :Commits<CR>
+" noremap <leader>? :BCommits<CR>
+" noremap <leader>:: :Commands<CR>
 
 " [Buffers] Jump to the existing window if possible
-let g:fzf_buffers_jump = 1
+" let g:fzf_buffers_jump = 1
 
 let g:fzf_colors =
 \ { 'fg':      ['fg', 'Normal'],
@@ -944,6 +1001,11 @@ let g:fzf_colors =
   \ 'marker':  ['fg', 'Keyword'],
   \ 'spinner': ['fg', 'Label'],
   \ 'header':  ['fg', 'Comment'] }
+
+
+" Agriculture:
+vnoremap <leader>rg y:RgRaw <C-r>"
+nnoremap <leader>rg :RgRaw <C-r><C-w>
 
 
 " Json:
@@ -988,21 +1050,21 @@ if !exists('g:airline_mode_map')
 endif
 " Can't use fancy unicode here, it breaks the terminal airline.
 " Inactive
-" let g:airline_mode_map['__'] = '? '
+" let g:airline_mode_map['__'] = ' '
 " Normal
 " let g:airline_mode_map['n'] = ' '
 " Insert
-" let g:airline_mode_map['i'] = '? '
+" let g:airline_mode_map['i'] = ' '
 " Visual
-" let g:airline_mode_map['v'] = '? '
+" let g:airline_mode_map['v'] = ' '
 " Visual Line
-" let g:airline_mode_map['V'] = '? '
+" let g:airline_mode_map['V'] = ' '
 " Visual Block
-" let g:airline_mode_map[''] = '? '
+" let g:airline_mode_map[''] = ' '
 " Terminal
-" let g:airline_mode_map['t'] = '? '
+" let g:airline_mode_map['t'] = ' '
 " Command
-" let g:airline_mode_map['c'] = '? '
+" let g:airline_mode_map['c'] = ' '
 " Replace
 " let g:airline_mode_map['R'] = ' '
 
@@ -1011,8 +1073,64 @@ let g:airline#extensions#whitespace#enabled = 0
 " Don't show the encoding if it's what it should be.
 let g:airline#parts#ffenc#skip_expected_string='utf-8[unix]'
 " Enable coc in statusline.
-let g:airline#extensions#coc#enabled = 1
-let g:airline#extensions#coc#show_coc_status = 1
+" let g:airline#extensions#coc#enabled = 1
+" let g:airline#extensions#coc#show_coc_status = 1
+let g:airline#extensions#nvimlsp#enabled = 1
+" let g:airline#extensions#nvimmetals#enabled = 1
+
+
+function! LspStatus() abort
+  let g:j_lsp_status = ""
+  let g:j_lsp_status_short = ""
+  if luaeval('#vim.lsp.buf_get_clients() > 0')
+     let g:j_lsp_status = luaeval('require("lsp-status").status()')
+     let g:j_lsp_status_short = substitute(g:j_lsp_status, '\s', '', 'g')
+  endif
+
+  let g:j_lsps = luaeval("ListLsps()")
+
+  if g:j_lsps =~ "metals"
+    let g:j_metals_prefix = ""
+  else
+    let g:j_metals_prefix = "[metals]: "
+  endif
+
+
+  if (&ft == 'scala' || &ft == 'sbt' )
+    " Shorten text for windows < 91 characters
+    let g:j_metals_status = get(g:, 'metals_status', '')
+    if g:j_metals_status isnot ''
+      let g:j_metals_status = airline#util#shorten(g:j_metals_prefix . get(g:, 'metals_status', ''), 91, 9)
+    elseif exists("g:metals_status")
+      let g:j_metals_status = substitute(g:j_metals_prefix, ": ", "", "g")
+    endif
+  else
+    let g:j_metals_status = ''
+  endif
+
+  if g:j_lsp_status_short isnot '' && g:j_metals_status isnot ''
+    let g:j_status = g:j_lsp_status . ' ' . g:j_metals_status
+  elseif g:j_lsp_status_short isnot ''
+    let g:j_status = g:j_lsp_status
+  elseif g:j_metals_status isnot ''
+    let g:j_status = g:j_metals_status
+  else
+    let g:j_status = ''
+  endif
+
+  if g:j_lsps isnot '' && g:j_status isnot ''
+    return g:j_lsps . ': ' . g:j_status
+  elseif g:j_lsps isnot ''
+    return g:j_lsps
+  elseif g:j_status isnot ''
+    return g:j_status
+  else
+    return ''
+  endif
+endfunction
+
+call airline#parts#define_function('j_status', 'LspStatus')
+let g:airline_section_y = airline#section#create(['j_status'])
 
 " Enable the tabline.
 let g:airline#extensions#tabline#enabled = 1
@@ -1022,19 +1140,17 @@ let g:airline#extensions#tabline#show_splits = 1
 let g:airline#extensions#tabline#fnamemod = ':t:r'
 " Number tabs by tab number (splits is the default?)
 let g:airline#extensions#tabline#tab_nr_type = 1
-" Always show tabs in tabline (doesn't work, but I would prefer it)
-let g:airline#extensions#tabline#show_tabs = 1
+" Customization I added to always show the tab label, even in bufferline mode.
+let g:airline#extensions#tabline#show_tabs_label = 1
 " Don't show the tab count.
 let g:airline#extensions#tabline#show_tab_count = 0
 " Don't show close button for tabs.
 let g:airline#extensions#tabline#show_close_button = 0
-" Switch buffers and tabs in the tabline, only works for ctrlspace, but hopefully that changes.
-let g:airline#extensions#tabline#switch_buffers_and_tabs = 0
 
 " Replaces the "tabs" label in the tabline with the abbreviated pwd.
 augroup TablineCwd
   au!
-  au DirChanged,VimEnter * let g:airline#extensions#tabline#tabs_label = pathshorten(fnamemodify(getcwd(), ":~"))
+  au DirChanged,VimEnter * let g:airline#extensions#tabline#tabs_label = pathshorten(fnamemodify(getcwd(0), ":t"))
 augroup end
 
 " This chunk puts a clock and battery meter in the top right of the airline tabline.
@@ -1099,93 +1215,98 @@ function! TablineUpdate(timer)
 endfunction
 
 " Coc:
-let g:coc_user_config = {
-\  'coc.preferences.colorSupport': v:true,
-\  'coc.preferences.formatOnType': v:true,
-\  'coc.preferences.rootPatterns': ['build.sbt', 'build.sc', '.env', 'setup.py', '.git'],
-\  'codeLens.enable': v:true,
-\  'diagnostic.virtualText': v:true,
-\  'diagnostic.errorSign': '>>',
-\  'diagnostic.hintSign': '::',
-\  'diagnostic.infoSign': '==',
-\  'diagnostic.warningSign': '>=',
-\  'diagnostic.floatConfig': {'maxWidth': 240},
-\  'hover.floatConfig': {'maxWidth': 240},
-\  'metals.statusBarEnabled': v:true,
-\  'metals.showInferredType': v:true,
-\  'python.linting.flake8Enabled': v:true,
-\  'python.linting.mypyEnabled': v:true,
-\  'python.linting.pylintArgs': ['--rcfile',  '~/.pylintrc'],
-\  'python.linting.pylintUseMinimalCheckers': v:true,
-\  'rust-client.rustupPath': '/Users/jbrouwer/.cargo/bin/rustup',
-\  'signature.floatConfig': {'maxWidth': 240},
-\  'suggest.floatConfig': {'maxWidth': 240}
-\}
+" let g:coc_user_config = {
+" \  'coc.preferences.colorSupport': v:true,
+" \  'coc.preferences.formatOnType': v:true,
+" \  'coc.preferences.rootPatterns': ['build.sbt', 'build.sc', '.env', 'setup.py', '.git'],
+" \  'codeLens.enable': v:true,
+" \  'diagnostic.virtualText': v:true,
+" \  'diagnostic.errorSign': '>>',
+" \  'diagnostic.hintSign': '::',
+" \  'diagnostic.infoSign': '==',
+" \  'diagnostic.warningSign': '>=',
+" \  'diagnostic.floatConfig': {'maxWidth': 240},
+" \  'hover.floatConfig': {'maxWidth': 240},
+" \  'metals.statusBarEnabled': v:true,
+" \  'metals.showInferredType': v:true,
+" \  'python.linting.flake8Enabled': v:true,
+" \  'python.linting.mypyEnabled': v:true,
+" \  'python.linting.pylintArgs': ['--rcfile',  '~/.pylintrc'],
+" \  'python.linting.pylintUseMinimalCheckers': v:true,
+" \  'rust-client.rustupPath': '/Users/jbrouwer/.cargo/bin/rustup',
+" \  'signature.floatConfig': {'maxWidth': 240},
+" \  'suggest.floatConfig': {'maxWidth': 240}
+" \}
 " \  'coc.preferences.rootPatterns': ['.git', 'version.sbt', 'build.sc', 'Cargo.toml'],
 " \  'python.linting.flake8Args': ['--config',  '~/personal/linters/flake8'],
 
 " Use tab for trigger completion with characters ahead and navigate.
 " Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
-inoremap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+" inoremap <silent><expr> <TAB>
+"       \ pumvisible() ? "\<C-n>" :
+"       \ <SID>check_back_space() ? "\<TAB>" :
+"       \ coc#refresh()
+" inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
-function! s:check_back_space() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~# '\s'
-endfunction
+" function! s:check_back_space() abort
+"   let col = col('.') - 1
+"   return !col || getline('.')[col - 1]  =~# '\s'
+" endfunction
 
-" Use <c-space> to trigger completion.
-inoremap <silent><expr> <c-tab> coc#refresh()
+" Use <c-tab> to trigger completion.
+" inoremap <silent><expr> <c-tab> coc#refresh()
 
 " Use <CR> to confirm completion, `<C-g>u` means break undo chain at current position.
 " Coc only does snippet and additional edit on confirm.
-inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
+" inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
 
 " Use `[c` and `]c` to navigate diagnostics
-nmap <silent> [c <Plug>(coc-diagnostic-prev)
-nmap <silent> ]c <Plug>(coc-diagnostic-next)
+" nmap <silent> [c <Plug>(coc-diagnostic-prev)
+" nmap <silent> ]c <Plug>(coc-diagnostic-next)
 
 " Remap keys for gotos
-nmap <space>d <Plug>(coc-definition)
-nmap <space>y <Plug>(coc-type-definition)
-nmap <space>i <Plug>(coc-implementation)
-nmap <space>r <Plug>(coc-references)
+" nmap <space>d <Plug>(coc-definition)
+" nmap <space>y <Plug>(coc-type-definition)
+" nmap <space>i <Plug>(coc-implementation)
+" nmap <space>r <Plug>(coc-references)
 
 " Toggle panel with Tree Views
-nnoremap <silent> <space>t :<C-u>CocCommand metals.tvp<CR>
+" nnoremap <silent> <space>t :<C-u>CocCommand metals.tvp<CR>
 
 " Remap for do codeAction of current line. This uses the fzf window rather than a list buffer like the plugin.
 " nmap <space><leader> <Plug>(coc-codeaction)
-nmap <space><leader> :CocAction<CR>
+" nmap <space><leader> :CocAction<CR>
 
 " Remap for do action format
-nnoremap <space>f :call CocAction('format')<CR>
+" nnoremap <space>f :call CocAction('format')<CR>
 
 " Use K to show documentation in preview window
+nnoremap <silent> K :call <SID>show_documentation()<CR>
 nnoremap <silent> <space>k :call <SID>show_documentation()<CR>
 
 function! s:show_documentation()
   if (index(['vim','help'], &filetype) >= 0)
     execute 'h '.expand('<cword>')
   else
-    call CocAction('doHover')
+    " call CocAction('doHover')
+    lua vim.lsp.buf.hover()
   endif
 endfunction
 
 " Remap for rename current word
-nmap <space>n <Plug>(coc-rename)
+" nmap <space>n <Plug>(coc-rename)
 
 augroup coccustom
   autocmd!
   " Setup formatexpr specified filetype(s).
   autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
   " Update signature help on jump placeholder
-  autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+  " autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
   " Highlight symbol under cursor on CursorHold
-  autocmd CursorHold * silent call CocActionAsync('highlight')
+  " autocmd CursorHold * silent call CocActionAsync('highlight')
+  autocmd CursorHold  <buffer> lua vim.lsp.buf.document_highlight()
+  autocmd CursorHoldI <buffer> lua vim.lsp.buf.document_highlight()
+  autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
 augroup end
 
 " Remap for do codeAction of selected region, ex: `<leader>aap` for current paragraph
@@ -1214,11 +1335,11 @@ command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organize
 " Use clap instead
 " nnoremap <silent> <space>a  :<C-u>CocList diagnostics<cr>
 " Manage extensions
-nnoremap <silent> <space>e  :<C-u>CocList extensions<cr>
+" nnoremap <silent> <space>e  :<C-u>CocList extensions<cr>
 " Show commands
-nnoremap <silent> <space>c  :<C-u>CocList commands<cr>
+" nnoremap <silent> <space>c  :<C-u>CocList commands<cr>
 " Find symbol of current document
-nnoremap <silent> <space>o  :<C-u>CocList outline<cr>
+" nnoremap <silent> <space>o  :<C-u>CocList outline<cr>
 " Search workspace symbols
 " Use clap instead
 " nnoremap <silent> <space>s  :<C-u>CocList -I symbols<cr>
@@ -1230,3 +1351,10 @@ let g:markdown_fenced_languages = [
       \ 'vim',
       \ 'help'
       \]
+
+" Matchit:
+" Expands what you can do with '%'.
+packadd matchit
+
+" Detect filetypes, load filetype plugins, and load filetype indent files.
+filetype plugin indent on

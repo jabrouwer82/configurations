@@ -10,7 +10,6 @@ exe 'hi JacobComment guifg=' . $jgrey
 hi! link Comment JacobComment
 exe 'hi JacobSpecialComment guifg=' . $jblue
 hi! link SpecialComment JacobSpecialComment
-
 exe 'hi JacobConstant guifg=' . $jpurple
 hi! link Constant JacobConstant
 exe 'hi JacobString guifg=' . $jmagenta
@@ -97,6 +96,20 @@ hi! link Title JacobTitle
 exe 'hi JacobTodo guifg=' . $jorange . ' guibg=NONE gui=undercurl,bold'
 hi! link Todo JacobTodo
 
+" Treesitter:
+hi! clear vimFunc
+" hi! link TSAttribute JacobMacro
+" hi! link TSInclude JacobInclude
+" hi! link TSConditional JacobConditional
+" hi! link TSBoolean JacobBoolean
+" hi! link TSCharacterSpecial JacobSpecialChar
+" hi! link TSComment JacobComment
+" hi! link TSConstant JacobConstant
+" hi! link TSConstBuiltin JacobConstant
+" hi! link TSConstMacro JacobConstant
+" hi! link TSCharacter JacobCharacter
+" hi! link TSNamespace JacobNamespace
+
 " HTML:
 hi! link htmlEndTag htmlTag
 
@@ -109,7 +122,10 @@ hi! clear SpellCap
 
 " GUI:
 let g:sign_bg = $jvdgrey
-exe 'hi JacobColorColumn guibg=' . $jvdred
+" Align with airline visual color.
+exe 'hi JacobVisual guibg=' . $jdcyan
+hi! link Visual JacobVisual
+exe 'hi JacobColorColumn guibg=' . $jblackred
 hi! link ColorColumn JacobColorColumn
 exe 'hi JacobCursorColumn guibg=' . $jdgrey
 hi! link CursorColumn JacobCursorColumn
@@ -148,6 +164,11 @@ exe 'hi JacobVertSplit guibg=' . $jdpurple . ' guifg=' . $jdpurple
 hi! link VertSplit JacobVertSplit
 exe 'hi JacobWildMenu gui=bold guifg=' . $jlyellow . ' guibg=' . $jdgrey
 hi! link WildMenu JacobWildMenu
+exe 'hi JacobPmenu guibg=' . $jvdblue . ' guifg=' . $jlgrey
+hi! link Pmenu JacobPmenu
+exe 'hi JacobPmenuSel guifg=' . $jdblue . ' guibg=' . $jlgrey
+hi! link PmenuSel JacobPmenuSel
+hi! link FloatBorder TelescopeBorder
 
 " Git Column:
 exe 'hi JacobGitAddSign guifg=' . $jgreen . ' gui=bold guibg=' . g:sign_bg
@@ -159,7 +180,7 @@ hi! link GitDeleteSign JacobGitDeleteSign
 exe 'hi JacobGitChangeDeleteSign guifg=' . $jpurple . ' gui=bold guibg=' . g:sign_bg
 hi! link GitChangeDeleteSign JacobGitChangeDeleteSign
 
-" ALE Colors:
+" ALE:
 exe 'hi JacobALEWarningSign guifg=' . $jlyellow . ' guibg=' . g:sign_bg
 hi! link ALEWarningSign JacobALEWarningSign
 exe 'hi JacobALEWarning guifg=NONE guibg=' . g:sign_bg
@@ -167,33 +188,142 @@ hi! link ALEWarning JacobALEWarning
 exe 'hi JacobLintErrorSign guifg=' . $jlred . ' gui=bold guibg=' . g:sign_bg
 hi! link LintErrorSign JacobLintErrorSign
 
-" Coc Colors:
-exe 'hi JacobPmenu guibg=' . $jdblue . ' guifg=' . $jlgrey
-hi! link Pmenu JacobPmenu
-exe 'hi JacobPmenuSel guifg=' . $jdblue . ' guibg=' . $jlgrey
-hi! link PmenuSel JacobPmenuSel
-exe 'hi JacobCocHighlightText gui=underline guisp=' . $jwhite
-hi! link CocHighlightText JacobCocHighlightText
-exe 'hi JacobCocInfoHighlight gui=underline guisp=' . $jlgrey
-hi! link CocInfoHighlight JacobCocInfoHighlight
-exe 'hi JacobCocWarningHighlight gui=underline guisp=' . $jlyellow
-hi! link CocWarningHighlight JacobCocWarningHighlight
-exe 'hi JacobCocErrorHighlight gui=underline guisp=' . $jlred
-hi! link CocErrorHighlight JacobCocErrorHighlight
-exe 'hi JacobCocErrorFloat guifg=' . $jlred
-hi! link CocErrorFloat JacobCocErrorFloat
-hi! link CocErrorSign LintErrorSign
-hi! link CocWarningSign ALEWarningSign
-exe 'hi JacobCocWarningFloat guifg=' . $jlyellow
-hi! link CocWarningFloat JacobCocWarningFloat
-exe 'hi JacobCocInfoSign guifg=' . $jlgrey . ' guibg=' . g:sign_bg
-hi! link CocInfoSign JacobCocInfoSign
-exe 'hi JacobCocInfoFloat guifg=' . $jlgrey
-hi! link CocInfoFloat JacobCocInfoFloat
-exe 'hi JacobCocHintSign guifg=' . $jlcyan . ' guibg=' . g:sign_bg
-hi! link CocHintSign JacobCocHintSign
-exe 'hi JacobCocHintFloat guifg=' . $jlcyan
-hi! link CocHintFloat JacobCocHintFloat
+" " COC:
+" exe 'hi JacobCocHighlightText gui=underline guisp=' . $jwhite
+" hi! link CocHighlightText JacobCocHighlightText
+" exe 'hi JacobCocInfoHighlight gui=underline guisp=' . $jlgrey
+" hi! link CocInfoHighlight JacobCocInfoHighlight
+" exe 'hi JacobCocWarningHighlight gui=underline guisp=' . $jlyellow
+" hi! link CocWarningHighlight JacobCocWarningHighlight
+" exe 'hi JacobCocErrorHighlight gui=underline guisp=' . $jlred
+" hi! link CocErrorHighlight JacobCocErrorHighlight
+" exe 'hi JacobCocErrorFloat guifg=' . $jlred
+" hi! link CocErrorFloat JacobCocErrorFloat
+" hi! link CocErrorSign LintErrorSign
+" hi! link CocWarningSign ALEWarningSign
+" exe 'hi JacobCocWarningFloat guifg=' . $jlyellow
+" hi! link CocWarningFloat JacobCocWarningFloat
+" exe 'hi JacobCocInfoSign guifg=' . $jlgrey . ' guibg=' . g:sign_bg
+" hi! link CocInfoSign JacobCocInfoSign
+" exe 'hi JacobCocInfoFloat guifg=' . $jlgrey
+" hi! link CocInfoFloat JacobCocInfoFloat
+" exe 'hi JacobCocHintSign guifg=' . $jlcyan . ' guibg=' . g:sign_bg
+" hi! link CocHintSign JacobCocHintSign
+" exe 'hi JacobCocHintFloat guifg=' . $jlcyan
+" hi! link CocHintFloat JacobCocHintFloat
+
+" LSP:
+" Errors
+exe 'hi JacobDiagnosticError guifg=' . $jlred
+hi! link DiagnosticError JacobDiagnosticError
+exe 'hi JacobDiagnosticSignError guibg=' . g:sign_bg . ' guifg=' . $jlred
+hi! link DiagnosticSignError JacobDiagnosticSignError
+exe 'hi JacobDiagnosticUnderlineError gui=underline guisp=' . $jlred
+hi! link DiagnosticUnderlineError JacobDiagnosticUnderlineError
+exe 'hi JacobDiagnosticVirtualTextError gui=underline guisp=' . $jlred . ' guifg=' . $jlred . ' guibg=' . $jdred
+hi! link DiagnosticVirtualTextError JacobDiagnosticVirtualTextError
+" Warnings
+exe 'hi JacobDiagnosticWarn guifg=' . $jlyellow
+hi! link DiagnosticWarn JacobDiagnosticWarn
+exe 'hi JacobDiagnosticSignWarn guibg=' . g:sign_bg . ' guifg=' . $jlyellow
+hi! link DiagnosticSignWarn JacobDiagnosticSignWarn
+exe 'hi JacobDiagnosticUnderlineWarn gui=underline guisp=' . $jlyellow
+hi! link DiagnosticUnderlineWarn JacobDiagnosticUnderlineWarn
+exe 'hi JacobDiagnosticVirtualTextWarn gui=underline guisp=' . $jlyellow . ' guifg=' . $jlyellow . ' guibg=' . $jdyellow
+hi! link DiagnosticVirtualTextWarn JacobDiagnosticVirtualTextWarn
+" Info
+exe 'hi JacobDiagnosticInfo guifg=' . $jlgrey
+hi! link DiagnosticInfo JacobDiagnosticInfo
+exe 'hi JacobDiagnosticSignInfo guibg=' . g:sign_bg . ' guifg=' . $jwhite
+hi! link DiagnosticSignInfo JacobDiagnosticSignInfo
+exe 'hi JacobDiagnosticUnderlineInfo gui=underline guisp=' . $jlgrey
+hi! link DiagnosticUnderlineInfo JacobDiagnosticUnderlineInfo
+exe 'hi JacobDiagnosticVirtualTextInfo gui=underline guisp=' . $jlgrey . ' guifg=' . $jlgrey . ' guibg=' . $jdgrey
+hi! link DiagnosticVirtualTextInfo JacobDiagnosticVirtualTextInfo
+" Hints
+exe 'hi JacobDiagnosticHint guifg=' . $jcyan
+hi! link DiagnosticHint JacobDiagnosticHint
+exe 'hi JacobDiagnosticSignHint guibg=' . g:sign_bg . ' guifg=' . $jlcyan
+hi! link DiagnosticSignHint JacobDiagnosticSignHint
+exe 'hi JacobDiagnosticUnderlineHint gui=underline guisp=' . $jcyan
+hi! link DiagnosticUnderlineHint JacobDiagnosticUnderlineHint
+exe 'hi JacobDiagnosticVirtualTextHint gui=underline guisp=' . $jcyan . ' guifg=' . $jcyan . ' guibg=' . $jvdcyan
+hi! link DiagnosticVirtualTextHint JacobDiagnosticVirtualTextHint
+exe 'hi JacobLspCodeLens guifg=' . $jdcyan
+hi! link LspCodeLens JacobLspCodeLens
+exe 'hi JacobLspCodeLensSeparator guifg=' . $jdpurple
+hi! link LspCodeLensSeparator JacobLspCodeLensSeparator
+
+
+" CMP:
+exe 'hi JacobCmpItemAbbrMatch guifg=' . $jblue
+hi! link CmpItemAbbrMatch JacobCmpItemAbbrMatch
+exe 'hi JacobCmpItemAbbrMatchFuzzy guifg=' . $jyellow
+hi! link CmpItemAbbrMatchFuzzy JacobCmpItemAbbrMatchFuzzy
+exe 'hi JacobCmpItemAbbrDeprecated gui=strikethrough guifg=' . $jgrey
+hi! link CmpItemAbbrDeprecated JacobCmpItemAbbrDeprecated
+exe 'hi JacobCmpItemKindUnset guifg=' . $jred
+hi! link CmpItemKind JacobCmpItemKindUnset
+
+hi! link CmpItemKindText JacobComment
+
+hi! link CmpItemKindVariable JacobPmenu
+hi! link CmpItemKindProperty JacobPmenu
+hi! link CmpItemKindColor JacobPmenu
+hi! link CmpItemKindFile JacobPmenu
+hi! link CmpItemKindFolder JacobPmenu
+
+hi! link CmpItemKindConstant JacobConstant
+hi! link CmpItemKindStruct JacobConstant
+hi! link CmpItemKindEnum JacobConstant
+
+hi! link CmpItemKindOperator JacobOperator
+
+hi! link CmpItemKindInterface JacobTypeDef
+hi! link CmpItemKindClass JacobTypeDef
+hi! link CmpItemKindEnumMember JacobTypeDef
+
+
+hi! link CmpItemKindTypeParameter JacobType
+
+hi! link CmpItemKindFunction JacobFunction
+hi! link CmpItemKindMethod JacobFunction
+hi! link CmpItemKindConstructor JacobFunction
+
+hi! link CmpItemKindKeyword JacobKeyword
+
+hi! link CmpItemKindUnit JacobNumber
+
+hi! link CmpItemKindSnippet JacobMacro
+hi! link CmpItemKindModule JacobMacro
+hi! link CmpItemKindField JacobMacro
+
+hi! link CmpItemKindValue JacobItemKindUnset
+hi! link CmpItemKindEvent JacobItemKindUnset
+hi! link CmpItemKindReference JacobItemKindUnset
+
+
+" Telescope:
+hi! link TelescopeNormal JacobPmenu
+hi! link TelescopeSelection JacobPmenuSel
+exe 'hi JacobTelescopeHighlightText gui=underline guisp=' . $jwhite
+hi! link TelescopeMatching JacobTelescopeHighlightText
+exe 'hi JacobTelescopeResultsComment guifg=' . $jblack
+hi! link TelescopeResultsComment JacobTelescopeResultsComment
+exe 'hi JacobTelescopePreviewLine gui=underline guisp=' . $jwhite
+hi! link TelescopePreviewLine JacobTelescopePreviewLine
+exe 'hi JacobTelescopePromptCounter guifg=' . $jlorange
+hi! link TelescopePromptCounter JacobTelescopePromptCounter
+exe 'hi JacobTelescopeResultsNumber guifg=' . $jpurple
+hi! link TelescopeResultsNumber JacobTelescopeResultsNumber
+
+
+" Dap Ui:
+exe 'hi DapBreakpointSign guibg=' . g:sign_bg . ' guifg=' . $jlpurple
+exe 'hi DapBreakpointLine gui=underline guisp=' . $jpurple
+" exe 'hi DapBreakpointNum gui=underline guisp=' . $jlpurple
+exe 'hi DapStoppedSign guibg=' . g:sign_bg . ' guifg=' . $jlblue
+exe 'hi DapStoppedLine gui=underline guisp=' . $jblue
 
 " Signature Marks:
 exe 'hi JacobMarks guifg=' . $jlmagenta . ' guibg=' . g:sign_bg
@@ -202,27 +332,27 @@ hi! link Marks JacobMarks
 " GitGutter:
 hi! link GitGutterAdd GitAddSign
 hi! link GitGutterAddLineNr GitAddSign
-exe 'hi JacobGitGutterAddLine guibg=' . $jvdgreen
+exe 'hi JacobGitGutterAddLine guibg=' . $jblackgreen
 hi! link GitGutterAddLine JacobGitGutterAddLine
 hi! link GitGutterChange GitChangeSign
 hi! link GitGutterChangeLineNr GitChangeSign
-exe 'hi JacobGitGutterChangeLine guibg=' . $jvdblue
+exe 'hi JacobGitGutterChangeLine guibg=' . $jblackblue
 hi! link GitGutterChangeLine JacobGitGutterChangeLine
 hi! link GitGutterDelete GitDeleteSign
 hi! link GitGutterDeleteLineNr GitDeleteSign
-exe 'hi JacobGitGutterDeleteLine guibg=' . $jvdred
+exe 'hi JacobGitGutterDeleteLine guibg=' . $jblackred
 hi! link GitGutterDeleteLine JacobGitGutterDeleteLine
 hi! link GitGutterChangeDelete GitChangeDeleteSign
 hi! link GitGutterChangeDeleteLineNr GitChangeDeleteSign
-exe 'hi JacobGitGutterChangeDeleteLine guibg=' . $jvdpurple
+exe 'hi JacobGitGutterChangeDeleteLine guibg=' . $jblackpurple
 hi! link GitGutterChangeDeleteLine JacobGitGutterChangeDeleteLine
 
 " Clap:
-exe 'hi JacobClapSpinner guibg=' . $jvdblue . ' guifg=' . $jpurple
+exe 'hi JacobClapSpinner guibg=' . $jblackblue . ' guifg=' . $jpurple
 hi! link ClapSpinner JacobClapSpinner
-exe 'hi JacobClapInput guibg=' . $jvdblue . ' guifg=' . $jlgrey
+exe 'hi JacobClapInput guibg=' . $jblackblue . ' guifg=' . $jlgrey
 hi! link ClapInput JacobClapInput
-exe 'hi JacobClapSearchText guibg=' . $jvdblue . ' guifg=' . $jcyan
+exe 'hi JacobClapSearchText guibg=' . $jblackblue . ' guifg=' . $jcyan
 hi! link ClapSearchText JacobClapSearchText
 hi! link ClapCurrentSelection PmenuSel
 hi! link ClapCurrentSelectionSign PmenuSel
@@ -231,7 +361,7 @@ hi! link ClapSelected JacobClapSelected
 exe 'hi JacobClapSelectedSign guifg=' . $jcyan
 hi! link ClapSelectedSign JacobClapSelectedSign
 hi! link ClapDisplay Pmenu
-exe 'hi JacobClapPreview guibg=' . $jvdblue . ' guifg=' . $jlgrey
+exe 'hi JacobClapPreview guibg=' . $jblackblue . ' guifg=' . $jlgrey
 hi! link ClapPreview JacobClapPreview
 hi! link ClapNoMatchesFound Error
 

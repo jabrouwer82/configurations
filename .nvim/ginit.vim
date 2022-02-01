@@ -1,5 +1,8 @@
 " Neovim-qt settings.
 if exists(':Gui')
+  " Automatically start in my home directory, as I usually start nvim from the app icon.
+  cd ~
+
   " Add/subtract a whole number to/from the font size.
   function! AdjustFontSize(amount)
     redir => tmpfont | GuiFont

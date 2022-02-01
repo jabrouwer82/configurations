@@ -19,7 +19,7 @@
 [push]
   default = upstream
 [init]
-	defaultBranch = main
+  defaultBranch = main
   #templatedir = /home/jabrouwer/personal/configurations/git-templates
 [core]
   whitespace = trailing-space,space-before-tab,tab-in-indent,cr-at-eol
@@ -49,3 +49,5 @@
   diffFilter = delta --color-only
 [diff]
   colorMoved = default
+[include]
+  path = /Users/ggn563/.c1gitconfig
