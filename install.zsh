@@ -45,6 +45,7 @@ ln -sf "$(pwd)"/fsh/jacob.ini ~/.config/fsh/jacob.ini
 
 echo -e '\033[1;36mInstalling git configs...\033[0m'
 ln -sf "$(pwd)"/.gitconfig ~/.gitconfig
+ln -sf "$(pwd)"/.personalgitconfig ~/.personalgitconfig
 ln -sf "$(pwd)"/.gitall.sh ~/.gitall.sh
 
 echo -e '\033[1;36mInstalling linter configs...\033[0m'

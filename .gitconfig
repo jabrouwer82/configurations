@@ -1,5 +1,4 @@
 [user]
-  email = jabrouwer82@gmail.com
   name = Jacob Brouwer
 [color]
   ui = auto
@@ -49,5 +48,9 @@
   diffFilter = delta --color-only
 [diff]
   colorMoved = default
-[include]
-  path = /Users/ggn563/.c1gitconfig
+[includeIf "hasconfig:remote.*.url:git@*.capitalone.com:*/**"]
+  path = ~/.c1gitconfig
+[includeIf "hasconfig:remote.*.url:https://github.com/**"]
+  path = ~/.personalgitconfig
+[includeIf "hasconfig:remote.*.url:git@github.com:*/**"]
+  path = ~/.personalgitconfig
