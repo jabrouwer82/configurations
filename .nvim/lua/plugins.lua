@@ -3,13 +3,14 @@ local api = vim.api
 local map = vim.keymap.set
 local t = function(str) return vim.api.nvim_replace_termcodes(str, true, true, true) end
 local install_path = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
+---@type boolean|string
 local packer_bootstrap = false
-if fn.empty(fn.glob(install_path, nil, nil)) > 0 then
+if fn.empty(fn.glob(install_path)) > 0 then
   packer_bootstrap = fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
 end
 
 ListLsps = function()
-  local clients = vim.lsp.buf_get_clients(nil)
+  local clients = vim.lsp.get_active_clients()
   local res = {}
   for _, msg in ipairs(clients) do
     table.insert(res, '[' .. msg.name .. ']')
@@ -88,7 +89,7 @@ return require('packer').startup(function(use)
   use { 'nvim-lua/lsp-status.nvim' }
 
   -- Better lua support.
-  use { 'folke/lua-dev.nvim' }
+  use { 'folke/neodev.nvim' }
 
   -- DAP UI
   use { 'nvim-telescope/telescope-dap.nvim' }
@@ -115,9 +116,9 @@ return require('packer').startup(function(use)
   -- map("n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>")
 
   -- Generally using <space> as a sort of lsp <leader>.
-  map("n", "<space>c", [[<cmd>lua vim.lsp.codelens.run()<CR>]])
+  map("n", "<space>c", [[<cmd>lua vim.lsp.codelens.run()<CR>]], {desc = "Run current codelens"})
   map("n", "<space>n", "<cmd>lua vim.lsp.buf.rename()<CR>", {desc = "Rename symbol"})
-  map("n", "<space>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", {desc = "Format buffer"})
+  map("n", "<space>f", "<cmd>lua vim.lsp.buf.format({async=true})<CR>", {desc = "Format buffer"})
   map("n", "<space>;", "<cmd>lua vim.lsp.buf.code_action()<CR>", {desc = "Run available code action"})
   map("n", "[d", "<cmd>lua vim.diagnostic.goto_prev()<CR>", {desc = "Goto previous diagnostic"})
   map("n", "]d", "<cmd>lua vim.diagnostic.goto_next()<CR>", {desc = "Goto next diagnostic"})
@@ -385,8 +386,8 @@ return require('packer').startup(function(use)
   ---------
   -- LSP --
   ---------
-  local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
-  -- local capabilities = require('cmp_nvim_lsp').update_capabilities(lsp_status.capabilities)
+  local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
+  -- local capabilities = require('cmp_nvim_lsp').default_capabilities(lsp_status.capabilities)
 
   -- Scala Metals
   metals_config.capabilities = capabilities
@@ -425,11 +426,29 @@ return require('packer').startup(function(use)
     -- }
   }
   -- Lua/NVIM
-  local luadev = require('lua-dev').setup {
+  require('neodev').setup {
     -- on_attach = lsp_status.on_attach,
     -- capabilities = capabilities,
   }
-  require('lspconfig')['sumneko_lua'].setup(luadev)
+  require('lspconfig')['sumneko_lua'].setup {
+    settings = {
+      Lua = {
+        runtime = {
+          -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
+          version = 'LuaJIT',
+        },
+        diagnostics = {
+          -- Get the language server to recognize the `vim` global
+          globals = {'vim'},
+        },
+        workspace = {
+          -- Make the server aware of Neovim runtime files
+          library = vim.api.nvim_get_runtime_file("", true),
+          checkThirdParty = false,
+        }
+      }
+    }
+  }
 
   ---------
   -- DAP --
@@ -489,7 +508,7 @@ return require('packer').startup(function(use)
   }
 
   dap.listeners.after.event_initialized["dapui_config"] = function()
-    dapui.open(nil)
+    dapui.open({})
     vim.cmd("set cmdheight=2")
   end
   -- dap.listeners.after.event_terminated["dapui_config"] = function()

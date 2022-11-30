@@ -857,6 +857,7 @@ Plug 'chlorophyllin/jproperties.vim' " Add syntax support for java properties fi
 Plug 'fatih/vim-go' " Add full go support.
 Plug 'jesseleite/vim-agriculture' " Adds :RgRaw, which can pass flags to ripgrep.
 Plug 'tpope/vim-endwise' " Helps end structures like if/endif
+Plug 'tpope/vim-abolish' " Case-aware find/replace :S
 
 " COC:
 " Plug 'neoclide/coc.nvim', {'branch': 'release'}
