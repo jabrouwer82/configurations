@@ -340,12 +340,13 @@ return require('packer').startup(function(use)
 
   -- Example of settings
   metals_config.settings = {
+    excludedPackages = {},
+    scalafixConfigPath = "~/.scalafix.conf",
+    serverProperties = metalsServerProps,
+    showImplicitArguments = true,
     showImplicitConversionsAndClasses = true,
     showInferredType = true,
     superMethodLensesEnabled = true,
-    showImplicitArguments = true,
-    excludedPackages = {},
-    serverProperties = metalsServerProps
   }
 
   -- *READ THIS*
