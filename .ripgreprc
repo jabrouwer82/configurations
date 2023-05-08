@@ -24,6 +24,8 @@
 
 --type-add=out:out
 
+--type-add=mustache:*.{mustache,handlebars}
+
 # Ignore git lfs objects
 --glob=!**/.git/lfs/**
 

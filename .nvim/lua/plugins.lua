@@ -119,6 +119,7 @@ return require('packer').startup(function(use)
   map("n", "<space>c", [[<cmd>lua vim.lsp.codelens.run()<CR>]], {desc = "Run current codelens"})
   map("n", "<space>n", "<cmd>lua vim.lsp.buf.rename()<CR>", {desc = "Rename symbol"})
   map("n", "<space>f", "<cmd>lua vim.lsp.buf.format({async=true})<CR>", {desc = "Format buffer"})
+  map("n", "<space>i", "<cmd>MetalsOrganizeImports<CR>", {desc = "Organize imports"})
   map("n", "<space>;", "<cmd>lua vim.lsp.buf.code_action()<CR>", {desc = "Run available code action"})
   map("n", "[d", "<cmd>lua vim.diagnostic.goto_prev()<CR>", {desc = "Goto previous diagnostic"})
   map("n", "]d", "<cmd>lua vim.diagnostic.goto_next()<CR>", {desc = "Goto next diagnostic"})
@@ -341,7 +342,7 @@ return require('packer').startup(function(use)
   -- Example of settings
   metals_config.settings = {
     excludedPackages = {},
-    scalafixConfigPath = "~/.scalafix.conf",
+    scalafixConfigPath = "/Users/ggn563/.scalafix.conf",
     serverProperties = metalsServerProps,
     showImplicitArguments = true,
     showImplicitConversionsAndClasses = true,
@@ -431,7 +432,7 @@ return require('packer').startup(function(use)
     -- on_attach = lsp_status.on_attach,
     -- capabilities = capabilities,
   }
-  require('lspconfig')['sumneko_lua'].setup {
+  require('lspconfig')['lua_ls'].setup {
     settings = {
       Lua = {
         runtime = {

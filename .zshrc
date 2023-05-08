@@ -5,8 +5,6 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-export COURSIER_MIRRORS="~/Library/Preferences/Coursier/mirror.properties"
-
 
 source ~/.p10k.zsh # Powerlevel10k configuration.
 source ~/.exa_colors.zsh # Customizes the color scheme of ls and exa.

@@ -72,6 +72,8 @@ bat cache --build > /dev/null
 echo -e '\033[1;36mInstalling sbt configs...\033[0m'
 mkdir -p ~/.sbt/1.0/plugins/
 ln -sf "$(pwd)"/sbt/global.sbt ~/.sbt/1.0/plugins/global.sbt
+ln -sf "$(pwd)"/.scalafix.conf ~/.scalafix.conf
+
 
 case "$OSTYPE" in
   darwin*)
