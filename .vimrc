@@ -53,11 +53,11 @@ else
 
     " Always start in fullscreen.
     " This is gross and probably not the best way to do this.
-    augroup Fullscreen
-      au!
-      au GUIEnter * winpos 0 0
-      au GUIEnter * set lines=9999 columns=9999
-    augroup end
+    " augroup Fullscreen
+    "   au!
+    "   au GUIEnter * winpos 0 0
+    "   au GUIEnter * set lines=9999 columns=9999
+    " augroup end
   endif
 endif
 

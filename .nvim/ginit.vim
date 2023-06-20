@@ -28,7 +28,6 @@ if exists(':Gui')
   GuiTabline 0
   " " Do use the guiscrollbar.
   " GuiScrollBar 1
-  call GuiWindowFullScreen(1)
 
   " Right Click Context Menu (Copy-Cut-Paste)
   nnoremap <silent><RightMouse> :call GuiShowContextMenu()<CR>
@@ -37,6 +36,7 @@ if exists(':Gui')
   snoremap <silent><RightMouse> <C-G>:call GuiShowContextMenu()<CR>gv
 
   if g:uname ==# "Darwin"
+    call GuiWindowFullScreen(1)
     " Command copy/paste shortcuts
     nnoremap <D-v> <c-\><c-n>p
     inoremap <D-v> <c-r><c-o>+
@@ -60,5 +60,8 @@ if exists(':Gui')
     xnoremap <D-0> :call ResetFont()<CR>gv
     snoremap <D-0> <ESC>:call ResetFont()<CR>gv
     tnoremap <D-0> <C-\><C-n>:call ResetFont()<CR>:startinsert<CR>
+  else
+    call GuiWindowFrameless(1)
+    call GuiWindowMaximized(1)
   endif
 endif
