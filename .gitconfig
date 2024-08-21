@@ -1,5 +1,6 @@
 [user]
   name = Jacob Brouwer
+  email = jabrouwer82@gmail.com
 [color]
   ui = auto
 [alias]
@@ -51,13 +52,9 @@
   diffFilter = delta --color-only
 [diff]
   colorMoved = default
-[includeIf "hasconfig:remote.*.url:git@*.capitalone.com:*/**"]
-  path = ~/.c1gitconfig
-[includeIf "hasconfig:remote.*.url:https://*.capitalone.com/**"]
-  path = ~/.c1gitconfig
-[includeIf "hasconfig:remote.*.url:https://github.com/**"]
-  path = ~/.personalgitconfig
-[includeIf "hasconfig:remote.*.url:git@github.com:*/**"]
-  path = ~/.personalgitconfig
+[includeIf "gitdir:~/work/"]
+  path = ~/.work.gitconfig
+[includeIf "hasconfig:remote.*.url:**/Travel-Syndication-Technology/**"]
+  path = ~/.work.gitconfig
 [merge]
   conflictstyle = diff3

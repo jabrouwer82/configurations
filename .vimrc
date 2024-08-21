@@ -549,9 +549,11 @@ function! Backup_tmp_files()
 endfunction
 
 " Allow saving of files as sudo when I forgot to start vim using sudo.
+" There might be sudo password issues with this, see the mappings for an alternative.
 function SuWrite()
   echom 'Sudo writing file' | execute 'silent write !sudo tee > /dev/null %' | edit!
 endfunction
+
 
 " Moves the cursor to the beginning of the current line and then clears it.
 function! ClearOneLine()
@@ -797,6 +799,10 @@ noremap <leader>` :TSHighlightCapturesUnderCursor<cr>
   " Smart Home, moves to the first non-whitespace character.
 noremap <expr> <Home> col('.') == match(getline('.'),'\S')+1 ? '0' : '^'
 imap <Home> <C-O><Home>
+
+" Allow saving of files as sudo.
+" This might nee d a'<bar> edit!' to work properly.
+cmap w!! w !sudo tee > /dev/null %
 
 
 " Vim-polyglot:

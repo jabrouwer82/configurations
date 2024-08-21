@@ -94,7 +94,7 @@ return require('packer').startup(function(use)
   -- DAP UI
   use { 'nvim-telescope/telescope-dap.nvim' }
   use { 'theHamsta/nvim-dap-virtual-text' }
-  use { 'rcarriga/nvim-dap-ui' }
+  use { "rcarriga/nvim-dap-ui", requires = {"mfussenegger/nvim-dap", "nvim-neotest/nvim-nio"} }
 
   use {
     'nvim-treesitter/nvim-treesitter',
@@ -348,6 +348,7 @@ return require('packer').startup(function(use)
     showImplicitConversionsAndClasses = true,
     showInferredType = true,
     superMethodLensesEnabled = true,
+    useGlobalExecutable = true,
   }
 
   -- *READ THIS*

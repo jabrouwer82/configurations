@@ -11,3 +11,5 @@ hs_err*
 .git/
 
 scala-*/
+
+*.lock.json

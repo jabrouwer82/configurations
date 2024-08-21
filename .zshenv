@@ -1,5 +1,42 @@
 
-source ~/.github_token.sh # Github access token, makes brew auth easier.
+source ~/.github_token.sh # Github access token, makes brew/antidote auth easier.
+
+# PATH & FPATH Configuration
+typeset -U fpath
+fpath+=(
+  $HOME/.zsh/
+)
+typeset -U path
+path+=(
+  $HOME/.local/bin
+  $HOME/bin
+  /usr/local/bin
+)
+case "$OSTYPE" in
+  darwin*)
+    path+=(
+      $HOME/Library/Application\ Support/Coursier/bin
+      $HOMEBREW_PREFIX/opt/coreutils/libexec/gnubin
+      $PYENV_ROOT/bin
+    )
+    fpath=(
+      $HOMEBREW_PREFIX/share/zsh/site-functions
+      $fpath
+    )
+  ;;
+  linux*)
+    path+=(
+      $HOME/.local/share/coursier/bin
+    )
+  ;;
+esac
+export PATH
+
+type jenv &> /dev/null && eval "$(jenv init -)"
+type pyenv &> /dev/null && eval "$(pyenv init -)"
+export PYENV_ROOT="$HOME/.pyenv"
+export NVM_DIR="$HOME/.nvm"
+[ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"
 
 # Some common locations
 export THIRDPARTY="$HOME/thirdparty"
@@ -33,8 +70,7 @@ export EDITOR='nvim'
 case "$OSTYPE" in
   darwin*)
     export HOMEBREW_NO_AUTO_UPDATE=1
-    export JAVA_HOME='/Library/Java/JavaVirtualMachines/openjdk-11.jdk/Contents/Home'
-    # export JAVA_HOME='/Library/Java/JavaVirtualMachines/amazon-corretto-8.jdk/Contents/Home'
+    export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk
     export LDFLAGS="-L/usr/local/opt/openssl@1.1/lib"
     export CPPFLAGS="-I/usr/local/opt/openssl@1.1/include"
     export RIPGREP_CONFIG_PATH="$HOME/.ripgreprc"
@@ -260,4 +296,3 @@ export jvlmagentarg=$(rghex $jvlmagenta)
 
 # Can't use variables in .ripgreprc, so this has to be an alias.
 alias rg="rg --colors=line:fg:$jlbluerg --colors=line:style:nobold --colors=path:fg:$jlpurplerg --colors=path:style:nobold --colors=match:fg:$jblackrg --colors=match:bg:$jlyellowrg --colors=match:style:nobold"
-[ -f "$HOME/.cargo/env" ] && . "$HOME/.cargo/env"

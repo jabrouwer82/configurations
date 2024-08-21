@@ -8,38 +8,19 @@ fi
 
 source ~/.p10k.zsh # Powerlevel10k configuration.
 source ~/.exa_colors.zsh # Customizes the color scheme of ls and exa.
-source ~/.c1.zsh # C1 stuff
 
 unset BAT_STYLE
 
-typeset -U fpath
-fpath+=(
-  $HOME/.zsh/
-)
-
-typeset -U path
-path+=(
-  $HOME/.local/bin
-  $HOME/bin
-  /usr/local/bin
-  $HOME/thirdparty/dotty/bin
-)
 
 case "$OSTYPE" in
   darwin*)
-    path+=(
-      $HOME/Library/Application\ Support/Coursier/bin
-    )
+    export ANTIDOTE_PATH=$HOMEBREW_PREFIX/opt/antidote/share/antidote/antidote.zsh
   ;;
   linux*)
-    # ...
-    path+=(
-      $HOME/.local/share/coursier/bin
-    )
+    # ANTIDOTE_PATH= ??? Idk where arch puts it yet
   ;;
 esac
 
-export PATH
 
 typeset -TU PYTHONPATH pythonpath
 pythonpath+=(
@@ -50,45 +31,20 @@ export PYTHONPATH
 # Use -n to dry run.
 autoload -U zmv
 
-# Check is zinit is installed.
-if [[ ! -d ~/.zinit/bin/ ]]; then
-  git clone https://github.com/zdharma-continuum/zinit.git ~/.zinit/bin
-  source ~/.zinit/bin/zinit.zsh && zinit self-update
-fi
-source ~/.zinit/bin/zinit.zsh
-
-zinit ice depth'1'
-zinit light romkatv/powerlevel10k
-
-# Normal plugins.
-zinit light-mode depth'1' for \
-  svn OMZ::plugins/ssh-agent \
-  svn OMZ::plugins/thefuck \
-  rupa/z \
-  changyuheng/fz \
-  atload'_zsh_autosuggest_start' zsh-users/zsh-autosuggestions \
-  MichaelAquilina/zsh-auto-notify
-
-# Completions
-zinit light-mode depth'1' blockf atpull'zinit creinstall -q' as'completion' for \
-  svn OMZ::plugins/fd \
-  svn OMZ::plugins/ripgrep \
-  svn OMZ::plugins/docker \
-  svn OMZ::plugins/docker-compose
-
-# Completions with other functions.
-zinit light-mode depth'1' blockf atpull'zinit creinstall -q' for \
-  svn OMZ::plugins/fzf \
-  zsh-users/zsh-completions
-
-zinit ice depth'1' atload'
 typeset -g HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND='"'""bg=$jblue,fg=$jwhite,bold""'"'
 typeset -g HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_NOT_FOUND='"'""bg=$jlred,fg=$jwhite,bold""'"'
-'
-zinit light zsh-users/zsh-history-substring-search
 
-zinit ice depth'1' atload'fast-theme XDG:jacob > /dev/null; zicompinit; zicdreplay' nocd
-zinit light zdharma-continuum/fast-syntax-highlighting
+# This is a post-run hook for fast-syntax highlighting, unfortunately it fails silently if something goes wrong.
+set_jacob() {
+  fast-theme XDG:jacob
+}
+
+source $ANTIDOTE_PATH
+zstyle ':antidote:bundle' use-friendly-names 'yes'
+antidote load
+
+# prepare completions after fpath is all set.
+autoload -Uz compinit && compinit
 
 # MichaelAquilina/zsh-auto-notify:
 # Don't get notifications for these commands.
@@ -217,8 +173,8 @@ alias work="cd \$WORK"
 alias pds="cd \$WORK/pds"
 alias pfp="cd \$WORK/pfp"
 alias cfg="cd \$CFG"
-# alias ls="exa -mlha --git --git-ignore --time-style long-iso"
-alias ls="exa -mlha --git --time-style long-iso"
+# alias ls="eza -mlha --git --git-ignore --time-style long-iso"
+alias ls="eza -mlha --git --time-style long-iso"
 alias gl="git status"
 alias reboot="echo nah"
 alias rm="trash-put"
@@ -236,4 +192,35 @@ cd() {
   else
     builtin cd "$@"
   fi
+}
+
+update_everything() {
+  echo -e '\033[1;36mThis has been tested even less than the install script!\033[0m'
+  cd ~/personal/configurations
+  echo -e '\033[32mRerunning install script...\033[0m'
+  install.sh
+
+  case "$OSTYPE" in
+    darwin*)
+      echo -e '\033[32mUpdating brew and upgrading packages...\033[0m'
+      brew update && brew upgrade
+    ;;
+    linux*)
+    ;;
+  esac
+
+
+  echo -e '\033[32mUpdating scala stuff...\033[0m'
+  cs update
+
+  echo -e '\033[32mUpdating neovim Plug plugins...\033[0m'
+  nvim --headless +PlugUpdate +qall
+  echo -e '\033[32mUpdating neovim Packer plugins...\033[0m'
+  nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'
+  echo -e '\033[32mUpdating metals...\033[0m'
+  nvim --headless +MetalsInstall +qall
+
+  echo -e '\033[32mUpdating antidote and zsh plugins...\033[0m'
+  antidote update
+  source ~/.zshrc
 }

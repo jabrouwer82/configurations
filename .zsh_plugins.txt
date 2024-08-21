@@ -1,0 +1,34 @@
+## Overview
+# The `.zsh_plugins.txt` is used by antidote to configure Zsh bundles Bundles are
+# just a fancy way of referring to Zsh utilities, frameworks, prompts, or plugins.
+#
+# NOTE: Order matters in this file! Some bundles need to be last, and others are
+# prerequisites. Read the documentation for the plugins you use to ensure proper
+# configuration.
+#
+# Example: https://github.com/getantidote/zdotdir/blob/main/.zsh_plugins.txt
+
+# Boss says this goes first
+romkatv/powerlevel10k
+
+getantidote/use-omz
+
+ohmyzsh/ohmyzsh path:plugins/ssh-agent
+ohmyzsh/ohmyzsh path:plugins/thefuck
+ohmyzsh/ohmyzsh path:plugins/fzf
+
+rupa/z
+changyuheng/fz
+michaelAquilina/zsh-auto-notify
+wintermi/zsh-brew
+jabrouwer82/zsh_cs_completion kind:fpath
+
+ohmyzsh/ohmyzsh path:plugins/docker/completions kind:fpath
+ohmyzsh/ohmyzsh path:plugins/docker-compose kind:fpath
+zsh-users/zsh-completions path:src kind:fpath
+
+zdharma-continuum/fast-syntax-highlighting kind:defer post:set_jacob
+
+# Boss says load these last
+zsh-users/zsh-autosuggestions
+zsh-users/zsh-history-substring-search
