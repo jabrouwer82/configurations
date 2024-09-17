@@ -1,5 +1,6 @@
 
 source ~/.github_token.sh # Github access token, makes brew/antidote auth easier.
+[ -f ~/.work.zsh ] && source ~/.work.zsh
 
 # PATH & FPATH Configuration
 typeset -U fpath
@@ -17,7 +18,10 @@ case "$OSTYPE" in
     path+=(
       $HOME/Library/Application\ Support/Coursier/bin
       $HOMEBREW_PREFIX/opt/coreutils/libexec/gnubin
+      $HOMEBREW_PREFIX/opt/mysql-client/bin
+      $HOMEBREW_PREFIX/opt/mongodb-community@4.4/bin
       $PYENV_ROOT/bin
+      $HOME/work/compose-services/bin
     )
     fpath=(
       $HOMEBREW_PREFIX/share/zsh/site-functions
@@ -71,9 +75,13 @@ case "$OSTYPE" in
   darwin*)
     export HOMEBREW_NO_AUTO_UPDATE=1
     export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk
-    export LDFLAGS="-L/usr/local/opt/openssl@1.1/lib"
-    export CPPFLAGS="-I/usr/local/opt/openssl@1.1/include"
+    export LDFLAGS="-L/usr/local/opt/openssl@1.1/lib -L/opt/homebrew/opt/mysql-client/lib"
+    export CPPFLAGS="-I/usr/local/opt/openssl@1.1/include -I/opt/homebrew/opt/mysql-client/include"
     export RIPGREP_CONFIG_PATH="$HOME/.ripgreprc"
+    export KUBE_CPUS=6
+    export KUBE_MEMORY=16384
+    export REPO_USER=jabrouwer82
+    export REPO_PASS=DpAsRTwudHSR6UTG
     # source /Users/jbrouwer/.nix-profile/etc/profile.d/nix.sh
   ;;
   linux*)

@@ -27,6 +27,7 @@
       # =========================[ Line #1 ]=========================
       dir                     # current directory
       vcs                     # git status
+      kubecontext             # current kubernetes context (https://kubernetes.io/)
       # =========================[ Line #2 ]=========================
       newline
       prompt_char             # prompt symbol
@@ -45,7 +46,7 @@
       virtualenv              # Current venv
       pyenv                   # Current pyenv
       gcloud                  # Current gcloud account and project
-      kubecontext             # current kubernetes context (https://kubernetes.io/)
+      jenv                    # java version from jenv (https://github.com/jenv/jenv)
       terraform               # terraform workspace (https://www.terraform.io)
       context                 # user@host
       # nordvpn                 # nordvpn connection status, linux only (https://nordvpn.com/)
@@ -283,15 +284,29 @@
   # Icon to show when there are background jobs.
   typeset -g POWERLEVEL9K_BACKGROUND_JOBS_VISUAL_IDENTIFIER_EXPANSION='${P9K_VISUAL_IDENTIFIER}'
 
+  ###############[ jenv: java version from jenv (https://github.com/jenv/jenv) ]################
+  # Java color.
+  typeset -g POWERLEVEL9K_JENV_FOREGROUND=1
+  typeset -g POWERLEVEL9K_JENV_BACKGROUND=7
+  # Hide java version if it doesn't come from one of these sources.
+  typeset -g POWERLEVEL9K_JENV_SOURCES=(shell local global)
+  # If set to false, hide java version if it's the same as global:
+  # $(jenv version-name) == $(jenv global).
+  typeset -g POWERLEVEL9K_JENV_PROMPT_ALWAYS_SHOW=false
+  # If set to false, hide java version if it's equal to "system".
+  typeset -g POWERLEVEL9K_JENV_SHOW_SYSTEM=true
+  # Custom icon.
+  # typeset -g POWERLEVEL9K_JENV_VISUAL_IDENTIFIER_EXPANSION='⭐'
+
   ###[ virtualenv: python virtual environment (https://docs.python.org/3/library/venv.html) ]###
   # Python virtual environment color.
-  typeset -g POWERLEVEL9K_VIRTUALENV_FOREGROUND=$jlred
+  typeset -g POWERLEVEL9K_VIRTUALENV_FOREGROUND=$jblue
   # Don't show Python version next to the virtual environment name.
   typeset -g POWERLEVEL9K_VIRTUALENV_SHOW_PYTHON_VERSION=true
   # Separate environment name from Python version only with a space.
   typeset -g POWERLEVEL9K_VIRTUALENV_{LEFT,RIGHT}_DELIMITER=
   # Custom icon.
-  typeset -g POWERLEVEL9K_VIRTUALENV_VISUAL_IDENTIFIER_EXPANSION=''
+  # typeset -g POWERLEVEL9K_VIRTUALENV_VISUAL_IDENTIFIER_EXPANSION=''
 
   #####################[ anaconda: conda environment (https://conda.io/) ]######################
   # Anaconda environment color.
@@ -342,19 +357,26 @@
   #############[ kubecontext: current kubernetes context (https://kubernetes.io/) ]#############
   # Show kubecontext only when the the command you are typing invokes one of these tools.
   # Tip: Remove the next line to always show kubecontext.
-  typeset -g POWERLEVEL9K_KUBECONTEXT_SHOW_ON_COMMAND='kubectl|helm|kubens|kubectx|oc'
+  typeset -g POWERLEVEL9K_KUBECONTEXT_SHOW_ON_COMMAND='kubectl|helm|kubens|kubectx|oc|kctx|kcsh|kclog'
   typeset -g POWERLEVEL9K_KUBECONTEXT_CLASSES=(
       # '*prod*'  PROD    # These values are examples that are unlikely
       # '*test*'  TEST    # to match your needs. Customize them as needed.
-      '*'       DEFAULT)
+      '*'         DEFAULT)
+
+  typeset -g POWERLEVEL9K_KUBECONTEXT_PROD_BACKGROUND=$jpurple
+  typeset -g POWERLEVEL9K_KUBECONTEXT_PROD_VISUAL_IDENTIFIER_EXPANSION=''
+  typeset -g POWERLEVEL9K_KUBECONTEXT_PROD_CONTENT_EXPANSION=
+
   typeset -g POWERLEVEL9K_KUBECONTEXT_DEFAULT_FOREGROUND=$jlpurple
   typeset -g POWERLEVEL9K_KUBECONTEXT_DEFAULT_VISUAL_IDENTIFIER_EXPANSION=''
-
   typeset -g POWERLEVEL9K_KUBECONTEXT_DEFAULT_CONTENT_EXPANSION=
+
   # Show P9K_KUBECONTEXT_CLOUD_CLUSTER if it's not empty and fall back to P9K_KUBECONTEXT_NAME.
   POWERLEVEL9K_KUBECONTEXT_DEFAULT_CONTENT_EXPANSION+='${P9K_KUBECONTEXT_CLOUD_CLUSTER:-${P9K_KUBECONTEXT_NAME}}'
   # Append the current context's namespace if it's not "default".
   POWERLEVEL9K_KUBECONTEXT_DEFAULT_CONTENT_EXPANSION+='${${:-/$P9K_KUBECONTEXT_NAMESPACE}:#/default}'
+
+  POWERLEVEL9K_KUBECONTEXT_PROD_CONTENT_EXPANSION+=$POWERLEVEL9K_KUBECONTEXT_DEFAULT_CONTENT_EXPANSION
 
   # Custom prefix.
   # typeset -g POWERLEVEL9K_KUBECONTEXT_PREFIX='at '

@@ -359,6 +359,11 @@ augroup GoFileType
   au FileType go setlocal noexpandtab list listchars=tab:\▏\ ,nbsp:·,trail:·
 augroup end
 
+augroup DboutFt
+  au!
+  au FileType dbout setlocal nofoldenable
+augroup END
+
 " Make terminal-mode not wrap lines, because it does it wrong: https://github.com/vim/vim/issues/2865
 " Also disable spell checking because it highlights stupid stuff like powerline glyphs.
 " Disabled - Suspend job output when leaving the buffer or window, so that the window fades correctly.

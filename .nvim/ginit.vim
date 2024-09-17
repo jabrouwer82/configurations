@@ -8,12 +8,12 @@ if exists(':Gui')
     redir => tmpfont | GuiFont
     redir END
     let newfont = substitute(tmpfont, ':h\(\d\+\)', '\=":h".(submatch(1)+a:amount)', '')
-    execute 'GuiFont' trim(newfont)
+    execute 'GuiFont!' trim(newfont)
   endfunction
 
   let g:jfont = 'Hasklug Nerd Font:h11'
   function! ResetFont()
-    execute 'GuiFont' g:jfont
+    execute 'GuiFont!' g:jfont
   endfunction
 
   " Set font in editor.

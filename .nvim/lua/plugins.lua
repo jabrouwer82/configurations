@@ -105,6 +105,18 @@ return require('packer').startup(function(use)
   use { 'nvim-treesitter/nvim-treesitter-context' }
   use { 'JoosepAlviste/nvim-ts-context-commentstring' }
 
+  use {
+    'kristijanhusak/vim-dadbod-ui',
+    requires = {
+      { 'tpope/vim-dadbod', lazy = true },
+      { 'kristijanhusak/vim-dadbod-completion', ft = { 'sql', 'mysql', 'plsql' }, lazy = true }, -- Optional
+    },
+  }
+
+  use {
+    'gsuuon/model.nvim',
+  }
+
   --------------
   -- Mappings --
   --------------
@@ -333,16 +345,16 @@ return require('packer').startup(function(use)
   -------------------
   local metals_config = require("metals").bare_config()
 
-  local ok, cone = pcall(require, 'cone')
-  local metalsServerProps = {}
-  if ok then
-    metalsServerProps = cone.C1MetalsServerProperties
-  end
+  -- local ok, cone = pcall(require, 'cone')
+  -- local metalsServerProps = {}
+  -- if ok then
+  --   metalsServerProps = cone.C1MetalsServerProperties
+  -- end
 
   -- Example of settings
   metals_config.settings = {
     excludedPackages = {},
-    scalafixConfigPath = "/Users/ggn563/.scalafix.conf",
+    -- scalafixConfigPath = "/Users/jacobbrouwer/.scalafix.conf",
     serverProperties = metalsServerProps,
     showImplicitArguments = true,
     showImplicitConversionsAndClasses = true,
@@ -409,6 +421,9 @@ return require('packer').startup(function(use)
   require('lspconfig')['vimls'].setup {
     on_attach = lsp_status.on_attach,
     capabilities = capabilities,
+    init_options = {
+      isNeovim = truem
+    },
   }
   -- Json
   require('lspconfig')['jsonls'].setup {
@@ -570,7 +585,6 @@ return require('packer').startup(function(use)
     highlight = { enable = false },
     incremental_selection = { enable = true },
     indent = { enable = true },
-    context_commentstring = { enable = true },
     -- textobjects basically doesn't work for scala at all :(
     textobjects = {
       select = {
@@ -638,6 +652,13 @@ return require('packer').startup(function(use)
     end,
     group = nvim_metals_group,
   })
+
+  ------------
+  -- Dadbod --
+  ------------
+  vim.g.db_ui_use_nerd_fonts = 1
+
+
 
   -- Automatically set up your configuration after cloning packer.nvim
   -- Put this at the end after all plugins

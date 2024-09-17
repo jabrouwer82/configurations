@@ -26,7 +26,8 @@
   #templatedir = /home/jabrouwer/personal/configurations/git-templates
 [core]
   whitespace = trailing-space,space-before-tab,tab-in-indent,cr-at-eol
-	hooksPath = /Users/ggn563/.config/torch/git-template/hooks
+  hooksPath = /Users/ggn563/.config/torch/git-template/hooks
+  excludesFile = ~/.gitignore
 [help]
   autocorrect = 30
 [filter "lfs"]
@@ -58,3 +59,7 @@
   path = ~/.work.gitconfig
 [merge]
   conflictstyle = diff3
+[branch "master"]
+  pushRemote = no_push
+[branch "main"]
+  pushRemote = no_push
