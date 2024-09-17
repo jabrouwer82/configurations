@@ -13,13 +13,10 @@ echo -e '\033[32mCreating dirs...\033[0m'
 mkdir -p ~/work
 mkdir -p ~/thirdparty
 mkdir -p ~/personal
+mkdir -p ~/.config
 
 echo -e '\033[32mInstalling vim configs...\033[0m'
-ln -sf "$(pwd)"/.vimrc ~/.vimrc
-mkdir -p ~/.config/nvim/lua
-ln -sf "$(pwd)"/.nvim/init.vim ~/.config/nvim/init.vim
-ln -sf "$(pwd)"/.nvim/ginit.vim ~/.config/nvim/ginit.vim
-ln -sf "$(pwd)"/.nvim/lua/plugins.lua ~/.config/nvim/lua/plugins.lua
+ln -sf "$(pwd)"/config/nvim ~/.config/nvim
 mkdir -p ~/.vim/autoload/airline/themes
 mkdir -p ~/.vim/bundle
 mkdir -p ~/.vim/colors
@@ -39,23 +36,20 @@ chown $USER ~/.viminfo
 git -C ~/.vim/tmp/ init -q
 
 echo -e '\033[32mInstalling zsh configs...\033[0m'
-mkdir -p ~/.config/fsh
+ln -sf "$(pwd)"/config/fsh ~/.config/fsh
 ln -sf "$(pwd)"/.zshenv ~/.zshenv
 ln -sf "$(pwd)"/.zshrc ~/.zshrc
 ln -sf "$(pwd)"/.zsh_plugins.txt ~/.zsh_plugins.txt
 ln -sf "$(pwd)"/.p10k.zsh ~/.p10k.zsh
 ln -sf "$(pwd)"/.exa_colors.zsh ~/.exa_colors.zsh
-ln -sf "$(pwd)"/fsh/jacob.ini ~/.config/fsh/jacob.ini
 
 echo -e '\033[32mInstalling git configs...\033[0m'
 ln -sf "$(pwd)"/.gitconfig ~/.gitconfig
 ln -sf "$(pwd)"/.personal.gitconfig ~/.personal.gitconfig
 ln -sf "$(pwd)"/.gitall.sh ~/.gitall.sh
 
-echo -e '\033[32mInstalling linter configs...\033[0m'
-mkdir -p ~/.config
-find "$(pwd)/linters" -type f -exec ln -sf {} ~/ \;
-ln -sf "$(pwd)"/linters/flake8 ~/.config/flake8
+# echo -e '\033[32mInstalling linter configs...\033[0m'
+# find "$(pwd)/linters" -type f -exec ln -sf {} ~/ \;
 
 echo -e '\033[32mInstalling ripgrep configs...\033[0m'
 ln -sf "$(pwd)"/.ripgreprc ~/.ripgreprc
@@ -68,9 +62,7 @@ ln -sf "$(pwd)"/.ammonite/spark-predef.sc ~/.ammonite/spark-predef.sc
 ln -sf "$(pwd)"/.ammonite/configure-compiler.sc ~/.ammonite/configure-compiler.sc
 
 echo -e '\033[32mInstalling bat configs...\033[0m'
-mkdir -p ~/.config/bat/themes
-ln -sf "$(pwd)"/bat/bat.conf ~/.config/bat/config
-ln -sf "$(pwd)"/bat/jacob.tmTheme ~/.config/bat/themes/jacob.tmTheme
+ln -sf "$(pwd)"/config/bat ~/.config/bat
 bat cache --build > /dev/null
 
 echo -e '\033[32mInstalling sbt configs...\033[0m'
