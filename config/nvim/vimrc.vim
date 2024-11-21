@@ -63,7 +63,7 @@ endif
 
 if has('nvim')
   " Allow the sign column to expand to up to 9 characters wide.
-  set signcolumn=auto:1-9
+  set signcolumn=auto:1-4
 else
   " Always display the sign column, used by coc, ale, and gitgutter to display changes, errors, and warning.
   set signcolumn=yes
@@ -405,6 +405,12 @@ augroup MetalsDoctor
   au FileType metalsdoctor noremap <buffer> q :q<CR>
 augroup end
 
+" Easier closing of vim help menus.
+augroup checkhealthft
+  au!
+  au FileType checkhealth noremap <buffer> q :q<CR>
+augroup end
+
 " Automatically write any updates in the current file when focus is lost.
 augroup focuslost
   au!
@@ -511,17 +517,6 @@ function! LargeFile()
 endfunction
 
 
-function! CheckBatteryPercent()
-  let l:unknown = "unknown"
-  let l:uname = get(g:, "uname", l:unknown)
-  if l:uname ==# "Darwin"
-    let g:battery_percent = trim(system('sh -c ''pmset -g batt | grep -Eo "\d+%" | cut -d% -f1'' '))
-  elseif l:uname ==# l:unknown
-    let g:battery_percent = "??"
-  else
-    let g:battery_percent = system('sh -c ''if [[ -f /sys/class/power_supply/BAT0/capacity ]]; then cat /sys/class/power_supply/BAT0/capacity; else echo "∞"; fi'' ')[:-2]
-  endif
-endfunction
 
 " Prints a warning message.
 function! Warn(message)
@@ -796,7 +791,8 @@ noremap <leader>b :Bufferize
 " noremap <leader>` :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
 "   \ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
 "   \ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
-noremap <leader>` :TSHighlightCapturesUnderCursor<cr>
+" noremap <leader>` :TSHighlightCapturesUnderCursor<cr>
+noremap <leader>` :Inspect<cr>
 
   " For shenanigans.
 " noremap <leader>r ggg?G``:set invspell<CR>
@@ -815,77 +811,6 @@ cmap w!! w !sudo tee > /dev/null %
 " I want the full golang plugin, not just the ftdetect/syntax/indent of polyglot.
 let g:polyglot_disabled = ['scala', 'go', 'sensible']
 
-" PLUGINS:
-" Auto-install vim-plug. This places probably too much trust in junegunn's github.
-if empty(glob('~/.vim/autoload/plug.vim'))
-  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
-    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-  augroup vimplug
-    au!
-    autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
-  augroup end
-endif
-
-call plug#begin('~/.vim/plugged')
-Plug 'junegunn/fzf'
-Plug 'junegunn/fzf.vim'
-Plug 'yggdroot/indentline'
-Plug 'vim-airline/vim-airline' " Pretty ui.
-Plug 'vim-airline/vim-airline-themes' " I'm using my own theme, I'm not sure I need to pull this in anymore.
-Plug 'tpope/vim-characterize'
-Plug 'gorodinskiy/vim-coloresque'
-Plug 'airblade/vim-gitgutter' " Display git status in each file.
-Plug 'kshenoy/vim-signature' " Display marks in the sign column.
-Plug 'tpope/vim-unimpaired' " Lots of really nice movement mappings.
-Plug 'w0rp/ale' " Display live linter output.
-Plug 'tpope/vim-commentary' " Quick comment toggle command.
-Plug 'tpope/vim-fugitive' " Git integration.
-Plug 'chrisbra/Recover.vim'
-Plug 'gre/play2vim' " Syntax, etc for play route/conf/scala.html.
-Plug 'sheerun/vim-polyglot' " All the syntax plugins I could ever need.
-Plug 'markonm/traces.vim' " Preview for substitute commands.
-Plug 'jeffkreeftmeijer/vim-numbertoggle' " Toggle rnu/nu on insert vs normal modes.
-" Plug 'TaDaa/vimade' " Fades inactive buffers.
-Plug 'qpkorr/vim-bufkill' " Provides a command to close a buffer but keep its window.
-Plug 'regedarek/zoomwin' " Provides a tmux-like zoom function.
-Plug 'andrewradev/bufferize.vim' " Allows output of commands to be opened in their own normal buffer.
-Plug 'airblade/vim-rooter' " Finds the root of the project for open files.
-Plug 'tpope/vim-markdown'
-Plug 'moll/vim-bbye' " Dependency for vim-symlink.
-Plug 'aymericbeaumet/vim-symlink' " Automatically follow symlinks.
-Plug 'tpope/vim-surround' " cs/ds/ys/css/dss/yss to change/delete/surround a word/line.
-Plug 'tpope/vim-repeat' " Allow . to work with (some) plugins.
-Plug 'glts/vim-magnum' " Numeric library, dependency for radical.
-Plug 'glts/vim-radical' " gA, crd/crx/cro/crb for decimal/hex/octal/binary conversions.
-Plug 'arthurxavierx/vim-caser' " Change cases.
-Plug 'tpope/vim-rhubarb' " Github plugin for fugitive
-Plug 'zdharma-continuum/zinit-vim-syntax' " Syntax highlighting for zinit.
-Plug 'roman/golden-ratio' " Automatically resize windows.
-Plug 'jabrouwer82/vim-scala' " My customized version of derekwyatt/vim-scala.
-Plug 'GEverding/vim-hocon' " Syntax for lightbend/config hocon files.
-Plug 'ryanoasis/vim-devicons' " Adds icons for filetypes.
-Plug 'chlorophyllin/jproperties.vim' " Add syntax support for java properties files.
-Plug 'fatih/vim-go' " Add full go support.
-Plug 'jesseleite/vim-agriculture' " Adds :RgRaw, which can pass flags to ripgrep.
-Plug 'tpope/vim-endwise' " Helps end structures like if/endif
-Plug 'tpope/vim-abolish' " Case-aware find/replace :S
-
-" COC:
-" Plug 'neoclide/coc.nvim', {'branch': 'release'}
-" These are actually npm projects, they need these args to install correctly.
-" let g:coc_plugin_args = {'do': 'yarn install --frozen-lockfile --silent --no-progress --no-color'}
-" Plug 'tjdevries/coc-zsh' " This plugin is painfully unresponsive, at least on macos.
-" Plug 'scalameta/coc-metals', g:coc_plugin_args
-" Plug 'iamcco/coc-vimlsp', g:coc_plugin_args
-" Plug 'neoclide/coc-highlight', g:coc_plugin_args
-" Plug 'neoclide/coc-yaml', g:coc_plugin_args
-" Plug 'neoclide/coc-python', g:coc_plugin_args
-" Plug 'neoclide/coc-json', g:coc_plugin_args
-" Plug 'josa42/coc-go', g:coc_plugin_args
-" Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary!' }
-" Plug 'vn-ki/coc-clap' " This gives floating windows with better search feedback for some coc functionality.
-call plug#end()
-
 
 " Clap:
 " Use 67% of the editor window instead of the buffer window.
@@ -901,7 +826,6 @@ let g:clap_preview_direction = 'UD'
 "   autocmd!
 "   autocmd User ClapOnExit * call clap#floating_win#close()
 " augroup END
-
 
 
 " Dev Icons:
@@ -1044,120 +968,9 @@ nmap [g <Plug>(GitGutterPrevHunk)
 let g:SignatureMarkTextHL = 'Marks'
 
 " Airline:
-" Use my custom airline theme.
-let g:airline_theme = 'jacob'
-" Use powerline symbols.
-let g:airline_powerline_fonts = 1
-" Create the symbols dict.
-if !exists('g:airline_symbols')
-  let g:airline_symbols = {}
-endif
-" Use a better symbol for dirty branches.
-let g:airline_symbols.dirty = '  '
-" Don't show the 'spell' section in the status bar.
-let g:airline_detect_spell=0
-" Override some mode display values.
-if !exists('g:airline_mode_map')
-  let g:airline_mode_map = {}
-endif
-" Can't use fancy unicode here, it breaks the terminal airline.
-" Inactive
-" let g:airline_mode_map['__'] = ' '
-" Normal
-" let g:airline_mode_map['n'] = ' '
-" Insert
-" let g:airline_mode_map['i'] = ' '
-" Visual
-" let g:airline_mode_map['v'] = ' '
-" Visual Line
-" let g:airline_mode_map['V'] = ' '
-" Visual Block
-" let g:airline_mode_map[''] = ' '
-" Terminal
-" let g:airline_mode_map['t'] = ' '
-" Command
-" let g:airline_mode_map['c'] = ' '
-" Replace
-" let g:airline_mode_map['R'] = ' '
-
-" Enables detection of whitespace errors.
-let g:airline#extensions#whitespace#enabled = 0
-" Don't show the encoding if it's what it should be.
-let g:airline#parts#ffenc#skip_expected_string='utf-8[unix]'
-" Enable coc in statusline.
-" let g:airline#extensions#coc#enabled = 1
-" let g:airline#extensions#coc#show_coc_status = 1
-let g:airline#extensions#nvimlsp#enabled = 1
-" let g:airline#extensions#nvimmetals#enabled = 1
-
-
 function! LspStatus() abort
-  let g:j_lsp_status = ""
-  let g:j_lsp_status_short = ""
-  if luaeval('#vim.lsp.buf_get_clients() > 0')
-     let g:j_lsp_status = luaeval('require("lsp-status").status()')
-     let g:j_lsp_status_short = substitute(g:j_lsp_status, '\s', '', 'g')
-  endif
-
-  let g:j_lsps = luaeval("ListLsps()")
-
-  if g:j_lsps =~ "metals"
-    let g:j_metals_prefix = ""
-  else
-    let g:j_metals_prefix = "[metals]: "
-  endif
-
-
-  if (&ft == 'scala' || &ft == 'sbt' )
-    " Shorten text for windows < 91 characters
-    let g:j_metals_status = get(g:, 'metals_status', '')
-    if g:j_metals_status isnot ''
-      let g:j_metals_status = airline#util#shorten(g:j_metals_prefix . get(g:, 'metals_status', ''), 91, 9)
-    elseif exists("g:metals_status")
-      let g:j_metals_status = substitute(g:j_metals_prefix, ": ", "", "g")
-    endif
-  else
-    let g:j_metals_status = ''
-  endif
-
-  if g:j_lsp_status_short isnot '' && g:j_metals_status isnot ''
-    let g:j_status = g:j_lsp_status . ' ' . g:j_metals_status
-  elseif g:j_lsp_status_short isnot ''
-    let g:j_status = g:j_lsp_status
-  elseif g:j_metals_status isnot ''
-    let g:j_status = g:j_metals_status
-  else
-    let g:j_status = ''
-  endif
-
-  if g:j_lsps isnot '' && g:j_status isnot ''
-    return g:j_lsps . ': ' . g:j_status
-  elseif g:j_lsps isnot ''
-    return g:j_lsps
-  elseif g:j_status isnot ''
-    return g:j_status
-  else
-    return ''
-  endif
+  return luaeval("ListLsps()")
 endfunction
-
-call airline#parts#define_function('j_status', 'LspStatus')
-let g:airline_section_y = airline#section#create(['j_status'])
-
-" Enable the tabline.
-let g:airline#extensions#tabline#enabled = 1
-" Show visible buffers of current tab in tabline.
-let g:airline#extensions#tabline#show_splits = 1
-" Truncate buffer names in the tabline to just the filename without extension.
-let g:airline#extensions#tabline#fnamemod = ':t:r'
-" Number tabs by tab number (splits is the default?)
-let g:airline#extensions#tabline#tab_nr_type = 1
-" Customization I added to always show the tab label, even in bufferline mode.
-let g:airline#extensions#tabline#show_tabs_label = 1
-" Don't show the tab count.
-let g:airline#extensions#tabline#show_tab_count = 0
-" Don't show close button for tabs.
-let g:airline#extensions#tabline#show_close_button = 0
 
 " Replaces the "tabs" label in the tabline with the abbreviated pwd.
 augroup TablineCwd
@@ -1166,132 +979,20 @@ augroup TablineCwd
 augroup end
 
 " This chunk puts a clock and battery meter in the top right of the airline tabline.
-let g:battery_percent = "--"
-call CheckBatteryPercent()
 
 if exists('g:tabline_timer')
   call timer_stop(g:tabline_timer)
 endif
 let g:tabline_timer = timer_start(&updatetime, 'TablineUpdate', { 'repeat': -1 })
 
-if exists('g:battery_timer')
-  call timer_stop(g:battery_timer)
-endif
-let g:battery_timer = timer_start(&updatetime, 'UpdateBattery')
-
-function! UpdateBattery(timer)
-
-  call CheckBatteryPercent()
-
-  let l:show_alert = 0
-
-  if g:battery_percent < 0
-    " This handles when the battery function didn't work correctly.
-    let g:battery_timer = timer_start(5*1000, 'UpdateBattery')
-  elseif g:battery_percent < 2
-    let l:show_alert = 1
-    let g:battery_timer = timer_start(10*1000, 'UpdateBattery')
-  elseif g:battery_percent < 10
-    let g:battery_timer = timer_start(60*1000, 'UpdateBattery')
-  elseif g:battery_percent < 33
-    let g:battery_timer = timer_start(5*60*1000, 'UpdateBattery')
-  elseif g:battery_percent < 66
-    let g:battery_timer = timer_start(10*60*1000, 'UpdateBattery')
-  elseif g:battery_percent < 100
-    let g:battery_timer = timer_start(20*60*1000, 'UpdateBattery')
-  elseif g:battery_percent == 100
-    let g:battery_timer = timer_start(30*60*1000, 'UpdateBattery')
-  endif
-
-  if exists('g:battery_alert')
-    call popup_close(g:battery_alert)
-    unlet g:battery_alert
-  endif
-
-  if l:show_alert
-    let g:battery_alert = popup_create('BATTERY VERY LOW', {
-    \   'highlight': 'ErrorMsg',
-    \   'border': [],
-    \   'padding': [0,1,0,1],
-    \   'close': 'click',
-    \   'borderchars': ['━', '┃', '━', '┃', '┏', '┓', '┛', '┗']
-    \ })
-  endif
-
-endfunction
-
 function! TablineUpdate(timer)
-  let g:airline#extensions#tabline#buffers_label = strftime('%m/%d %T') . ' |' . g:battery_percent . '%%|'
+  let g:airline#extensions#tabline#buffers_label = strftime('%m/%d %T') . ' |' . battery#component_escaped() .'|'
   call airline#util#doautocmd('BufMRUChange')
   call airline#extensions#tabline#redraw()
 endfunction
 
-" Coc:
-" let g:coc_user_config = {
-" \  'coc.preferences.colorSupport': v:true,
-" \  'coc.preferences.formatOnType': v:true,
-" \  'coc.preferences.rootPatterns': ['build.sbt', 'build.sc', '.env', 'setup.py', '.git'],
-" \  'codeLens.enable': v:true,
-" \  'diagnostic.virtualText': v:true,
-" \  'diagnostic.errorSign': '>>',
-" \  'diagnostic.hintSign': '::',
-" \  'diagnostic.infoSign': '==',
-" \  'diagnostic.warningSign': '>=',
-" \  'diagnostic.floatConfig': {'maxWidth': 240},
-" \  'hover.floatConfig': {'maxWidth': 240},
-" \  'metals.statusBarEnabled': v:true,
-" \  'metals.showInferredType': v:true,
-" \  'python.linting.flake8Enabled': v:true,
-" \  'python.linting.mypyEnabled': v:true,
-" \  'python.linting.pylintArgs': ['--rcfile',  '~/.pylintrc'],
-" \  'python.linting.pylintUseMinimalCheckers': v:true,
-" \  'rust-client.rustupPath': '/Users/jbrouwer/.cargo/bin/rustup',
-" \  'signature.floatConfig': {'maxWidth': 240},
-" \  'suggest.floatConfig': {'maxWidth': 240}
-" \}
-" \  'coc.preferences.rootPatterns': ['.git', 'version.sbt', 'build.sc', 'Cargo.toml'],
-" \  'python.linting.flake8Args': ['--config',  '~/personal/linters/flake8'],
 
-" Use tab for trigger completion with characters ahead and navigate.
-" Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
-" inoremap <silent><expr> <TAB>
-"       \ pumvisible() ? "\<C-n>" :
-"       \ <SID>check_back_space() ? "\<TAB>" :
-"       \ coc#refresh()
-" inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-
-" function! s:check_back_space() abort
-"   let col = col('.') - 1
-"   return !col || getline('.')[col - 1]  =~# '\s'
-" endfunction
-
-" Use <c-tab> to trigger completion.
-" inoremap <silent><expr> <c-tab> coc#refresh()
-
-" Use <CR> to confirm completion, `<C-g>u` means break undo chain at current position.
-" Coc only does snippet and additional edit on confirm.
-" inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
-
-" Use `[c` and `]c` to navigate diagnostics
-" nmap <silent> [c <Plug>(coc-diagnostic-prev)
-" nmap <silent> ]c <Plug>(coc-diagnostic-next)
-
-" Remap keys for gotos
-" nmap <space>d <Plug>(coc-definition)
-" nmap <space>y <Plug>(coc-type-definition)
-" nmap <space>i <Plug>(coc-implementation)
-" nmap <space>r <Plug>(coc-references)
-
-" Toggle panel with Tree Views
-" nnoremap <silent> <space>t :<C-u>CocCommand metals.tvp<CR>
-
-" Remap for do codeAction of current line. This uses the fzf window rather than a list buffer like the plugin.
-" nmap <space><leader> <Plug>(coc-codeaction)
-" nmap <space><leader> :CocAction<CR>
-
-" Remap for do action format
-" nnoremap <space>f :call CocAction('format')<CR>
-
+" Lsp Stuff:
 " Use K to show documentation in preview window
 nnoremap <silent> K :call <SID>show_documentation()<CR>
 nnoremap <silent> <space>k :call <SID>show_documentation()<CR>

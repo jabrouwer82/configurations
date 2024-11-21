@@ -2,7 +2,8 @@ set runtimepath^=~/.vim runtimepath+=~/.vim/after
 let &packpath = &runtimepath
 
 
-source $XDG_CONFIG_HOME/nvim/vimrc
+source ~/.config/nvim/vimrc.vim
 
 
-lua require('plugins')
+lua require("config.lazy")
+

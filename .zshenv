@@ -1,6 +1,6 @@
 
 source ~/.github_token.sh # Github access token, makes brew/antidote auth easier.
-[ -f ~/.work.zsh ] && source ~/.work.zsh
+source ~/.work.zsh # for work things that don't belong in github.
 
 # PATH & FPATH Configuration
 typeset -U fpath
@@ -18,7 +18,7 @@ case "$OSTYPE" in
     path+=(
       $HOME/Library/Application\ Support/Coursier/bin
       $HOMEBREW_PREFIX/opt/coreutils/libexec/gnubin
-      $HOMEBREW_PREFIX/opt/mysql-client/bin
+      $HOMEBREW_PREFIX/opt/mysql-client@8.4/bin
       $HOMEBREW_PREFIX/opt/mongodb-community@4.4/bin
       $PYENV_ROOT/bin
       $HOME/work/compose-services/bin
@@ -105,21 +105,21 @@ export jvdblue='#082432'
 export jdblue='#0D3C54'
 export jblue='#1979A8'
 export jlblue='#26B7FF'
-export jvlblue='#D9F2FF'
+export jvlblue='#8CBCD3'
 
 export jblackcyan='#041918'
 export jvdcyan='#083230'
 export jdcyan='#0D544E'
 export jcyan='#19A89C'
-export jlcyan='#26FFED'
-export jvlcyan='#D9FFFC'
+export jlcyan='#75CAC3'
+export jvlcyan='#BAE4E1'
 
 export jblackgreen='#0D1911'
 export jvdgreen='#1A3222'
 export jdgreen='#2A5438'
 export jgreen='#54A870'
 export jlgreen='#7FFFAA'
-export jvlgreen='#D9FFE5'
+export jvlgreen='#B0EFC0'
 
 export jblackpurple='#110D19'
 export jvdpurple='#221A32'
@@ -147,7 +147,7 @@ export jvdred='#321010'
 export jdred='#541919'
 export jred='#A83232'
 export jlred='#FF4C4C'
-export jvlred='#FFD9D9'
+export jvlred='#C48484'
 
 export jblackmagenta='#190D12'
 export jvdmagenta='#321A24'

@@ -197,8 +197,6 @@ cd() {
 update_everything() {
   echo -e '\033[1;36mThis has been tested even less than the install script!\033[0m'
   cd ~/personal/configurations
-  echo -e '\033[32mRerunning install script...\033[0m'
-  install.sh
 
   case "$OSTYPE" in
     darwin*)
@@ -213,14 +211,9 @@ update_everything() {
   echo -e '\033[32mUpdating scala stuff...\033[0m'
   cs update
 
-  echo -e '\033[32mUpdating neovim Plug plugins...\033[0m'
-  nvim --headless +PlugUpdate +qall
-  echo -e '\033[32mUpdating neovim Packer plugins...\033[0m'
-  nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'
-  echo -e '\033[32mUpdating metals...\033[0m'
-  nvim --headless +MetalsInstall +qall
+  echo -e '\033[32mUpdating neovim Lazy plugins...\033[0m'
+  nvim --headless "+Lazy! sync" +qall
 
   echo -e '\033[32mUpdating antidote and zsh plugins...\033[0m'
   antidote update
-  source ~/.zshrc
 }

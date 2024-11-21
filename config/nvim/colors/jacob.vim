@@ -60,7 +60,7 @@ exe 'hi JacobType guifg=' . $jlgreen . ' gui=NONE'
 hi! link Type JacobType
 exe 'hi JacobStorageClass guifg=' . $jlgreen
 hi! link StorageClass JacobStorageClass
-exe 'hi JacobStructure guifg=' . $jlgreen
+exe 'hi JacobStructure guifg=' . $jvlgreen
 hi! link Structure JacobStructure
 exe 'hi JacobTypedef guifg=' . $jgreen
 hi! link Typedef JacobTypedef
@@ -95,6 +95,65 @@ exe 'hi JacobTitle guifg=' . $jlpurple . ' gui=bold'
 hi! link Title JacobTitle
 exe 'hi JacobTodo guifg=' . $jorange . ' guibg=NONE gui=undercurl,bold'
 hi! link Todo JacobTodo
+
+
+" Custom LSP Settings:
+exe 'hi JacobVariableDef guifg=' . $jlred
+exe 'hi JacobVariable guifg=' . $jvlred
+exe 'hi JacobImmutable guifg=' . $jvlgrey
+exe 'hi JacobFunctionCall guifg=' . $jvlblue
+exe 'hi JacobBuiltinFunction guifg=' . $jcyan
+hi! link @function.builtin JacobBuiltinFunction
+hi! link @lsp.type.variable.scala JacobVariable
+hi! link @lsp.type.method.scala JacobFunctionCall
+hi! link @lsp.type.class.scala JacobTypedef
+hi! link @lsp.type.modifier.scala JacobLabel
+hi! link @lsp.mod.readonly JacobImmutable
+hi! link @lsp.typemod.method.definition.scala JacobFunction
+hi! link @lsp.typemod.class.abstract.scala JacobType
+hi! link @lsp.typemod.parameter.readonly.scala JacobParam
+
+lua << EOF
+local scalaGroup = vim.api.nvim_create_augroup("Scala Highlight Overrides", { clear = true })
+vim.api.nvim_create_autocmd("LspTokenUpdate", {
+  group = scalaGroup,
+  pattern = {"*.scala", "*.sbt"},
+  callback = function(args)
+    local token = args.data.token
+    if token.type == "keyword" then
+      local data = vim.api.nvim_buf_get_text(args.buf, token.line, token.start_col, token.line, token.end_col, {})
+      if next(data) then
+        local str = data[1]
+        if str == "true" or str == "false" then
+          vim.lsp.semantic_tokens.highlight_token(token, args.buf, args.data.client_id, "JacobBoolean")
+        elseif str == "package" or str == "import" then
+          vim.lsp.semantic_tokens.highlight_token(token, args.buf, args.data.client_id, "JacobInclude")
+        elseif str == "var" or str == "null" then
+          vim.lsp.semantic_tokens.highlight_token(token, args.buf, args.data.client_id, "JacobVariableDef")
+        end
+      end
+    end
+  end,
+})
+
+local vimGroup = vim.api.nvim_create_augroup("Vim Highlight Overrides", { clear = true })
+vim.api.nvim_create_autocmd("LspTokenUpdate", {
+  group = vimGroup,
+  pattern = {"*.vim"},
+  callback = function(args)
+    local token = args.data.token
+    if token.type == "comment" then
+      local data = vim.api.nvim_buf_get_text(args.buf, token.line, token.end_col, token.line, token.end_col+1, {})[1]
+      if next(data) then
+        local str = data[1]
+        if str == ":" then
+          vim.lsp.semantic_tokens.highlight_token(token, args.buf, args.data.client_id, "JacobSpecialComment")
+        end
+      end
+    end
+  end,
+})
+EOF
 
 " Treesitter:
 hi! clear vimFunc
@@ -171,13 +230,13 @@ hi! link PmenuSel JacobPmenuSel
 hi! link FloatBorder TelescopeBorder
 
 " Git Column:
-exe 'hi JacobGitAddSign guifg=' . $jgreen . ' gui=bold guibg=' . g:sign_bg
+exe 'hi JacobGitAddSign guifg=' . $jgreen . ' guibg=' . g:sign_bg
 hi! link GitAddSign JacobGitAddSign
-exe 'hi JacobGitChangeSign guifg=' . $jlblue . ' gui=bold guibg=' . g:sign_bg
+exe 'hi JacobGitChangeSign guifg=' . $jlblue . ' guibg=' . g:sign_bg
 hi! link GitChangeSign JacobGitChangeSign
-exe 'hi JacobGitDeleteSign guifg=' . $jlred . ' gui=bold guibg=' . g:sign_bg
+exe 'hi JacobGitDeleteSign guifg=' . $jmagenta . ' guibg=' . g:sign_bg
 hi! link GitDeleteSign JacobGitDeleteSign
-exe 'hi JacobGitChangeDeleteSign guifg=' . $jpurple . ' gui=bold guibg=' . g:sign_bg
+exe 'hi JacobGitChangeDeleteSign guifg=' . $jpurple . ' guibg=' . g:sign_bg
 hi! link GitChangeDeleteSign JacobGitChangeDeleteSign
 
 " ALE:
@@ -188,35 +247,11 @@ hi! link ALEWarning JacobALEWarning
 exe 'hi JacobLintErrorSign guifg=' . $jlred . ' gui=bold guibg=' . g:sign_bg
 hi! link LintErrorSign JacobLintErrorSign
 
-" " COC:
-" exe 'hi JacobCocHighlightText gui=underline guisp=' . $jwhite
-" hi! link CocHighlightText JacobCocHighlightText
-" exe 'hi JacobCocInfoHighlight gui=underline guisp=' . $jlgrey
-" hi! link CocInfoHighlight JacobCocInfoHighlight
-" exe 'hi JacobCocWarningHighlight gui=underline guisp=' . $jlyellow
-" hi! link CocWarningHighlight JacobCocWarningHighlight
-" exe 'hi JacobCocErrorHighlight gui=underline guisp=' . $jlred
-" hi! link CocErrorHighlight JacobCocErrorHighlight
-" exe 'hi JacobCocErrorFloat guifg=' . $jlred
-" hi! link CocErrorFloat JacobCocErrorFloat
-" hi! link CocErrorSign LintErrorSign
-" hi! link CocWarningSign ALEWarningSign
-" exe 'hi JacobCocWarningFloat guifg=' . $jlyellow
-" hi! link CocWarningFloat JacobCocWarningFloat
-" exe 'hi JacobCocInfoSign guifg=' . $jlgrey . ' guibg=' . g:sign_bg
-" hi! link CocInfoSign JacobCocInfoSign
-" exe 'hi JacobCocInfoFloat guifg=' . $jlgrey
-" hi! link CocInfoFloat JacobCocInfoFloat
-" exe 'hi JacobCocHintSign guifg=' . $jlcyan . ' guibg=' . g:sign_bg
-" hi! link CocHintSign JacobCocHintSign
-" exe 'hi JacobCocHintFloat guifg=' . $jlcyan
-" hi! link CocHintFloat JacobCocHintFloat
-
 " LSP:
 " Errors
 exe 'hi JacobDiagnosticError guifg=' . $jlred
 hi! link DiagnosticError JacobDiagnosticError
-exe 'hi JacobDiagnosticSignError guibg=' . g:sign_bg . ' guifg=' . $jlred
+exe 'hi JacobDiagnosticSignError guibg=' . g:sign_bg . ' gui=bold guifg=' . $jlred
 hi! link DiagnosticSignError JacobDiagnosticSignError
 exe 'hi JacobDiagnosticUnderlineError gui=underline guisp=' . $jlred
 hi! link DiagnosticUnderlineError JacobDiagnosticUnderlineError
@@ -399,4 +434,3 @@ let g:terminal_ansi_colors = [
 " augroup end
 " call matchadd('TrailingSpaces', '\s\+$', 100)
 " call matchadd('DoubleSpaces', '\S\zs\s\{2,}', 100)
-

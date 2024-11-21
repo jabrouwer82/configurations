@@ -11,13 +11,25 @@ if exists(':Gui')
     execute 'GuiFont!' trim(newfont)
   endfunction
 
-  let g:jfont = 'Hasklug Nerd Font:h11'
+  let g:jdefaultfont = 'Hasklug Nerd Font:h11'
+  let g:jsmallfont = 'Hasklug Nerd Font:h11'
+  let g:jbigfont = 'Hasklug Nerd Font:h16'
   function! ResetFont()
-    execute 'GuiFont!' g:jfont
+    let l:ratio = &columns / &lines
+    if l:ratio == 2
+      execute 'GuiFont!' g:jbigfont
+    elseif l:ratio == 3
+      execute 'GuiFont!' g:jsmallfont
+    else
+      execute 'GuiFont!' g:jdefaultfont
+    endif
   endfunction
 
-  " Set font in editor.
-  :call ResetFont()
+  " Automatically fix my font size when I switch between huge and small monitors.
+  augroup ResizeGuiFont
+    au!
+    au VimResized * :call ResetFont()
+  augroup end
   " Set font in gui to match the editor font.
   GuiAdaptiveFont 1
   " Render ligatures.
