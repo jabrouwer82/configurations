@@ -66,17 +66,26 @@ return {
         },
         mapping = cmp.mapping.preset.insert({
           -- These make some editing weird, it might be worth looking into adding a delay or cancel in addition to directions.
-          ['<Up>'] = cmp.mapping.select_prev_item(),
-          ['<Down>'] = cmp.mapping.select_next_item(),
+          -- ['<Up>'] = cmp.mapping.select_prev_item(),
+          -- ['<Down>'] = cmp.mapping.select_next_item(),
           -- ['<Left>'] = cmp.mapping.close(),
           -- ['<Right>'] = cmp.mapping.close(),
           ['<D-Up>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), {'i', 's'}),
           ['<D-Down>'] = cmp.mapping(cmp.mapping.scroll_docs(4), {'i', 's'}),
           ['<D-ESC>'] = cmp.mapping.abort(),
           ['<D-CR>'] = cmp.mapping.close(),
-          ["<CR>"] = cmp.mapping.confirm({
-            behavior = cmp.ConfirmBehavior.Replace,
-            select = false,
+          ["<CR>"] = cmp.mapping(function(fallback)
+            if cmp.visible() and cmp.get_selected_entry() ~= nil then
+              cmp.confirm({
+                behavior = cmp.ConfirmBehavior.Replace,
+                select = false,
+              })
+            else
+              cmp.abort()
+              fallback()
+            end
+          end, {
+              "i", "s"
           }),
           ["<ESC>"] = cmp.mapping(function(fallback)
             if cmp.visible() then

@@ -196,7 +196,7 @@ cd() {
 
 update_everything() {
   echo -e '\033[1;36mThis has been tested even less than the install script!\033[0m'
-  cd ~/personal/configurations
+  cd ~/personal/configurations || exit 1
 
   case "$OSTYPE" in
     darwin*)

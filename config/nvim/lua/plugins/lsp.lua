@@ -54,29 +54,92 @@ return {
       -- map("n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>")
 
       -- Generally using <space> as a sort of lsp <leader>.
-      { "<space>c",         function() vim.lsp.codelens.run() end,                                                     mode = "n", desc = "Run current codelens" },
-      { "<space>n",         function() vim.lsp.buf.rename() end,                                                       mode = "n", desc = "Rename symbol" },
-      { "<space>f",         function() vim.lsp.buf.format({ async = true }) end,                                       mode = "n", desc = "Format buffer" },
-      { "<space>;",         function() vim.lsp.buf.code_action() end,                                                  mode = "n", desc = "Run available code action" },
-      { "[d",               function() vim.diagnostic.goto_prev() end,                                                 mode = "n", desc = "Goto previous diagnostic" },
-      { "]d",               function() vim.diagnostic.goto_next() end,                                                 mode = "n", desc = "Goto next diagnostic" },
-      { "[w",               function() vim.diagnostic.goto_prev({ severity = { severity.WARN, severity.ERROR } }) end, mode = "n", desc = "Goto previous warning or error diagnostic" },
-      { "]w",               function() vim.diagnostic.goto_next({ severity = { severity.WARN, severity.ERROR } }) end, mode = "n", desc = "Goto next warning or error diagnostic" },
-      { "[E",               function() vim.diagnostic.goto_prev({ severity = severity.ERROR }) end,                    mode = "n", desc = "Goto previous error diagnostic" },
-      { "]E",               function() vim.diagnostic.goto_next({ severity = severity.ERROR }) end,                    mode = "n", desc = "Goto next error diagnostic" },
-      { "<space><tab>",     function() vim.lsp.buf.signature_help() end,                                               mode = "n", desc = "Show docs for current function signature" },
-      { "<M- >",            function() vim.lsp.buf.signature_help() end,                                               mode = "i", desc = "Show docs for current function signature" },
+      { "<space>c",     function() vim.lsp.codelens.run() end,               mode = "n", desc = "Run current codelens" },
+      { "<space>n",     function() vim.lsp.buf.rename() end,                 mode = "n", desc = "Rename symbol" },
+      { "<space>f",     function() vim.lsp.buf.format({ async = true }) end, mode = "n", desc = "Format buffer" },
+      { "<space>f",     function() vim.lsp.buf.format({ async = true }) end, mode = "v", desc = "Format buffer" },
+      { "<space>;",     function() vim.lsp.buf.code_action() end,            mode = "n", desc = "Run available code action" },
+      { "<space><tab>", function() vim.lsp.buf.signature_help() end,         mode = "n", desc = "Show docs for current function signature" },
+      { "<M- >",        function() vim.lsp.buf.signature_help() end,         mode = "i", desc = "Show docs for current function signature" },
+      {
+        "[d",
+        function()
+          vim.diagnostic.goto_prev()
+          vim.api.nvim_feedkeys('zz', 'm', false)
+        end,
+        mode = "n",
+        desc = "Goto previous diagnostic"
+      },
+      {
+        "]d",
+        function()
+          vim.diagnostic.goto_next()
+          vim.api.nvim_feedkeys('zz', 'm', false)
+        end,
+        mode = "n",
+        desc = "Goto next diagnostic"
+      },
+      {
+        "[w",
+        function()
+          vim.diagnostic.goto_prev({ severity = { severity.WARN, severity.ERROR } })
+          vim.api.nvim_feedkeys('zz', 'm', false)
+        end,
+        mode = "n",
+        desc = "Goto previous warning or error diagnostic"
+      },
+      {
+        "]w",
+        function()
+          vim.diagnostic.goto_next({ severity = { severity.WARN, severity.ERROR } })
+          vim.api.nvim_feedkeys('zz', 'm', false)
+        end,
+        mode = "n",
+        desc = "Goto next warning or error diagnostic"
+      },
+      {
+        "[E",
+        function()
+          vim.diagnostic.goto_prev({ severity = severity.ERROR })
+          vim.api.nvim_feedkeys('zz', 'm', false)
+        end,
+        mode = "n",
+        desc = "Goto previous error diagnostic"
+      },
+      {
+        "]E",
+        function()
+          vim.diagnostic.goto_next({ severity = severity.ERROR })
+          vim.api.nvim_feedkeys('zz', 'm', false)
+        end,
+        mode = "n",
+        desc = "Goto next error diagnostic"
+      },
       -- Fallbacks where I prefer the telescope version.
-      { "<space><space>d",  function() vim.lsp.buf.document_symbol() end,                                              mode = "n", desc = "Open document symbols in quickfix" },
-      { "<space><space>gr", function() vim.lsp.buf.references() end,                                                   mode = "n", desc = "Open references in quickfix" },
-      { "<space><space>s",  function() vim.lsp.buf.workspace_symbol() end,                                             mode = "n", desc = "Open all workspace symbols in quickfix" },
-      { "<space><space>a",  function() vim.diagnostic.setqflist() end,                                                 mode = "n", desc = "Show workspace diagnostics in quickfix" },
-      { "<space><space>b",  function() vim.diagnostic.setloclist() end,                                                mode = "n", desc = "Set loc with buffer diagnostics" },
-      { "<space><space>gd", function() vim.lsp.buf.definition() end,                                                   mode = "n", desc = "Goto definition" },
-      { "<space><space>gi", function() vim.lsp.buf.implementation() end,                                               mode = "n", desc = "Goto implementation" },
-      { "<space><space>y",  function() vim.lsp.buf.type_definition() end,                                              mode = "n", desc = "Goto type definition" },
-      { "<space><space>e",  function() vim.diagnostic.setqflist({ severity = severity.ERROR }) end,                    mode = "n", desc = "Show all errors in quickfix" },
-      { "<space><space>w",  function() vim.diagnostic.setqflist({ severity = severity.WARN }) end,                     mode = "n", desc = "Show all warning in quickfix" },
+      { "<space><space>d",  function() vim.lsp.buf.document_symbol() end,  mode = "n", desc = "Open document symbols in quickfix" },
+      { "<space><space>gr", function() vim.lsp.buf.references() end,       mode = "n", desc = "Open references in quickfix" },
+      { "<space><space>s",  function() vim.lsp.buf.workspace_symbol() end, mode = "n", desc = "Open all workspace symbols in quickfix" },
+      { "<space><space>a",  function() vim.diagnostic.setqflist() end,     mode = "n", desc = "Show workspace diagnostics in quickfix" },
+      { "<space><space>b",  function() vim.diagnostic.setloclist() end,    mode = "n", desc = "Set loc with buffer diagnostics" },
+      { "<space><space>gd", function() vim.lsp.buf.definition() end,       mode = "n", desc = "Goto definition" },
+      { "<space><space>gi", function() vim.lsp.buf.implementation() end,   mode = "n", desc = "Goto implementation" },
+      { "<space><space>y",  function() vim.lsp.buf.type_definition() end,  mode = "n", desc = "Goto type definition" },
+      {
+        "<space><space>e",
+        function()
+          vim.diagnostic.setqflist({ severity = severity.ERROR })
+        end,
+        mode = "n",
+        desc = "Show all errors in quickfix"
+      },
+      {
+        "<space><space>w",
+        function()
+          vim.diagnostic.setqflist({ severity = severity.WARN })
+        end,
+        mode = "n",
+        desc = "Show all warning in quickfix"
+      },
       -- Other lsp functions I've seen mapped:
       -- vim.diagnostic.open_float()
       -- vim.lsp.buf.declaration
@@ -110,6 +173,7 @@ return {
         end,
         ["bashls"] = function()
           lspconfig['bashls'].setup({
+            filetypes = { "sh", "zsh", "bash" },
             capabilities = capabilities,
           })
         end,

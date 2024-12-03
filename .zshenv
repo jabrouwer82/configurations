@@ -1,4 +1,3 @@
-
 source ~/.github_token.sh # Github access token, makes brew/antidote auth easier.
 source ~/.work.zsh # for work things that don't belong in github.
 
@@ -21,7 +20,6 @@ case "$OSTYPE" in
       $HOMEBREW_PREFIX/opt/mysql-client@8.4/bin
       $HOMEBREW_PREFIX/opt/mongodb-community@4.4/bin
       $PYENV_ROOT/bin
-      $HOME/work/compose-services/bin
     )
     fpath=(
       $HOMEBREW_PREFIX/share/zsh/site-functions
@@ -44,11 +42,9 @@ export NVM_DIR="$HOME/.nvm"
 
 # Some common locations
 export THIRDPARTY="$HOME/thirdparty"
-export WORK="$HOME/work/"
-export PDS="$WORK/pds/"
-export PFP="$WORK/pfp/"
-export PERS="$HOME/personal/"
-export CFG="$PERS/configurations/"
+export WORK="$HOME/work"
+export PERS="$HOME/personal"
+export CFG="$PERS/configurations"
 
 # FZF configuration
 export FZF_DEFAULT_COMMAND='rg --files --hidden'

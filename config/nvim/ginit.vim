@@ -48,7 +48,8 @@ if exists(':Gui')
   snoremap <silent><RightMouse> <C-G>:call GuiShowContextMenu()<CR>gv
 
   if g:uname ==# "Darwin"
-    call GuiWindowFullScreen(1)
+    :call ResetFont()
+    " call GuiWindowFullScreen(1)
     " Command copy/paste shortcuts
     nnoremap <D-v> <c-\><c-n>p
     inoremap <D-v> <c-r><c-o>+

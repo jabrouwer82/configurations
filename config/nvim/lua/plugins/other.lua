@@ -39,5 +39,11 @@ return {
   'jesseleite/vim-agriculture', -- Adds :RgRaw, which can pass flags to ripgrep.
   'tpope/vim-endwise', -- Helps end structures like if/endif
   'tpope/vim-abolish', -- Case-aware find/replace :S
-  'lambdalisue/vim-suda' -- Adds :SudaWrite and :SudaRead for a workaround to :w !sudo tee... not working in nvim.
+  {
+    'lambdalisue/vim-suda', -- Adds :SudaWrite and :SudaRead for a workaround to :w !sudo tee... not working in nvim.
+    config = function()
+      vim.g.suda_smart_edit = 1
+      vim.api.nvim_create_user_command('W', ':SudaWrite<CR>', { desc = 'Sudo write file using suda plugin.' })
+    end,
+  },
 }
