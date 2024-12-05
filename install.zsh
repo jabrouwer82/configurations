@@ -40,6 +40,7 @@ git -C ~/.vim/tmp/ init -q
 echo -e '\033[32mInstalling zsh configs...\033[0m'
 ln -sfn "$(pwd)"/config/fsh ~/.config/fsh
 ln -sfn "$(pwd)"/.zshenv ~/.zshenv
+ln -sfn "$(pwd)"/.zlogin ~/.zlogin
 ln -sfn "$(pwd)"/.zshrc ~/.zshrc
 ln -sfn "$(pwd)"/.zsh_plugins.txt ~/.zsh_plugins.txt
 ln -sfn "$(pwd)"/.p10k.zsh ~/.p10k.zsh

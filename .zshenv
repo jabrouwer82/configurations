@@ -2,37 +2,39 @@ source ~/.github_token.sh # Github access token, makes brew/antidote auth easier
 source ~/.work.zsh # for work things that don't belong in github.
 
 # PATH & FPATH Configuration
-typeset -U fpath
+typeset -Ux fpath
 fpath+=(
-  $HOME/.zsh/
+  "$HOME/.zsh/"
 )
-typeset -U path
+typeset -Ux path
 path+=(
-  $HOME/.local/bin
-  $HOME/bin
+  "$HOME/.local/bin"
+  "$HOME/bin"
   /usr/local/bin
 )
 case "$OSTYPE" in
   darwin*)
-    path+=(
-      $HOME/Library/Application\ Support/Coursier/bin
-      $HOMEBREW_PREFIX/opt/coreutils/libexec/gnubin
-      $HOMEBREW_PREFIX/opt/mysql-client@8.4/bin
-      $HOMEBREW_PREFIX/opt/mongodb-community@4.4/bin
-      $PYENV_ROOT/bin
+    path=(
+      "$HOME/Library/Application\ Support/Coursier/bin"
+      "$HOMEBREW_PREFIX/opt/coreutils/libexec/gnubin"
+      "$HOMEBREW_PREFIX/opt/mysql-client@8.4/bin"
+      "$HOMEBREW_PREFIX/opt/mongodb-community@4.4/bin"
+      "$PYENV_ROOT/bin"
+      "$HOMEBREW_PREFIX/opt/ruby/bin"
+      $path
     )
     fpath=(
-      $HOMEBREW_PREFIX/share/zsh/site-functions
+      "$HOMEBREW_PREFIX/share/zsh/site-functions"
       $fpath
     )
+    export PKG_CONFIG_PATH="$HOMEBREW_PREFIX/opt/homebrew/opt/ruby/lib/pkgconfig"
   ;;
   linux*)
     path+=(
-      $HOME/.local/share/coursier/bin
+      "$HOME/.local/share/coursier/bin"
     )
   ;;
 esac
-export PATH
 
 type jenv &> /dev/null && eval "$(jenv init -)"
 type pyenv &> /dev/null && eval "$(pyenv init -)"
@@ -71,8 +73,8 @@ case "$OSTYPE" in
   darwin*)
     export HOMEBREW_NO_AUTO_UPDATE=1
     export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk
-    export LDFLAGS="-L/usr/local/opt/openssl@1.1/lib -L/opt/homebrew/opt/mysql-client/lib"
-    export CPPFLAGS="-I/usr/local/opt/openssl@1.1/include -I/opt/homebrew/opt/mysql-client/include"
+    export LDFLAGS="-L/usr/local/opt/openssl@1.1/lib -L/opt/homebrew/opt/mysql-client/lib -L/opt/homebrew/opt/ruby/lib"
+    export CPPFLAGS="-I/usr/local/opt/openssl@1.1/include -I/opt/homebrew/opt/mysql-client/include -I/opt/homebrew/opt/ruby/include"
     export RIPGREP_CONFIG_PATH="$HOME/.ripgreprc"
     export KUBE_CPUS=6
     export KUBE_MEMORY=16384

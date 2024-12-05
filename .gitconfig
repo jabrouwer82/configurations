@@ -59,7 +59,3 @@
   path = ~/.work.gitconfig
 [merge]
   conflictstyle = diff3
-[branch "master"]
-  pushRemote = no_push
-[branch "main"]
-  pushRemote = no_push
