@@ -17,7 +17,7 @@ case "$OSTYPE" in
     export ANTIDOTE_PATH=$HOMEBREW_PREFIX/opt/antidote/share/antidote/antidote.zsh
   ;;
   linux*)
-    # ANTIDOTE_PATH= ??? Idk where arch puts it yet
+    export ANTIDOTE_PATH=/usr/share/zsh-antidote/antidote.zsh
   ;;
 esac
 

@@ -1,16 +1,17 @@
-[scroll]>[vol-]
-[prtscr]>[mute]
-[pause]>[vol+]
+* Mac
+[caps]>[escape][t&h998][caps]
 [f7]>[prev]
 [f8]>[play]
 [f9]>[next]
+[kp-pup]>[kptoggle]
 [kp=]>[kp=mac]
 [lctrl]>[lwin]
-[pup]>[kptoggle]
-[kp-pup]>[kptoggle]
+[pause]>[vol+]
 [pdown]>[escape]
-{lshift}{home}>{speed9}{pup}
+[prtscr]>[mute]
+[pup]>[kptoggle]
+[scroll]>[vol-]
 {lshift}{end}>{speed9}{pdown}
-{rshift}{home}>{speed9}{pup}
+{lshift}{home}>{speed9}{pup}
 {rshift}{end}>{speed9}{pdown}
-[caps]>[escape][t&h998][caps]
+{rshift}{home}>{speed9}{pup}

@@ -101,12 +101,19 @@ case "$OSTYPE" in
     sudo ln -sfn "$(pwd)"/xorg/51-mxergo.conf /etc/X11/xorg.conf.d/51-mxergo.conf
     sudo ln -sfn "$(pwd)"/xorg/51-trackpoint.conf /etc/X11/xorg.conf.d/51-trackpoint.conf
 
-    echo -e '\033[34mPackage installation isn'"'"'t automated on linux yet, exiting now.\033[0m'
-    exit 0
+    echo -e '\033[34mPackage installation isn'"'"'t automated on linux yet.\033[0m'
+    # exit 0
   ;;
 esac
 
 echo -e '\033[32mInstalling scala stuff...\033[0m'
+case "$OSTYPE" in
+  darwin*)
+  ;;
+  linux*)
+    coursier install cs
+  ;;
+esac
 cs setup
 cs install scalafmt scalafix metals
 echo -e '\033[32mInstalling jvms...\033[0m'
@@ -114,7 +121,14 @@ cs java-home --jvm 8
 cs java-home --jvm 11
 cs java-home --jvm 17
 cs java-home --jvm 21
-sudo ln -sfn "$(cs java-home --jvm 17)" /Library/Java/JavaVirtualMachines/jdk
+case "$OSTYPE" in
+  darwin*)
+    sudo ln -sfn "$(cs java-home --jvm 17)" /Library/Java/JavaVirtualMachines/jdk
+  ;;
+  linux*)
+    sudo ln -sfn "$(cs java-home --jvm 17)" /Library/Java/JavaVirtualMachines/jdk
+  ;;
+esac
 
 echo -e '\033[32mConfiguring jenv...\033[0m'
 mkdir -p ~/.jenv/versions

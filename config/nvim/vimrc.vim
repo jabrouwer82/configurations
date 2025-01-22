@@ -45,7 +45,7 @@ else
   " Linux stuff
 
   " Makes vim use the system clipboard for yank and paste.
-  set clipboard=unnamedplus
+  set clipboard+=unnamedplus
 
   if !has('nvim')
     " Sets my font.

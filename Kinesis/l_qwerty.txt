@@ -1,12 +1,12 @@
 * Linux
-[caps]>[tab]
-[pdown]>[escape]
-[pup]>[kptoggle]
+[caps]>[escape][t&h998][caps]
 [kp-pup]>[kptoggle]
-[scroll]>[vol-]
-[prtscr]>[mute]
 [pause]>[vol+]
-{lshift}{home}>{speed9}{pup}
+[pdown]>[escape]
+[prtscr]>[mute]
+[pup]>[kptoggle]
+[scroll]>[vol-]
 {lshift}{end}>{speed9}{pdown}
-{rshift}{home}>{speed9}{pup}
+{lshift}{home}>{speed9}{pup}
 {rshift}{end}>{speed9}{pdown}
+{rshift}{home}>{speed9}{pup}
