@@ -15,7 +15,7 @@ path+=(
 case "$OSTYPE" in
   darwin*)
     path=(
-      "$HOME/Library/Application\ Support/Coursier/bin"
+      "$HOME/Library/Application Support/Coursier/bin"
       "$HOMEBREW_PREFIX/opt/coreutils/libexec/gnubin"
       "$HOMEBREW_PREFIX/opt/mysql-client@8.4/bin"
       "$HOMEBREW_PREFIX/opt/mongodb-community@4.4/bin"
