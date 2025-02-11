@@ -1,3 +1,5 @@
+local vim = vim
+
 return {
   'kristijanhusak/vim-dadbod-ui',
   dependencies = {

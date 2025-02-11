@@ -1,3 +1,5 @@
+local vim = vim
+
 return {
   "jabrouwer82/nvim-metals",
   dependencies = {

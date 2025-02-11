@@ -1,3 +1,5 @@
+local vim = vim
+
 return {
   -- Better Quick Fix window, adds a preview window.
   {

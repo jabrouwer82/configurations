@@ -1,3 +1,7 @@
+local vim = vim
+local fn = vim.fn
+local api = vim.api
+
 return {
   {
     "hrsh7th/nvim-cmp",
@@ -32,19 +36,19 @@ return {
       "rcarriga/cmp-dap",
     },
     config = function()
-      local t = function(str) return vim.api.nvim_replace_termcodes(str, true, true, true) end
+      local t = function(str) return api.nvim_replace_termcodes(str, true, true, true) end
       local cmp = require("cmp")
       local check_back_space = function()
-        local col = vim.fn.col('.') - 1
-        return col == 0 or vim.fn.getline('.'):sub(col, col):match('%s') ~= nil
+        local col = fn.col('.') - 1
+        return col == 0 or fn.getline('.'):sub(col, col):match('%s') ~= nil
       end
       local has_words_before = function()
-        local line, col = unpack(vim.api.nvim_win_get_cursor(0))
-        return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
+        local line, col = unpack(api.nvim_win_get_cursor(0))
+        return col ~= 0 and api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
       end
       cmp.setup({
         enabled = function()
-          return vim.api.nvim_get_option_value("buftype", {buf = 0}) ~= "prompt" or require("cmp_dap").is_dap_buffer()
+          return api.nvim_get_option_value("buftype", {buf = 0}) ~= "prompt" or require("cmp_dap").is_dap_buffer()
         end,
         -- Reverses menu order when the menu is above the cursor.
         -- view = {
@@ -55,7 +59,7 @@ return {
         -- },
         snippet = {
           expand = function(args)
-            vim.fn["vsnip#anonymous"](args.body)
+            fn["vsnip#anonymous"](args.body)
           end,
         },
         formatting = {
@@ -96,12 +100,12 @@ return {
               "i", "s"
           }),
           ["<Tab>"] = cmp.mapping(function(fallback)
-            if vim.fn.pumvisible() == 1 then
-              vim.api.nvim_feedkeys(t"<C-n>", "n", false)
+            if fn.pumvisible() == 1 then
+              api.nvim_feedkeys(t"<C-n>", "n", false)
             elseif cmp.visible() then
               cmp.select_next_item()
             elseif vim.call("vsnip#available", 1) ~= 0 then
-              vim.fn.feedkeys(t"<Plug>(vsnip-expand-or-jump)", "")
+              fn.feedkeys(t"<Plug>(vsnip-expand-or-jump)", "")
             elseif check_back_space() then
               fallback()
             elseif has_words_before() then
@@ -113,12 +117,12 @@ return {
             "i", "s",
           }),
           ["<S-Tab>"] = cmp.mapping(function(fallback)
-            if vim.fn.pumvisible == 1 then
-              vim.api.nvim_feedkey(t"<C-p>", "n", false)
+            if fn.pumvisible == 1 then
+              api.nvim_feedkey(t"<C-p>", "n", false)
             elseif cmp.visible() then
               cmp.select_prev_item()
             elseif vim.call("vsnip#available", -1) ~= 0 then
-              vim.fn.feedkeys(t"<Plug>(vsnip-jump-prev)", "")
+              fn.feedkeys(t"<Plug>(vsnip-jump-prev)", "")
             else
               fallback()
             end

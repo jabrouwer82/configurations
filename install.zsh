@@ -126,7 +126,7 @@ case "$OSTYPE" in
     sudo ln -sfn "$(cs java-home --jvm 17)" /Library/Java/JavaVirtualMachines/jdk
   ;;
   linux*)
-    sudo ln -sfn "$(cs java-home --jvm 17)" /Library/Java/JavaVirtualMachines/jdk
+    sudo ln -sfn "$(cs java-home --jvm 17)" /usr/lib/jvm/
   ;;
 esac
 

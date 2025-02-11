@@ -232,7 +232,7 @@ set splitright
 " After 300 millis, the CursorHold event fires.
 set updatetime=300
 " Blocks "hit enter" prompts on completion menu actions.
-set shortmess+=c
+" set shortmess+=c
 " Adds a second line to the cmd bar.
 set cmdheight=2
 
@@ -342,10 +342,10 @@ augroup ResizeSplits
 augroup end
 
 " Let the cmd line breath when it has space.
-augroup ResizeCmdline
-  au!
-  au VimResized * let &cmdheight=1 + float2nr(ceil(&lines / 64.0))
-augroup end
+" augroup ResizeCmdline
+"   au!
+"   au VimResized * let &cmdheight=1 + float2nr(ceil(&lines / 64.0))
+" augroup end
 
 " <leader>= will fix ts/js comparisons ie === or !== rather than == or !=
 augroup TsJsFiletype
@@ -698,7 +698,7 @@ tnoremap <Esc> <C-\><C-n>
 
 " Ctrl-Shift-V to paste.
 " Terminal Mode
-tnoremap <C-A-V> <C-W>"+
+tnoremap <C-A-V> <C-\><C-O>p
 " Normal Mode.
 nnoremap <C-A-V> p
 " Insert Mode.
@@ -978,19 +978,6 @@ augroup TablineCwd
   au DirChanged,VimEnter * let g:airline#extensions#tabline#tabs_label = pathshorten(fnamemodify(getcwd(0), ":t"))
 augroup end
 
-" This chunk puts a clock and battery meter in the top right of the airline tabline.
-
-if exists('g:tabline_timer')
-  call timer_stop(g:tabline_timer)
-endif
-let g:tabline_timer = timer_start(&updatetime, 'TablineUpdate', { 'repeat': -1 })
-
-function! TablineUpdate(timer)
-  let g:airline#extensions#tabline#buffers_label = strftime('%m/%d %T') . ' |' . battery#component_escaped() .'|'
-  call airline#util#doautocmd('BufMRUChange')
-  call airline#extensions#tabline#redraw()
-endfunction
-
 
 " Lsp Stuff:
 " Use K to show documentation in preview window
@@ -998,72 +985,19 @@ nnoremap <silent> K :call <SID>show_documentation()<CR>
 nnoremap <silent> <space>k :call <SID>show_documentation()<CR>
 
 function! s:show_documentation()
-  if (index(['vim','help'], &filetype) >= 0)
+  if (index(['vim', 'help'], &filetype) >= 0)
     execute 'h '.expand('<cword>')
   else
-    " call CocAction('doHover')
     lua vim.lsp.buf.hover()
   endif
 endfunction
 
-" Remap for rename current word
-" nmap <space>n <Plug>(coc-rename)
-
-augroup coccustom
+augroup CursorHighlights
   autocmd!
-  " Setup formatexpr specified filetype(s).
-  autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
-  " Update signature help on jump placeholder
-  " autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
-  " Highlight symbol under cursor on CursorHold
-  " autocmd CursorHold * silent call CocActionAsync('highlight')
   autocmd CursorHold  <buffer> lua vim.lsp.buf.document_highlight()
   autocmd CursorHoldI <buffer> lua vim.lsp.buf.document_highlight()
   autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
 augroup end
-
-" Remap for do codeAction of selected region, ex: `<leader>aap` for current paragraph
-xmap <leader>a  <Plug>(coc-codeaction-selected)
-nmap <leader>a  <Plug>(coc-codeaction-selected)
-
-" Remap for do codeAction of current line
-nmap <leader>ac  <Plug>(coc-codeaction)
-" Fix autofix problem of current line
-nmap <space>q  <Plug>(coc-fix-current)
-
-" Use `:Format` to format current buffer
-command! -nargs=0 Format :call CocAction('format')
-
-" Use `:Fold` to fold current buffer
-command! -nargs=? Fold :call     CocAction('fold', <f-args>)
-
-" use `:OR` for organize import of current buffer
-command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
-
-" Add status line support, for integration with other plugin, checkout `:h coc-status`
-" set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
-
-" Using CocList
-" Show all diagnostics
-" Use clap instead
-" nnoremap <silent> <space>a  :<C-u>CocList diagnostics<cr>
-" Manage extensions
-" nnoremap <silent> <space>e  :<C-u>CocList extensions<cr>
-" Show commands
-" nnoremap <silent> <space>c  :<C-u>CocList commands<cr>
-" Find symbol of current document
-" nnoremap <silent> <space>o  :<C-u>CocList outline<cr>
-" Search workspace symbols
-" Use clap instead
-" nnoremap <silent> <space>s  :<C-u>CocList -I symbols<cr>
-" Resume latest coc list
-nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
-
-" Coc Vimlsp:
-let g:markdown_fenced_languages = [
-      \ 'vim',
-      \ 'help'
-      \]
 
 " Matchit:
 " Expands what you can do with '%'.

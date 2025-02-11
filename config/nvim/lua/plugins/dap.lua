@@ -1,3 +1,7 @@
+local vim = vim
+local fn = vim.fn
+local cmd = vim.cnd
+
 return {
   'mfussenegger/nvim-dap',
   'nvim-telescope/telescope.nvim',
@@ -41,11 +45,11 @@ return {
           },
         },
       })
-      vim.fn.sign_define("DapBreakpoint", {text='', texthl='DapBreakpointSign', linehl='DapBreakpointLine', numhl='DapBreakpointNum'})
-      vim.fn.sign_define("DapStopped", {text='', texthl='DapStoppedSign', linehl='DapStoppedLine', numhl='DapStoppedNum'})
+      fn.sign_define("DapBreakpoint", {text='', texthl='DapBreakpointSign', linehl='DapBreakpointLine', numhl='DapBreakpointNum'})
+      fn.sign_define("DapStopped", {text='', texthl='DapStoppedSign', linehl='DapStoppedLine', numhl='DapStoppedNum'})
       dap.listeners.after.event_initialized["dapui_config"] = function()
         dapui.open({})
-        vim.cmd("set cmdheight=2")
+        cmd("set cmdheight=2")
       end
       -- dap.listeners.after.event_terminated["dapui_config"] = function()
       --   dapui.close("sidebar")
@@ -74,8 +78,8 @@ return {
       { "<CR>r", [[<cmd>lua require"dap".repl.toggle({}, 'vsplit')<CR>]], mode = "n", desc = "DAP: Toggle repl/results" },
       { "<CR>k", [[<cmd>lua require"dap.ui.widgets".hover()<CR>]], mode = "n", desc = "DAP: Show hover widget" },
       { "<CR>?", [[<cmd>lua local widgets=require"dap.ui.widgets";widgets.centered_float(widgets.scopes)<CR>]], mode = "n", desc = "DAP: Show hover widget" },
-      { "<CR>ui", [[<cmd>lua require"dapui".toggle();vim.cmd("set cmdheight=2")<CR>]], mode = "n", desc = "DAP: Toggle ui" },
-      { "<CR>;", [[<cmd>lua require'dapui'.eval();vim.cmd("set cmdheight=2")<CR>]], mode = "v", desc = "DAP: Evaluate highlighted text" },
+      { "<CR>ui", [[<cmd>lua require"dapui".toggle();cmd("set cmdheight=2")<CR>]], mode = "n", desc = "DAP: Toggle ui" },
+      { "<CR>;", [[<cmd>lua require'dapui'.eval();cmd("set cmdheight=2")<CR>]], mode = "v", desc = "DAP: Evaluate highlighted text" },
 
       { "<CR>f", [[<cmd>Telescope dap frames<CR>]], mode = "n", desc = "DAP: Explore stack frames" },
       { "<CR>p", [[<cmd>Telescope dap list_breakpoints<CR>]], mode = "n", desc = "DAP: Explore breakpoints" },

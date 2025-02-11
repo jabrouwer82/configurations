@@ -21,7 +21,7 @@ return {
     -- Files and buffers
     { "<leader><space>", "<cmd>Telescope find_files hidden=true<cr>", mode = "n", desc = "Search files in current workspace" },
     { "<leader><cr>", "<cmd>Telescope buffers sort_lastused=true sort_mru=true<cr>", mode = "n", desc = "Search currently open buffers" },
-    -- I think I want to show the current buffer, but I'm not sure so I'm leaving this in for now.
+    -- I think I want to show the current buffer, but I'm not sure so I'm leaving this version that hides the current buffer in for now.
     -- { "<leader><cr>", "<cmd>Telescope buffers sort_lastused=true ignore_current_buffer=true sort_mru=true<cr>", mode = "n", desc = "Search currently open buffers" },
     { "<leader>h", "<cmd>Telescope oldfiles<cr>", mode = "n", desc = "Search recently opened files" },
 
@@ -76,6 +76,13 @@ return {
           ["<esc>"] = "close",
           ["<C-u>"] = false,
         },
+      },
+    },
+    pickers = {
+      oldfiles = {
+        tiebreak = function(current_entry, existing_entry, _)
+          return current_entry.index < existing_entry.index
+        end
       },
     },
   },
