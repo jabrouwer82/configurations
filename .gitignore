@@ -17,3 +17,5 @@ scala-*/
 lazy-lock.json
 
 *.kate-swp
+
+*.spl
