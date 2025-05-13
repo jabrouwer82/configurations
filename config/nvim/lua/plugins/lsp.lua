@@ -47,7 +47,16 @@ return {
   {
     'neovim/nvim-lspconfig', -- Default lsp configs for a variety of languages.
     dependencies = {
-      "williamboman/mason.nvim",
+      "mason-org/mason.nvim",
+      {
+        "maan2003/lsp_lines.nvim",
+        keys = {
+          { "<space>l", function() require("lsp_lines").toggle() end, mode = "n", desc = "Toggle diagnostic virtual text." },
+        },
+        config = function()
+          vim.diagnostic.config({ virtual_lines = true })
+        end,
+      },
       {
         "nanotee/sqls.nvim",
         ft = "sql",
@@ -161,80 +170,92 @@ return {
       -- used to enable autocompletion (assign to every lsp server config)
       local capabilities = cmp_nvim_lsp.default_capabilities()
 
-      mason_lspconfig.setup_handlers({
-        -- default handler for installed servers
-        function(server_name)
-          lspconfig[server_name].setup({
-            capabilities = capabilities,
-          })
-        end,
-        ["sqls"] = function()
-          lspconfig['sqls'].setup({
-            on_attach = function(client, bufnr)
-              require('sqls').on_attach(client, bufnr)
-            end,
-            capabilities = capabilities,
-          })
-        end,
-        ["bashls"] = function()
-          lspconfig['bashls'].setup({
-            filetypes = { "sh", "zsh", "bash" },
-            capabilities = capabilities,
-          })
-        end,
-        ["dockerls"] = function()
-          lspconfig["dockerls"].setup({
-            settings = {
-              docker = {
-                languageserver = {
-                  formatter = {
-                    ignoreMultilineInstructions = true,
-                  },
-                },
-              }
-            }
-          })
-        end,
-        ["vimls"] = function()
-          lspconfig['vimls'].setup({
-            capabilities = capabilities,
-          })
-        end,
-        ["jsonls"] = function()
-          lspconfig['jsonls'].setup({
-            capabilities = capabilities,
-          })
-        end,
-        ["yamlls"] = function()
-          lspconfig['yamlls'].setup({
-            capabilities = capabilities,
-          })
-        end,
-        ["lua_ls"] = function()
-          -- configure lua server (with special settings)
-          lspconfig["lua_ls"].setup({
-            capabilities = capabilities,
-            settings = {
-              Lua = {
-                runtime = {
-                  -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
-                  version = 'LuaJIT',
-                },
-                diagnostics = {
-                  -- Get the language server to recognize the `vim` global
-                  globals = { 'vim' },
-                },
-                -- Make the server aware of Neovim runtime files
-                workspace = {
-                  library = {
-                    vim.env.VIMRUNTIME,
-                  },
-                  checkThirdParty = false,
-                }
-              }
+      -- mason_lspconfig.setup_handlers({
+      --   -- default handler for installed servers
+      --   function(server_name)
+      --     lspconfig[server_name].setup({
+      --       capabilities = capabilities,
+      --     })
+      --   end,
+      --   ["sqls"] = function()
+      --     lspconfig['sqls'].setup({
+      --       on_attach = function(client, bufnr)
+      --         require('sqls').on_attach(client, bufnr)
+      --       end,
+      --       capabilities = capabilities,
+      --     })
+      --   end,
+      --   ["bashls"] = function()
+      --     lspconfig['bashls'].setup({
+      --       filetypes = { "sh", "zsh", "bash" },
+      --       capabilities = capabilities,
+      --     })
+      --   end,
+      lsp.config("dockerls", {
+        settings = {
+          docker = {
+            languageserver = {
+              formatter = {
+                ignoreMultilineInstructions = true,
+              },
             },
-          })
-        end,
+          }
+        }
+      }
+      lsp.config('lua_ls', {
+        capabilities = capabilities,
+        settings = {
+          Lua = {
+            runtime = {
+              -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
+              version = 'LuaJIT',
+            },
+            diagnostics = {
+              -- Get the language server to recognize the `vim` global
+              globals = { 'vim' },
+            },
+            -- Make the server aware of Neovim runtime files
+            workspace = {
+              library = {
+                vim.env.VIMRUNTIME,
+                "${3rd}/luv/library",
+              },
+              checkThirdParty = false,
+            }
+          }
+        },
+      })
+
+      vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI", "CursorMoved", }, {
+        group = vim.api.nvim_create_augroup("float_diagnostic", { clear = true }),
+        callback = function ()
+          vim.diagnostic.open_float(nil, {focus=false})
+        end
+      })
+
+      local referencesGroup = vim.api.nvim_create_augroup("highlight_usage", { clear = true })
+      vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI", }, {
+        group = referencesGroup,
+        callback = function ()
+          local supported = false
+          for _, client in ipairs(vim.lsp.get_clients({ bufnr = 0 })) do
+            if client then
+              supported = client:supports_method('textDocument/documentHighlight')
+            end
+            if supported then
+              break
+            end
+          end
+          if supported then
+            vim.lsp.buf.document_highlight()
+          end
+        end
+      })
+      vim.api.nvim_create_autocmd({ "CursorMoved" }, {
+        group = referencesGroup,
+        callback = function ()
+          vim.lsp.buf.clear_references()
+        end
       })
 
       local lsp_defaults = lspconfig.util.default_config
@@ -242,34 +263,6 @@ return {
         cmp_nvim_lsp.default_capabilities())
     end,
   },
-  -- Easy access to lsp status messages.
-  -- {
-  --   'nvim-lua/lsp-status.nvim',
-  --   config = function()
-  --     local lsp_status = require('lsp-status')
-  --     lsp_status.register_progress()
-  --     lsp_status.config {
-  --       current_function = true,
-  --       diagnostics = false,
-  --       status_symbol = '',
-  --       select_symbol = function(cursor_pos, symbol)
-  --         if symbol.valueRange then
-  --           local value_range = {
-  --             ["start"] = {
-  --               character = 0,
-  --               line = fn.byte2line(symbol.valueRange[1])
-  --             },
-  --             ["end"] = {
-  --               character = 0,
-  --               line = fn.byte2line(symbol.valueRange[2])
-  --             }
-  --           }
-  --           return require("lsp-status.util").in_range(cursor_pos, value_range)
-  --         end
-  --       end
-  --     }
-  --   end,
-  -- },
   -- Handlers for lsp functions like codeActions, binds to lsp.buf.* rather than :Telescope.
   {
     'gbrlsnchs/telescope-lsp-handlers.nvim',
@@ -281,6 +274,30 @@ return {
   'folke/neodev.nvim',
   {
     "j-hui/fidget.nvim",
-    opts = {},
+    opts = {
+      progress = {
+        display = {
+          done_style = "FidgetProgressDone",
+          progress_style = "FidgetProgress",
+          group_style = "FidgetGroup",
+          icon_style = "FidgetIcon",
+        },
+      },
+      notification = {
+        view = {
+          group_separator_hl = "FidgetGroupSeparator",
+        },
+        window = {
+          normal_hl = "FidgetNormal",
+          -- border = { "▗", "▄" ,"▖", "▌", "▘", "▀", "▝", "▐" },
+          -- border = { "▄", "▄" ,"▄", "█", "▀", "▀", "▀", "█" },
+          -- border = { "╔", "═" ,"╗", "║", "╝", "═", "╚", "║" },
+          -- border = { "▛", "▔" ,"▜", "▕", "▟", "▁", "▙", "▏" },
+          border = { "▛", "▀" ,"▜", "▐", "▟", "▄", "▙", "▌" },
+          border_hl = "FidgetBorder",
+          winblend = 0,
+        },
+      }
+    },
   },
 }

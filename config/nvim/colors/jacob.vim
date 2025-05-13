@@ -74,8 +74,6 @@ hi! link Tag JacobTag
 exe 'hi JacobDebug guifg=' . $jcyan . ' guibg=' . $jlred
 hi! link Debug JacobDebug
 
-exe 'hi JacobEndOfBuffer guifg=' . $jmagenta
-hi! link EndOfBuffer JacobEndOfBuffer
 exe 'hi JacobError guibg=' . $jlred . ' guifg=' . $jwhite
 hi! link Error JacobError
 hi! link ErrorMsg Error
@@ -228,6 +226,8 @@ hi! link Pmenu JacobPmenu
 exe 'hi JacobPmenuSel guifg=' . $jdblue . ' guibg=' . $jlgrey
 hi! link PmenuSel JacobPmenuSel
 hi! link FloatBorder TelescopeBorder
+exe 'hi JacobEndOfBuffer guifg=' . $jmagenta . ' guibg=' . g:sign_bg
+hi! link EndOfBuffer JacobEndOfBuffer
 
 " Git Column:
 exe 'hi JacobGitAddSign guifg=' . $jgreen . ' guibg=' . g:sign_bg
@@ -257,6 +257,8 @@ exe 'hi JacobDiagnosticUnderlineError gui=underline guisp=' . $jlred
 hi! link DiagnosticUnderlineError JacobDiagnosticUnderlineError
 exe 'hi JacobDiagnosticVirtualTextError gui=underline guisp=' . $jlred . ' guifg=' . $jlred . ' guibg=' . $jdred
 hi! link DiagnosticVirtualTextError JacobDiagnosticVirtualTextError
+exe 'hi JacobDiagnosticVirtualLinesError guifg=' . $jlred . ' guibg=' . $jdred
+hi! link DiagnosticVirtualLinesError JacobDiagnosticVirtualLinesError
 " Warnings
 exe 'hi JacobDiagnosticWarn guifg=' . $jlyellow
 hi! link DiagnosticWarn JacobDiagnosticWarn
@@ -266,6 +268,8 @@ exe 'hi JacobDiagnosticUnderlineWarn gui=underline guisp=' . $jlyellow
 hi! link DiagnosticUnderlineWarn JacobDiagnosticUnderlineWarn
 exe 'hi JacobDiagnosticVirtualTextWarn gui=underline guisp=' . $jlyellow . ' guifg=' . $jlyellow . ' guibg=' . $jdyellow
 hi! link DiagnosticVirtualTextWarn JacobDiagnosticVirtualTextWarn
+exe 'hi JacobDiagnosticVirtualLinesWarn guifg=' . $jlyellow . ' guibg=' . $jdyellow
+hi! link DiagnosticVirtualLinesWarn JacobDiagnosticVirtualLinesWarn
 " Info
 exe 'hi JacobDiagnosticInfo guifg=' . $jlgrey
 hi! link DiagnosticInfo JacobDiagnosticInfo
@@ -275,6 +279,8 @@ exe 'hi JacobDiagnosticUnderlineInfo gui=underline guisp=' . $jlgrey
 hi! link DiagnosticUnderlineInfo JacobDiagnosticUnderlineInfo
 exe 'hi JacobDiagnosticVirtualTextInfo gui=underline guisp=' . $jlgrey . ' guifg=' . $jlgrey . ' guibg=' . $jdgrey
 hi! link DiagnosticVirtualTextInfo JacobDiagnosticVirtualTextInfo
+exe 'hi JacobDiagnosticVirtualLinesInfo guifg=' . $jlgrey . ' guibg=' . $jdgrey
+hi! link DiagnosticVirtualLinesInfo JacobDiagnosticVirtualLinesInfo
 " Hints
 exe 'hi JacobDiagnosticHint guifg=' . $jcyan
 hi! link DiagnosticHint JacobDiagnosticHint
@@ -284,11 +290,22 @@ exe 'hi JacobDiagnosticUnderlineHint gui=underline guisp=' . $jcyan
 hi! link DiagnosticUnderlineHint JacobDiagnosticUnderlineHint
 exe 'hi JacobDiagnosticVirtualTextHint gui=underline guisp=' . $jcyan . ' guifg=' . $jcyan . ' guibg=' . $jvdcyan
 hi! link DiagnosticVirtualTextHint JacobDiagnosticVirtualTextHint
+exe 'hi JacobDiagnosticVirtualLinesHint guifg=' . $jcyan . ' guibg=' . $jvdcyan
+hi! link DiagnosticVirtualLinesHint JacobDiagnosticVirtualLinesHint
+
 exe 'hi JacobLspCodeLens guifg=' . $jdcyan
 hi! link LspCodeLens JacobLspCodeLens
 exe 'hi JacobLspCodeLensSeparator guifg=' . $jdpurple
 hi! link LspCodeLensSeparator JacobLspCodeLensSeparator
 
+exe 'hi JacobLspReferenceText gui=underline,italic guisp=' . $jlcyan . ' guibg=' . $jdcyan
+hi! link LspReferenceText JacobLspReferenceText
+exe 'hi JacobLspReferenceRead gui=underline,italic guisp=' . $jlblue . ' guibg=' . $jdblue
+hi! link LspReferenceRead JacobLspReferenceRead
+exe 'hi JacobLspReferenceWrite gui=underline,italic guisp=' . $jlpurple . ' guibg=' . $jdpurple
+hi! link LspReferenceWrite JacobLspReferenceWrite
+exe 'hi JacobLspReferenceTarget gui=underline,italic guisp=' . $jlmagenta . ' guibg=' . $jdmagenta
+hi! link LspReferenceTarget JacobLspReferenceTarget
 
 " CMP:
 exe 'hi JacobCmpItemAbbrMatch guifg=' . $jblue
@@ -382,23 +399,35 @@ hi! link GitGutterChangeDeleteLineNr GitChangeDeleteSign
 exe 'hi JacobGitGutterChangeDeleteLine guibg=' . $jblackpurple
 hi! link GitGutterChangeDeleteLine JacobGitGutterChangeDeleteLine
 
-" Clap:
-exe 'hi JacobClapSpinner guibg=' . $jblackblue . ' guifg=' . $jpurple
-hi! link ClapSpinner JacobClapSpinner
-exe 'hi JacobClapInput guibg=' . $jblackblue . ' guifg=' . $jlgrey
-hi! link ClapInput JacobClapInput
-exe 'hi JacobClapSearchText guibg=' . $jblackblue . ' guifg=' . $jcyan
-hi! link ClapSearchText JacobClapSearchText
-hi! link ClapCurrentSelection PmenuSel
-hi! link ClapCurrentSelectionSign PmenuSel
-exe 'hi JacobClapSelected guibg=' . $jdblue . ' guifg=' . $jcyan . ' gui=underline guisp=' . $jcyan
-hi! link ClapSelected JacobClapSelected
-exe 'hi JacobClapSelectedSign guifg=' . $jcyan
-hi! link ClapSelectedSign JacobClapSelectedSign
-hi! link ClapDisplay Pmenu
-exe 'hi JacobClapPreview guibg=' . $jblackblue . ' guifg=' . $jlgrey
-hi! link ClapPreview JacobClapPreview
-hi! link ClapNoMatchesFound Error
+" Fidget
+exe 'hi JacobFidgetNormal guibg=' . $jblack . ' guifg=' . $jdgrey
+hi! link FidgetNormal JacobFidgetNormal
+exe 'hi JacobFidgetProgressDone guibg=' . $jblack . ' guifg=' . $jgrey
+hi! link FidgetProgressDone JacobFidgetProgressDone
+exe 'hi JacobFidgetProgress guibg=' . $jred . ' guifg=' . $jgreen
+hi! link FidgetProgress JacobFidgetProgress
+exe 'hi JacobFidgetGroup guibg=' . $jblack . ' guifg=' . $jcyan
+hi! link FidgetGroup JacobFidgetGroup
+exe 'hi JacobFidgetIcon guibg=' . $jblack . ' guifg=' . $jcyan
+hi! link FidgetIcon JacobFidgetIcon
+exe 'hi JacobFidgetGroupSeparator guibg=' . $jblack . ' guifg=' . $jgrey
+hi! link FidgetGroupSeparator JacobFidgetGroupSeparator
+exe 'hi JacobFidgetBorder guibg=' . $jblack . ' guifg=' . $jblackcyan
+hi! link FidgetBorder JacobFidgetBorder
+
+" Indent Blank Line IBL
+exe 'hi JacobIBLIndent guifg=' . $jvdgrey
+hi! link IBLIndent JacobIBLIndent
+exe 'hi JacobIBLScope guifg=' . $jvdblue
+hi! link IBLScope JacobIBLScope
+
+" Alpha Splash Screen
+exe 'hi JacobAlphaHeader guifg=' . $jdcyan
+hi! link AlphaHeader JacobAlphaHeader
+exe 'hi JacobAlphaQuickLinks guifg=' . $jgreen
+hi! link AlphaQuickLinks JacobAlphaQuickLinks
+exe 'hi JacobAlphaMru guifg=' . $jpurple
+hi! link AlphaMru JacobAlphaMru
 
 " Terminal Ansi Colors:
 let g:terminal_color_0 = $jblack

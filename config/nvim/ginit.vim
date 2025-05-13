@@ -26,10 +26,10 @@ if exists(':Gui')
   endfunction
 
   " Automatically fix my font size when I switch between huge and small monitors.
-  augroup ResizeGuiFont
-    au!
-    au VimResized * :call ResetFont()
-  augroup end
+  " augroup ResizeGuiFont
+  "   au!
+  "   au VimResized * :call ResetFont()
+  " augroup end
   " Set font in gui to match the editor font.
   GuiAdaptiveFont 1
   " Render ligatures.

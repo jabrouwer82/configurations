@@ -1,6 +1,6 @@
 local vim = vim
 local fn = vim.fn
-local g = vim.g
+local map = vim.keymap.set
 
 -- Bootstrap lazy.nvim
 local lazypath = fn.stdpath("data") .. "/lazy/lazy.nvim"
@@ -24,6 +24,12 @@ vim.opt.rtp:prepend(lazypath)
 -- This is also a good place to setup other settings (vim.opt)
 vim.g.mapleader = ";"
 vim.g.maplocalleader = "//"
+
+-- Highlight debugging.
+-- noremap <leader>` :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
+--   \ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
+--   \ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
+map("n", "<leader>`", ":Inspect<cr>", { desc = "Debug highlight group." })
 
 -- Setup lazy.nvim
 require("lazy").setup({

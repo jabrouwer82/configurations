@@ -5,6 +5,7 @@ brew "delta" # Better git diffs https://github.com/dandavison/delta
 brew "eza" # easier ls https://github.com/eza-community/eza
 brew "fd" # easier finder https://github.com/sharkdp/fd
 brew "fzf" # fuzzy finder https://github.com/junegunn/fzf
+brew "go" # Needed to isntall sqls.
 brew "hyperfine" # execution times https://github.com/sharkdp/hyperfine
 brew "jenv"
 brew "json5"

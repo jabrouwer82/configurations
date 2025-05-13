@@ -55,7 +55,9 @@
   colorMoved = default
 [includeIf "gitdir:~/work/"]
   path = ~/.work.gitconfig
-[includeIf "hasconfig:remote.*.url:**/Travel-Syndication-Technology/**"]
+[includeIf "hasconfig:remote.*.url:**/EVENFinancial/**"]
+  path = ~/.work.gitconfig
+[includeIf "hasconfig:remote.*.url:**/MoneyLion/**"]
   path = ~/.work.gitconfig
 [merge]
   conflictstyle = diff3

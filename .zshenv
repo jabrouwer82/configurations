@@ -19,6 +19,7 @@ case "$OSTYPE" in
       "$HOMEBREW_PREFIX/opt/coreutils/libexec/gnubin"
       "$HOMEBREW_PREFIX/opt/mysql-client@8.4/bin"
       "$HOMEBREW_PREFIX/opt/mongodb-community@4.4/bin"
+      "$HOMEBREW_PREFIX/opt/trash-cli/bin"
       "$PYENV_ROOT/bin"
       "$HOMEBREW_PREFIX/opt/ruby/bin"
       $path
@@ -28,6 +29,7 @@ case "$OSTYPE" in
       $fpath
     )
     export PKG_CONFIG_PATH="$HOMEBREW_PREFIX/opt/homebrew/opt/ruby/lib/pkgconfig"
+    export SDKMAN_DIR=$(brew --prefix sdkman-cli)/libexec
   ;;
   linux*)
     path+=(
@@ -72,7 +74,8 @@ export EDITOR='nvim'
 case "$OSTYPE" in
   darwin*)
     export HOMEBREW_NO_AUTO_UPDATE=1
-    export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk
+    # export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk
+    export JAVA_HOME=/opt/homebrew/opt/openjdk/libexec/openjdk.jdk/Contents/Home
     export LDFLAGS="-L/usr/local/opt/openssl@1.1/lib -L/opt/homebrew/opt/mysql-client/lib -L/opt/homebrew/opt/ruby/lib"
     export CPPFLAGS="-I/usr/local/opt/openssl@1.1/include -I/opt/homebrew/opt/mysql-client/include -I/opt/homebrew/opt/ruby/include"
     export RIPGREP_CONFIG_PATH="$HOME/.ripgreprc"

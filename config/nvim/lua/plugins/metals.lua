@@ -36,6 +36,8 @@ return {
       showInferredType = true,
       superMethodLensesEnabled = true,
       useGlobalExecutable = true,
+      javaHome = "/Users/jbrouwer/.sdkman/candidates/java/17.0.15-amzn",
+      scalafixConfigPath = "/Users/jbrouwer/.scalafix.conf",
     }
 
     -- *READ THIS*

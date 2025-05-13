@@ -65,7 +65,7 @@ return {
     'nvim-treesitter/nvim-treesitter-context',
     opts = {
       enable = true,
-      max_lines = 0,
+      max_lines = 12,
       patterns = {
         default = { "object", "class", "function", "method" }
       },

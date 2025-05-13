@@ -217,3 +217,7 @@ update_everything() {
   echo -e '\033[32mUpdating antidote and zsh plugins...\033[0m'
   antidote update
 }
+
+#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+export SDKMAN_DIR="$HOME/.sdkman"
+[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"

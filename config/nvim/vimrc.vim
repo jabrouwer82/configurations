@@ -177,8 +177,9 @@ set noruler
 " Show the statusline for unfocused windows.
 set laststatus=2
 " This is pretty specific to some airline settings.
-" Mode > filename[edit settings] ... filetype < encoding < % cursor position < ale/coc stuff
-set statusline=%#error#%a\ %*\ %<%.99f\ %h%w%#error#%m%*%#error#%r%*%=%Y%=%-16(\ %l/%L,%c%V\ %)%P
+" Mode > filename[edit settings] ... filetype < encoding < bufnr % cursor position < ale/coc stuff
+" Fairly certain this is unused, airline has its own setup in my gui.lua.
+set statusline=%#error#%a\ %*\ %<%.99f\ %h%w%#error#%m%*%#error#%r%*%=%Y%=\ %n\ %-16(\ %l/%L,%c%V\ %)%P
 
 " Enforces 5 lines of space between the cursor and the top/bottom of a window.
 set scrolloff=5
@@ -487,26 +488,6 @@ endif
 
 
 " FUNCTIONS:
-
-" These functions are horrifically fragile.
-" There can only be one background job at a time.
-" There should be a dict with names to allow multiple jobs.
-" call BgJob to get the first line of the job output placed in g:bg_result.
-function! BgCmdCb(channel)
-  let g:bg_result = readfile(g:bg_output_file, '', 1)[0]
-  unlet g:bg_output_file g:bg_job
-endfunction
-
-function! BgCmd(command)
-  if exists('g:bg_job')
-    call job_stop(g:bg_job, 'kill')
-    unlet g:bg_output_file g:bg_job
-  else
-    let g:bg_output_file = tempname()
-    call job_start(a:command, {'close_cb': 'BgCmdCb', 'out_io': 'file', 'out_name': g:bg_output_file})
-  endif
-endfunction
-
 function! LargeFile()
   " No need for the extra IO of making the swap/backup/undo files.
   setlocal noswapfile nobackup nowritebackup noundofile
@@ -515,8 +496,6 @@ function! LargeFile()
   " Display message once buffer is open.
   autocmd ++once BufEnter *  echom "The file is larger than " . g:large_fsize . " MB, so some options are changed."
 endfunction
-
-
 
 " Prints a warning message.
 function! Warn(message)
@@ -787,13 +766,6 @@ noremap <leader>b :Bufferize
 " Use <leader><tab> in to get fzf spell suggestions.
 " nnoremap <leader><Tab> :call FzfSpell()<CR>
 
-" Highlight debugging.
-" noremap <leader>` :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
-"   \ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
-"   \ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
-" noremap <leader>` :TSHighlightCapturesUnderCursor<cr>
-noremap <leader>` :Inspect<cr>
-
   " For shenanigans.
 " noremap <leader>r ggg?G``:set invspell<CR>
 
@@ -810,43 +782,6 @@ cmap w!! w !sudo tee > /dev/null %
 " I've forked vim-scala with some highlighting customizations.
 " I want the full golang plugin, not just the ftdetect/syntax/indent of polyglot.
 let g:polyglot_disabled = ['scala', 'go', 'sensible']
-
-
-" Clap:
-" Use 67% of the editor window instead of the buffer window.
-let g:clap_layout = { 'relative': 'editor', 'width': '75%', 'col': '12%', 'height': '55%', 'row': '15%' }
-let g:clap_preview_direction = 'UD'
-
-" Search workspace symbols
-" nnoremap <silent> <space>s :<C-u>Clap coc_symbols<cr>
-" Show all diagnostics
-" nnoremap <silent> <space>a :<C-u>Clap coc_diagnostics<cr>
-
-" augroup Clap_Ensure_All_Closed
-"   autocmd!
-"   autocmd User ClapOnExit * call clap#floating_win#close()
-" augroup END
-
-
-" Dev Icons:
-" Default icon
-let g:WebDevIconsUnicodeDecorateFileNodesDefaultSymbol = ''
-
-" Custom file type icons by extension.
-if !exists('g:WebDevIconsUnicodeDecorateFileNodesExtensionSymbols')
-  let g:WebDevIconsUnicodeDecorateFileNodesExtensionSymbols = {}
-endif
-let g:WebDevIconsUnicodeDecorateFileNodesExtensionSymbols['sc'] = ''
-let g:WebDevIconsUnicodeDecorateFileNodesExtensionSymbols['scala'] = ''
-let g:WebDevIconsUnicodeDecorateFileNodesExtensionSymbols['sbt'] = ''
-let g:WebDevIconsUnicodeDecorateFileNodesExtensionSymbols['zsh'] = '𝐙'
-
-" Exact filename match overrides.
-if !exists('g:WebDevIconsUnicodeDecorateFileNodesExactSymbols')
-  let g:WebDevIconsUnicodeDecorateFileNodesExactSymbols = {}
-endif
-let g:WebDevIconsUnicodeDecorateFileNodesExactSymbols['config'] = ''
-let g:WebDevIconsUnicodeDecorateFileNodesExactSymbols['.gitconfig'] = ''
 
 
 " Golden Ratio:
@@ -991,13 +926,6 @@ function! s:show_documentation()
     lua vim.lsp.buf.hover()
   endif
 endfunction
-
-augroup CursorHighlights
-  autocmd!
-  autocmd CursorHold  <buffer> lua vim.lsp.buf.document_highlight()
-  autocmd CursorHoldI <buffer> lua vim.lsp.buf.document_highlight()
-  autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
-augroup end
 
 " Matchit:
 " Expands what you can do with '%'.

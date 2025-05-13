@@ -35,7 +35,6 @@ return {
   'roman/golden-ratio', -- Automatically resize windows.
   -- 'jabrouwer82/vim-scala', -- My customized version of derekwyatt/vim-scala.
   'GEverding/vim-hocon', -- Syntax for lightbend/config hocon files.
-  'ryanoasis/vim-devicons', -- Adds icons for filetypes.
   'chlorophyllin/jproperties.vim', -- Add syntax support for java properties files.
   'fatih/vim-go', -- Add full go support.
   'jesseleite/vim-agriculture', -- Adds :RgRaw, which can pass flags to ripgrep.

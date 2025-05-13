@@ -6,7 +6,7 @@ echo -e '\n\033[1;36mThis is only kind of tested, use at your own risk!\033[0m\n
 
 if [[ ! -f ~/.github_token.sh ]]; then
   echo -e '\033[31mExport GITHUB_TOKEN in ~/.github_token.sh before attmpting to install.\033[0m'
-  mv -n github_token.sh ~/.github_token.sh
+  cp -n github_token.sh ~/.github_token.sh
   exit 1
 fi
 
@@ -45,8 +45,13 @@ ln -sfn "$(pwd)"/.zshrc ~/.zshrc
 ln -sfn "$(pwd)"/.zsh_plugins.txt ~/.zsh_plugins.txt
 ln -sfn "$(pwd)"/.p10k.zsh ~/.p10k.zsh
 ln -sfn "$(pwd)"/.exa_colors.zsh ~/.exa_colors.zsh
+touch ~/.work.zsh
 
 echo -e '\033[32mInstalling git configs...\033[0m'
+if [[ ! -f ~/.github_token.sh ]]; then
+  echo -e '\033[31mSet work email in ~/.work.gitconfig.\033[0m'
+  cp -n .personal.gitconfig ~/.work.gitconfig
+fi
 ln -sfn "$(pwd)"/.gitconfig ~/.gitconfig
 ln -sfn "$(pwd)"/.personal.gitconfig ~/.personal.gitconfig
 ln -sfn "$(pwd)"/.gitall.sh ~/.gitall.sh
@@ -70,7 +75,6 @@ bat cache --build > /dev/null
 
 echo -e '\033[32mInstalling sbt configs...\033[0m'
 mkdir -p ~/.sbt/1.0/plugins/
-ln -sfn "$(pwd)"/sbt/global.sbt ~/.sbt/1.0/plugins/global.sbt
 ln -sfn "$(pwd)"/.scalafix.conf ~/.scalafix.conf
 
 
