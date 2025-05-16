@@ -65,7 +65,7 @@ if has('nvim')
   " Allow the sign column to expand to up to 9 characters wide.
   set signcolumn=auto:1-4
 else
-  " Always display the sign column, used by coc, ale, and gitgutter to display changes, errors, and warning.
+  " Always display the sign column, used by lsp, and gitgutter to display changes, errors, and warning.
   set signcolumn=yes
 endif
 
@@ -814,27 +814,6 @@ let g:html5_event_handler_attributes_complete = 0
 
 " Recover:
 let g:RecoverPlugin_Delete_Unmodified_Swapfile = 1
-
-" ALE:
-"let g:ale_lint_on_text_changed = 'never'
-let g:ale_scala_scalastyle_options = '-w false -v true'
-let g:ale_sh_shellcheck_options = '-e SC1090,SC2207'
-let g:ale_typescript_tslint_config_path = '/home/jbrouwer/personal/configurations/tslint.json'
-let g:ale_echo_msg_error_str = 'E'
-let g:ale_echo_msg_warning_str = 'W'
-let g:ale_echo_msg_format = 'ALE: [%linter%]%[code]%[%severity%]: %s'
-let g:ale_linters = {
-  \   'scala': ['scalastyle'],
-  \   'python': [],
-  \ }
-
-" The following delay the commands until after ALE loads, otherwise ALE overwrites them
-augroup aledelayed
-  au!
-  autocmd VimEnter * nmap [a <Plug>(ale_previous_wrap)
-  autocmd VimEnter * nmap ]a <Plug>(ale_next_wrap)
-  autocmd VimEnter * hi link ALEErrorSign LintErrorSign
-augroup end
 
 " FZF:
 noremap <C-p> :FZF<cr>

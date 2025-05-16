@@ -1,6 +1,6 @@
 local vim = vim
 local fn = vim.fn
-local cmd = vim.cnd
+local cmd = vim.cmd
 
 return {
   'mfussenegger/nvim-dap',

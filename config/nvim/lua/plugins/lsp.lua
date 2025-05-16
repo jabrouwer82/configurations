@@ -9,11 +9,15 @@ ListLsps = function()
   local res = {}
   local bufRes = {}
   for _, bufClient in ipairs(bufClients) do
-    table.insert(bufRes, bufClient.name)
+    local name = bufClient.name
+    if not TableContains(bufRes, name) then
+      table.insert(bufRes, name)
+    end
   end
   for _, client in ipairs(clients) do
-    if not TableContains(bufRes, client.name) then
-      table.insert(res, client.name)
+    local name = client.name
+    if not TableContains(bufRes, name) and not TableContains(res, name) then
+      table.insert(res, name)
     end
   end
   if next(bufRes) == nil and next(res) == nil then
@@ -43,20 +47,10 @@ end
 local severity = diagnostic.severity
 
 return {
-  'w0rp/ale',                -- Display live linter output.
   {
     'neovim/nvim-lspconfig', -- Default lsp configs for a variety of languages.
     dependencies = {
       "mason-org/mason.nvim",
-      {
-        "maan2003/lsp_lines.nvim",
-        keys = {
-          { "<space>l", function() require("lsp_lines").toggle() end, mode = "n", desc = "Toggle diagnostic virtual text." },
-        },
-        config = function()
-          vim.diagnostic.config({ virtual_lines = true })
-        end,
-      },
       {
         "nanotee/sqls.nvim",
         ft = "sql",
@@ -161,77 +155,9 @@ return {
     -- See https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
     config = function()
       local lspconfig = require('lspconfig')
-      -- import mason_lspconfig plugin
-      local mason_lspconfig = require("mason-lspconfig")
-
-      -- import cmp-nvim-lsp plugin
-      local cmp_nvim_lsp = require("cmp_nvim_lsp")
 
       -- used to enable autocompletion (assign to every lsp server config)
-      local capabilities = cmp_nvim_lsp.default_capabilities()
-
-      -- mason_lspconfig.setup_handlers({
-      --   -- default handler for installed servers
-      --   function(server_name)
-      --     lspconfig[server_name].setup({
-      --       capabilities = capabilities,
-      --     })
-      --   end,
-      --   ["sqls"] = function()
-      --     lspconfig['sqls'].setup({
-      --       on_attach = function(client, bufnr)
-      --         require('sqls').on_attach(client, bufnr)
-      --       end,
-      --       capabilities = capabilities,
-      --     })
-      --   end,
-      --   ["bashls"] = function()
-      --     lspconfig['bashls'].setup({
-      --       filetypes = { "sh", "zsh", "bash" },
-      --       capabilities = capabilities,
-      --     })
-      --   end,
-      lsp.config("dockerls", {
-        settings = {
-          docker = {
-            languageserver = {
-              formatter = {
-                ignoreMultilineInstructions = true,
-              },
-            },
-          }
-        }
-      }
-      lsp.config('lua_ls', {
-        capabilities = capabilities,
-        settings = {
-          Lua = {
-            runtime = {
-              -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
-              version = 'LuaJIT',
-            },
-            diagnostics = {
-              -- Get the language server to recognize the `vim` global
-              globals = { 'vim' },
-            },
-            -- Make the server aware of Neovim runtime files
-            workspace = {
-              library = {
-                vim.env.VIMRUNTIME,
-                "${3rd}/luv/library",
-              },
-              checkThirdParty = false,
-            }
-          }
-        },
-      })
-
-      vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI", "CursorMoved", }, {
-        group = vim.api.nvim_create_augroup("float_diagnostic", { clear = true }),
-        callback = function ()
-          vim.diagnostic.open_float(nil, {focus=false})
-        end
-      })
+      local cmp_nvim_lsp = require("cmp_nvim_lsp")
 
       local referencesGroup = vim.api.nvim_create_augroup("highlight_usage", { clear = true })
       vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI", }, {
@@ -270,8 +196,17 @@ return {
       'nvim-telescope/telescope.nvim',
     },
   },
-  -- Better lua support.
-  'folke/neodev.nvim',
+  {
+    "folke/lazydev.nvim", -- Better lua support.
+    ft = "lua", -- only load on lua files
+    opts = {
+      library = {
+        -- See the configuration section for more details
+        -- Load luvit types when the `vim.uv` word is found
+        { path = "${3rd}/luv/library", words = { "vim%.uv" } },
+      },
+    },
+  },
   {
     "j-hui/fidget.nvim",
     opts = {

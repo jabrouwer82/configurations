@@ -24,6 +24,7 @@ return {
     -- I think I want to show the current buffer, but I'm not sure so I'm leaving this version that hides the current buffer in for now.
     -- { "<leader><cr>", "<cmd>Telescope buffers sort_lastused=true ignore_current_buffer=true sort_mru=true<cr>", mode = "n", desc = "Search currently open buffers" },
     { "<leader>h", "<cmd>Telescope oldfiles<cr>", mode = "n", desc = "Search recently opened files" },
+    { "<leader>f", "<cmd>Telescope file_browser<CR>", mode = "n", desc = "Open Telescope file browser" },
 
     -- Vim stuff
     { "<leader>:", "<cmd>Telescope command_history theme=dropdown<cr>", mode = "n", desc = "Search command history" },
@@ -41,6 +42,8 @@ return {
     { "<leader>e", "<cmd>Telescope emoji theme=dropdown<cr>", mode = "n", desc = "Search emojis (copied to clipboard" },
     { "<leader>cs", "<cmd>Telescope cheatsheet theme=dropdown<cr>", mode = "n", desc = "Search emojis (copied to clipboard)" },
     { "<leader>sd", "<cmd>lua require'telescope'.extensions.scaladex.scaladex.search()<cr>", mode = "n", desc = "Search scaladex packages" },
+    { "<leader>r", "<cmd>Telescope live_grep<cr>", mode = "n", desc = "Telescope grep current directory" },
+    { "<leader>l", "<cmd>Telescope resume<cr>", mode = "n", desc = "Resume last Telescope command" },
 
     -- LSP
     { "<space>d", "<cmd>Telescope lsp_document_symbols<cr>", mode = "n", desc = "Search document symbols" },

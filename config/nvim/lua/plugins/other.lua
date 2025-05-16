@@ -10,7 +10,6 @@ return {
   'junegunn/fzf.vim',
   'tpope/vim-characterize',
   'tpope/vim-unimpaired', -- Lots of really nice movement mappings.
-  'w0rp/ale', -- Display live linter output.
   'tpope/vim-commentary', -- Quick comment toggle command.
   'chrisbra/Recover.vim',
   'gre/play2vim', -- Syntax, etc for play route/conf/scala.html.

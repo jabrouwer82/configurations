@@ -31,6 +31,16 @@ vim.g.maplocalleader = "//"
 --   \ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
 map("n", "<leader>`", ":Inspect<cr>", { desc = "Debug highlight group." })
 
+vim.diagnostic.config({
+  virtual_text = true,
+  float = true,
+  jump = {
+    float = {
+      border = { "▛", "▀" ,"▜", "▐", "▟", "▄", "▙", "▌" },
+    },
+  },
+})
+
 -- Setup lazy.nvim
 require("lazy").setup({
   spec = {
@@ -41,5 +51,12 @@ require("lazy").setup({
   -- colorscheme that will be used when installing plugins.
   install = { colorscheme = { "jacob" } },
   -- automatically check for plugin updates
-  checker = { enabled = true },
+  checker = {
+    enabled = true,
+    frequency = 86400,
+    notify = false,
+  },
+  change_detection = {
+    notify = false,
+  },
 })

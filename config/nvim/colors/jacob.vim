@@ -239,14 +239,6 @@ hi! link GitDeleteSign JacobGitDeleteSign
 exe 'hi JacobGitChangeDeleteSign guifg=' . $jpurple . ' guibg=' . g:sign_bg
 hi! link GitChangeDeleteSign JacobGitChangeDeleteSign
 
-" ALE:
-exe 'hi JacobALEWarningSign guifg=' . $jlyellow . ' guibg=' . g:sign_bg
-hi! link ALEWarningSign JacobALEWarningSign
-exe 'hi JacobALEWarning guifg=NONE guibg=' . g:sign_bg
-hi! link ALEWarning JacobALEWarning
-exe 'hi JacobLintErrorSign guifg=' . $jlred . ' gui=bold guibg=' . g:sign_bg
-hi! link LintErrorSign JacobLintErrorSign
-
 " LSP:
 " Errors
 exe 'hi JacobDiagnosticError guifg=' . $jlred
@@ -418,16 +410,41 @@ hi! link FidgetBorder JacobFidgetBorder
 " Indent Blank Line IBL
 exe 'hi JacobIBLIndent guifg=' . $jvdgrey
 hi! link IBLIndent JacobIBLIndent
-exe 'hi JacobIBLScope guifg=' . $jvdblue
+exe 'hi JacobIBLScope guifg=' . $jdblue
 hi! link IBLScope JacobIBLScope
 
-" Alpha Splash Screen
-exe 'hi JacobAlphaHeader guifg=' . $jdcyan
-hi! link AlphaHeader JacobAlphaHeader
-exe 'hi JacobAlphaQuickLinks guifg=' . $jgreen
-hi! link AlphaQuickLinks JacobAlphaQuickLinks
-exe 'hi JacobAlphaMru guifg=' . $jpurple
-hi! link AlphaMru JacobAlphaMru
+" Splash Screen
+exe 'hi JacobDashboardHeader guifg=' . $jdcyan . ' guibg=' . $jblack
+hi! link DashboardHeader JacobDashboardHeader
+exe 'hi JacobDashboardFooter guifg=' . $jpurple . ' guibg=' . $jblack
+hi! link DashboardFooter JacobDashboardFooter
+exe 'hi JacobDashboardProjectTitle guifg=' . $jcyan . ' guibg=' . $jblack
+hi! link DashboardProjectTitle JacobDashboardProjectTitle
+" exe 'hi JacobDashboardProjectTitleIcon guifg=' . $jgreen . ' guibg=' . $jblack
+" hi! link DashboardProjectTitleIcon JacobDashboardProjectTitleIcon
+" exe 'hi JacobDashboardProjectIcon guifg=' . $jorange . ' guibg=' . $jblack
+" hi! link DashboardProjectIcon JacobDashboardProjectIcon
+exe 'hi JacobDashboardMruTitle guifg=' . $jcyan . ' guibg=' . $jblack
+hi! link DashboardMruTitle JacobDashboardMruTitle
+" exe 'hi JacobDashboardMruIcon guifg=' . $jlblue . ' guibg=' . $jblack
+" hi! link DashboardMruIcon JacobDashboardMruIcon
+exe 'hi JacobDashboardFiles guifg=' . $jvlcyan . ' guibg=' . $jblack
+hi! link DashboardFiles JacobDashboardFiles
+" exe 'hi JacobDashboardShortCutIcon guifg=' . $jvlgrey . ' guibg=' . $jblack
+" hi! link DashboardShortCutIcon JacobDashboardShortCutIcon
+
+exe 'hi JacobStartupHeader guifg=' . $jdcyan . ' guibg=' . $jvdgrey
+hi! link StartupHeader JacobStartupHeader
+exe 'hi JacobStartupCommands guifg=' . $jgreen . ' guibg=' . $jvdgrey
+hi! link StartupCommands JacobStartupCommands
+exe 'hi JacobStartupOldfiles guifg=' . $jpurple . ' guibg=' . $jvdgrey
+hi! link StartupOldfiles JacobStartupOldfiles
+exe 'hi JacobStartupDirOldfiles guifg=' . $jpurple . ' guibg=' . $jvdgrey
+hi! link StartupDirOldfiles JacobStartupDirOldfiles
+exe 'hi JacobStartupFooter guifg=' . $jdcyan . ' guibg=' . $jvdgrey
+hi! link StartupFooter JacobStartupFooter
+exe 'hi JacobStartupClock guifg=' . $jdcyan . ' guibg=' . $jvdgrey
+hi! link StartupClock JacobStartupClock
 
 " Terminal Ansi Colors:
 let g:terminal_color_0 = $jblack

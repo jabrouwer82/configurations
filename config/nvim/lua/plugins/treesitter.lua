@@ -2,11 +2,19 @@ return {
   {
     'nvim-treesitter/nvim-treesitter',
     build = ':TSUpdate',
-    config = function(self, opts)
-      require("nvim-treesitter").setup(opts)
+    config = function()
+      require("nvim-treesitter").setup()
       require("nvim-treesitter.install").prefer_git = true
       require('nvim-treesitter.configs').setup {
-        ensure_installed = { 'scala', 'lua', 'vim', 'json5', 'hocon', 'bash', 'go' },
+        ensure_installed = {
+          'bash',
+          'hocon',
+          'json5',
+          'lua',
+          'scala',
+          'vim',
+          'yaml',
+        },
         -- Async install
         sync_install = true,
         -- A lot of these are way less mature than the vimscript syntax files.

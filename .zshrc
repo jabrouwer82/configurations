@@ -134,12 +134,15 @@ fi
 
 case "$OSTYPE" in
   darwin*)
+    # Neovim broke this by not sending Ctrl-_ to the terminal anymore
     bindkey "^[[45;5u" copy-prev-shell-word # Ctrl-_ to copy the previous "word" in a command.
+    bindkey "^[" copy-prev-shell-word # Ctrl-3 to copy the previous "word" in a command.
   ;;
   linux*)
     bindkey "^_" copy-prev-shell-word # Ctrl-_ to copy the previous "word" in a command.
   ;;
 esac
+
 ############################
 # ^^ Taken from oh-my-zsh ^^
 ############################

@@ -1,3 +1,5 @@
+local vim = vim
+
 return {
   "williamboman/mason.nvim",
   dependencies = {
@@ -26,10 +28,10 @@ return {
         "bashls",
         "dockerls",
         "jsonls",
-        "yamlls",
         "lua_ls",
-        "vimls",
         "sqls",
+        "vimls",
+        "yamlls",
       },
     })
 

@@ -1,6 +1,7 @@
 local vim = vim
 local fn = vim.fn
 local api = vim.api
+local lsp = vim.lsp
 
 return {
   {
@@ -9,7 +10,20 @@ return {
       -- Pulls in some preexisting vscode snippets for vsnip.
       "rafamadriz/friendly-snippets",
       -- Completions from LSP.
-      "hrsh7th/cmp-nvim-lsp",
+      {
+        "hrsh7th/cmp-nvim-lsp",
+        config = function()
+          -- used to enable autocompletion (assign to every lsp server config)
+          local cmp_nvim_lsp = require("cmp_nvim_lsp")
+          local capabilities = cmp_nvim_lsp.default_capabilities()
+
+          lsp.config('*', {
+            capabilities = capabilities,
+          })
+
+          cmp_nvim_lsp.setup()
+        end
+      },
       -- Completions from buffer.
       "hrsh7th/cmp-buffer",
       -- Completions from path.
